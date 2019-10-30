@@ -23,54 +23,72 @@ public class Inventory {
     /**
      * Constructor, populates arrays with data saved in files for that library
      * @param libraryName name of the library
-     * @throws IOException may error if can't find file. assumes files for specified library are already made and are in the format libraryNameBook.txt
+     * @throws IOException may throw IOException, should not though as I made it so it only makes a Scanner for a file if the file exists
      */
     public Inventory(String libraryName) throws IOException{
         this.libraryName = libraryName;
-        //Creates scanners to read data from files
-        Scanner readBooks = new Scanner(new File(libraryName + "Books.txt")),
-                readDVDs = new Scanner(new File(libraryName + "DVDs.txt")),
-                readCDs = new Scanner(new File(libraryName + "CDs.txt"));
+        //making Files
+        File bookFile = new File(libraryName + "Books.txt"),
+                dvdFile = new File(libraryName + "DVDs.txt"),
+                cdFile = new File(libraryName + "CDs.txt");
 
+        //variables for reading file data
         String currentLine; //for holding the current line when working through files
         String[][] books, dvds, cds; //for holding a modified version of this.books, this.dvds, and this.cds that also holds the next entry in the file
 
-        //reading files for books and putting that data in this.books
-        while (readBooks.hasNextLine()){
-            currentLine = readBooks.nextLine();
-            books = new String[this.books.length + 1][tagCount];
-            for (int i = 0; i < this.books.length; i++){
-                books[i] = this.books[i];
+        //checking if a file for the library's books exists
+        if (bookFile.exists()){
+            Scanner readBooks = new Scanner(bookFile);
+            //reading files for books and putting that data in this.books
+            while (readBooks.hasNextLine()){
+                currentLine = readBooks.nextLine();
+                books = new String[this.books.length + 1][tagCount];
+                for (int i = 0; i < this.books.length; i++){
+                    books[i] = this.books[i];
+                }
+                books[this.books.length] = currentLine.split(splitter, tagCount);
+                this.books = books;
             }
-            books[this.books.length] = currentLine.split(splitter, tagCount);
-            this.books = books;
+            //closing Scanner
+            readBooks.close();
+            System.out.println("Loaded " + this.books.length + " books");
         }
 
-        //reading files for DVDs and putting that data in this.dvds
-        while (readDVDs.hasNextLine()){
-            currentLine = readDVDs.nextLine();
-            dvds = new String[this.dvds.length + 1][tagCount];
-            for (int i = 0; i < this.dvds.length; i++){
-                dvds[i] = this.dvds[i];
+        //checking if a file for the library's dvds exists
+        if (dvdFile.exists()){
+            Scanner readDVDs = new Scanner(dvdFile);
+            //reading files for dvds and putting that data in this.dvds
+            while (readDVDs.hasNextLine()){
+                currentLine = readDVDs.nextLine();
+                dvds = new String[this.dvds.length + 1][tagCount];
+                for (int i = 0; i < this.dvds.length; i++){
+                    dvds[i] = this.dvds[i];
+                }
+                dvds[this.dvds.length] = currentLine.split(splitter,  tagCount);
+                this.dvds = dvds;
             }
-            dvds[this.dvds.length] = currentLine.split(splitter,  tagCount);
-            this.dvds = dvds;
+            //closing Scanner
+            readDVDs.close();
+            System.out.println("Loaded " + this.dvds.length + " DVDs");
         }
 
-        //reading files for CDs and putting that data in this.cds
-        while (readCDs.hasNextLine()){
-            currentLine = readCDs.nextLine();
-            cds = new String[this.cds.length + 1][tagCount];
-            for (int i = 0; i < this.cds.length; i++){
-                cds[i] = this.cds[i];
+        //checking if a file for the library's cds exists
+        if (cdFile.exists()){
+            Scanner readCDs = new Scanner(cdFile);
+            //reading files for cds and putting that data in this.cds
+            while (readCDs.hasNextLine()){
+                currentLine = readCDs.nextLine();
+                cds = new String[this.cds.length + 1][tagCount];
+                for (int i = 0; i < this.cds.length; i++){
+                    cds[i] = this.cds[i];
+                }
+                cds[this.cds.length] = currentLine.split(splitter, tagCount);
+                this.cds = cds;
             }
-            cds[this.cds.length] = currentLine.split(splitter, tagCount);
-            this.cds = cds;
+            //closing Scanner
+            readCDs.close();
+            System.out.println("Loaded " + this.cds.length + " CDs");
         }
-        //closing scanners
-        readBooks.close();
-        readDVDs.close();
-        readCDs.close();
     }
 
     /**
