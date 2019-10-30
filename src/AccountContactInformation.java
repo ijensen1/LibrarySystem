@@ -21,7 +21,38 @@ public class AccountContactInformation {
     }
 
     public String getPhoneNumber(){
+
         return phoneNumber;
+
+    }
+
+    public String getEmail(){
+
+        return email;
+
+    }
+
+    public String getAddress(){
+
+        return address;
+
+    }
+
+    public void setPhoneNumber(){
+
+        this.phoneNumber = phoneNumber;
+
+    }
+
+    public void setEmail(){
+
+        this.email = email;
+
+    }
+
+    public void setAddress(){
+
+        this.address = address;
 
     }
 
