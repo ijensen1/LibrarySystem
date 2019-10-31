@@ -5,8 +5,8 @@ public class Account {
     //setting Class data fields
     private String firstName;
     private String lastName;
-    private String barrowStatus;
-    private String barrowBranch;
+    private String borrowStatus;
+    private String borrowBranch;
     private String phoneNumber;
     private String email;
     private String address;
@@ -18,11 +18,11 @@ public class Account {
 
     }
 
-    public Account(String firstName, String lastName, String barrowStatus, String barrowBranch, String phoneNumber, String email, String address){
+    public Account(String firstName, String lastName, String borrowStatus, String borrowBranch, String phoneNumber, String email, String address){
         this.firstName = firstName;
         this.lastName = lastName;
-        this.barrowStatus = barrowStatus;
-        this.barrowBranch = barrowBranch;
+        this.borrowStatus = borrowStatus;
+        this.borrowBranch = borrowBranch;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
@@ -37,12 +37,12 @@ public class Account {
         return getLastName();
     }
 
-    public String getBarrowStatus(){
-        return barrowStatus;
+    public String getBorrowStatus(){
+        return borrowStatus;
     }
 
-    public String getBarrowBranch(){
-        return barrowBranch;
+    public String getBorrowBranch(){
+        return borrowBranch;
     }
 
     public String getPhoneNumber(){
@@ -66,12 +66,12 @@ public class Account {
         this.lastName = lastName;
     }
 
-    public void setBarrowStatus(){
-        this.barrowStatus = barrowStatus;
+    public void setBorrowStatus(){
+        this.borrowStatus = borrowStatus;
     }
 
-    public void setBarrowBranch(){
-        this.barrowBranch = barrowBranch;
+    public void setBorrowBranch(){
+        this.borrowBranch = borrowBranch;
     }
 
     public void setPhoneNumber(){
