@@ -28,6 +28,7 @@ public class Inventory {
     public Inventory(String libraryName) throws IOException{
         this.libraryName = libraryName;
         //making Files
+        System.out.println("Ryker was here");
         File bookFile = new File(libraryName + "Books.txt"),
                 dvdFile = new File(libraryName + "DVDs.txt"),
                 cdFile = new File(libraryName + "CDs.txt");
@@ -513,6 +514,11 @@ public class Inventory {
      */
     public void checkOut(String type, String title, String creator){
         //checking each entry for if it meets the given tags and is checked in
+        String[][] searchThrough;
+        if (type.equalsIgnoreCase("book"))
+            searchThrough = books;
+        else if (type.equalsIgnoreCase("dvd"))
+
         if (type.equalsIgnoreCase("book")){
             for (int entry = 0; entry < books.length; entry++){
                 if (books[entry][titlePos].equalsIgnoreCase(title) &&
