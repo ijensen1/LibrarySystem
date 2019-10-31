@@ -28,6 +28,7 @@ public class Account {
         this.address = address;
     }
 
+    //getters
     public String getFirstName(){
         return getFirstName();
     }
@@ -55,16 +56,34 @@ public class Account {
     public String getAddress(){
         return address;
     }
+
+    //setters
     public void setFirstName(){
-
         this.firstName = firstName;
-
     }
 
     public void setLastName(){
-
         this.lastName = lastName;
+    }
 
+    public void setBarrowStatus(){
+        this.barrowStatus = barrowStatus;
+    }
+
+    public void setBarrowBranch(){
+        this.barrowBranch = barrowBranch;
+    }
+
+    public void setPhoneNumber(){
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(){
+        this.email = email;
+    }
+
+    public void setAddress(){
+        this.address = address;
     }
 
 }
