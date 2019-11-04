@@ -10,7 +10,7 @@ public class Inventory {
     private String libraryName;
 
     //constants
-    private final String splitter = "&"; //used between tags for when reading from or saving to a file
+    private final String splitter = "::"; //used between tags for when reading from or saving to a file
     private final int tagCount = 5; //how many tags each entry has. tags are title, creator, genre1, genre2, and inOut
 
     //tag positions
@@ -28,7 +28,6 @@ public class Inventory {
     public Inventory(String libraryName) throws IOException{
         this.libraryName = libraryName;
         //making Files
-        System.out.println("Ryker was here");
         File bookFile = new File(libraryName + "Books.txt"),
                 dvdFile = new File(libraryName + "DVDs.txt"),
                 cdFile = new File(libraryName + "CDs.txt");
