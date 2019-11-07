@@ -1,6 +1,6 @@
-import java.io.*;
-import java.io.IOException;
-
+/**
+ * Auto Generated Java Class.
+ */
 public class Library {
   private String name;
   private Inventory inv;
