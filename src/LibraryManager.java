@@ -18,8 +18,10 @@ public class LibraryManager {
           accounts[i] = this.accounts[i];
         }
         String[] accountData;
-        accountData = acntData.split(splitter, 2);
-        accounts[this.accounts.length] = new Account(accountData[0], accountData[1]); //string firstName, string lastName
+        accountData = acntData.split(splitter, 7);
+        accounts[this.accounts.length] = new Account(accountData[0], accountData[1], accountData[2],
+                                                     accountData[3], accountData[4], accountData[5],
+                                                     accountData[6]); //string firstName, string lastName
         this.accounts = accounts;
         accountsNum++;
       }
@@ -35,8 +37,28 @@ public class LibraryManager {
         return accounts[i];
       }
     }
+    //Account not found
+    System.out.println("Account " + name + " not found");
+    return null;
   }
-  
-  
+  public void addAccount(Account newAccount) {
+    accounts = new Account[this.accounts.length + 1];
+    for (int i = 0; i < this.accounts.length; i++){
+      accounts[i] = this.accounts[i];
+    }
+    accounts[this.accounts.length] = newAccount;
+    this.accounts = accounts;
+    FileAppend out = new FileAppend("accountlist.txt");
+    for (Account acnt : accounts) {
+      out.print(acnt.getFirstName() + "::");
+      out.print(acnt.getLastName() + "::");
+      out.print(acnt.getBorrowStatus() + "::");
+      out.print(acnt.getBorrowBranch() + "::");
+      out.print(acnt.getPhoneNumber() + "::");
+      out.print(acnt.getEmail() + "::");
+      out.print(acnt.getAddress());
+    }
+    out.println("");
+  }
   
 }

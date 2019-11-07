@@ -17,7 +17,7 @@ public class Library {
     }
     
   }
-  
+  /*
   public boolean checkIn(String name, Account account) {
     
   }
@@ -25,4 +25,5 @@ public class Library {
   public boolean checkOut(String name, Account account) {
     
   }
+  */
 }

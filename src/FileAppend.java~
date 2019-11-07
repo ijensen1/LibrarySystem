@@ -1,0 +1,23 @@
+import java.io.*;
+
+public class FileAppend {
+  FileWriter fw;
+  BufferedWriter bw;
+  PrintWriter out;
+  public FileAppend(String filename) { 
+    try(this.fw = new FileWriter(filename, true);
+        this.bw = new BufferedWriter(fw);
+        this.out = new PrintWriter(bw))
+    {
+    } catch (IOException e) {
+      System.out.println("Failed to load " + filename + "for appending");
+    }
+  }
+  
+  public void print(String data) {
+    out.print(data);
+  }
+  public void println(String data) {
+    out.println(data);
+  }
+}
