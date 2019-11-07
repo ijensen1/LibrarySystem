@@ -12,10 +12,6 @@ public class TestInventory {
             System.exit(1);
         }
         Scanner input = new Scanner(System.in);
-        System.out.println(i.getTag("book", 0, 4));
-        i.checkOut("book", "test", "test");
-        System.out.println(i.getTag("book", 0, 4));
-        System.out.println("input type, title, creator, genre1, genre2. out to stop adding");
         String adder = input.nextLine();
         String[] addersplit = adder.split(" ", 5);
         while (!adder.equals("out")) {
