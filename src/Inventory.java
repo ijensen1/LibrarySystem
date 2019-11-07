@@ -10,7 +10,7 @@ public class Inventory {
     private String libraryName;
 
     //constants
-    private final String splitter = "&"; //used between tags for when reading from or saving to a file
+    private final String splitter = "::"; //used between tags for when reading from or saving to a file
     private final int tagCount = 5; //how many tags each entry has. tags are title, creator, genre1, genre2, and inOut
 
     //tag positions
@@ -140,63 +140,42 @@ public class Inventory {
      * @param creator creator of entry you want to remove (author, artist, director)
      */
     public void remove(String type, String title, String creator) {
-        String[][] tempArray; //temporary array to hold data for type but exclude the entry being removed
-        if (type.equalsIgnoreCase("book")){
-            //checking if tags equal what was put in to be removed and that book is in the library for each entry
-            for (int entry = 0; entry < books.length; entry++){
-                if (books[entry][titlePos].equalsIgnoreCase(title) &&
-                        books[entry][creatorPos].equalsIgnoreCase(creator) &&
-                        books[entry][inOutPos].equalsIgnoreCase("in")){
-                    //fill out tempArray with books's data (minus entry being removed) after right entry is found
-                    tempArray = new String[books.length - 1][tagCount];
-                    for (int upToRemoved = 0; upToRemoved < entry; upToRemoved++)
-                        tempArray[upToRemoved] = books[upToRemoved];
-                    for (int afterRemoved = entry + 1; afterRemoved < books.length; afterRemoved++)
-                        tempArray[afterRemoved - 1] = books[afterRemoved];
-                    //change books to the updated catalog
-                    books = tempArray;
-                    return;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else if (type.equalsIgnoreCase("dvd")){
-            //checking if tags equal what was put in to be removed and that dvd is in the library for each entry
-            for (int entry = 0; entry < dvds.length; entry++){
-                if (dvds[entry][titlePos].equalsIgnoreCase(title) &&
-                        dvds[entry][creatorPos].equalsIgnoreCase(creator) &&
-                        dvds[entry][inOutPos].equalsIgnoreCase("in")){
-                    //fill out tempArray with dvd's data (minus entry being removed) after right entry is found
-                    tempArray = new String[dvds.length - 1][tagCount];
-                    for (int upToRemoved = 0; upToRemoved < entry; upToRemoved++)
-                        tempArray[upToRemoved] = dvds[upToRemoved];
-                    for (int afterRemoved = entry + 1; afterRemoved < dvds.length; afterRemoved++)
-                        tempArray[afterRemoved - 1] = dvds[afterRemoved];
-                    //change dvds to the updated catalog
-                    dvds = tempArray;
-                    return;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else if (type.equalsIgnoreCase("cd")){
-            //checking if tags equal what was put in to be removed and that cd is in the library for each entry
-            for (int entry = 0; entry < cds.length; entry++){
-                if (cds[entry][titlePos].equalsIgnoreCase(title) &&
-                        cds[entry][creatorPos].equalsIgnoreCase(creator) &&
-                        cds[entry][inOutPos].equalsIgnoreCase("in")){
-                    //fill out tempArray with cds's data (minus entry being removed) after right entry is found
-                    tempArray = new String[cds.length - 1][tagCount];
-                    for (int upToRemoved = 0; upToRemoved < entry; upToRemoved++)
-                        tempArray[upToRemoved] = cds[upToRemoved];
-                    for (int afterRemoved = entry + 1; afterRemoved < cds.length; afterRemoved++)
-                        tempArray[afterRemoved - 1] = cds[afterRemoved];
-                    //change cds to the updated catalog
-                    cds = tempArray;
-                    return;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else {
+        String[][] removeSearch, //array to hold the appropriate String[][] that we are looking through to find what to remove
+                removed; //to hold data in removeSearch but exclude the entry being removed
+
+        //setting removeSearch to appropriate String[][]
+        if (type.equalsIgnoreCase("book"))
+            removeSearch = books;
+        else if (type.equalsIgnoreCase("dvd"))
+            removeSearch = dvds;
+        else if (type.equalsIgnoreCase("cd"))
+            removeSearch = cds;
+        else {
             System.out.println(errorInvalidType);
+            return;
+        }
+
+        //checking if tags equal what was put in to be removed and that entry is in the library for each entry
+        for (int entry = 0; entry < removeSearch.length; entry++){
+            if (removeSearch[entry][titlePos].equalsIgnoreCase(title) &&
+                    removeSearch[entry][creatorPos].equalsIgnoreCase(creator) &&
+                    removeSearch[entry][inOutPos].equalsIgnoreCase("in")){
+                //fill out tempArray with entries' data (minus entry being removed) after right entry is found
+                removed = new String[removeSearch.length - 1][tagCount];
+                for (int upToRemoved = 0; upToRemoved < entry; upToRemoved++)
+                    removed[upToRemoved] = removeSearch[upToRemoved];
+                for (int afterRemoved = entry + 1; afterRemoved < books.length; afterRemoved++)
+                    removed[afterRemoved - 1] = removeSearch[afterRemoved];
+                //change String[][] for type to the updated catalog
+                if (type.equalsIgnoreCase("book"))
+                    books = removed;
+                else if (type.equalsIgnoreCase("dvd"))
+                    dvds = removed;
+                else
+                    cds = removed;
+                return;
+            }
+            System.out.println(errorEntryNotFound);
         }
     }
 
@@ -208,69 +187,49 @@ public class Inventory {
      * @return int[] holding indexes of every instance (for if multiple copies exist)
      */
     public int[] findIndex(String type, String title, String creator){
-        int[] results = new int[0], tempArray; //array to hold search results and a tempArray used for updating results
-        if (type.equalsIgnoreCase("book")){
-            //checking each entry for if it meets the search criteria
-            for (int entry = 0; entry < books.length; entry++){
-                if (books[entry][titlePos].equalsIgnoreCase(title) && books[entry][creatorPos].equalsIgnoreCase(creator)){
-                    //filling out tempArray with results data + position of the newest find of the book
-                    tempArray = new int[results.length + 1];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results [i];
-                    tempArray[results.length] = entry;
-                    //updating results
-                    results = tempArray;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else if (type.equalsIgnoreCase("dvd")){
-            //checking each entry for if it meets the search criteria
-            for (int entry = 0; entry < dvds.length; entry++){
-                if (dvds[entry][titlePos].equalsIgnoreCase(title) && dvds[entry][creatorPos].equalsIgnoreCase(creator)){
-                    //filling out tempArray with results data + position of the newest find of the dvd
-                    tempArray = new int[results.length + 1];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results [i];
-                    tempArray[results.length] = entry;
-                    //updating results
-                    results = tempArray;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else if (type.equalsIgnoreCase("cd")){
-            //checking each entry for if it meets the search criteria
-            for (int entry = 0; entry < cds.length; entry++){
-                if (cds[entry][titlePos].equalsIgnoreCase(title) && cds[entry][creatorPos].equalsIgnoreCase(creator)){
-                    //filling out tempArray with results data + position of the newest find of the cd
-                    tempArray = new int[results.length + 1];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results [i];
-                    tempArray[results.length] = entry;
-                    //updating results
-                    results = tempArray;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else {
+        String[][] searchingThrough; //to hold type's String[][] for searching through
+        int[] results = new int[0], tempArray; //to hold search results and tempArray used for updating results
+
+        //putting appropriate String[][] in searchingThrough[][]
+        if (type.equalsIgnoreCase("book"))
+            searchingThrough = books;
+        else if (type.equalsIgnoreCase("dvd"))
+            searchingThrough = dvds;
+        else if (type.equalsIgnoreCase("cd"))
+            searchingThrough = cds;
+        else {
             System.out.println(errorInvalidType);
             return null;
+        }
+
+        //check each entry for if it has the selected creator
+        for (int entry = 0; entry < searchingThrough.length; entry++) {
+            if (title.equalsIgnoreCase(searchingThrough[entry][titlePos]) && creator.equalsIgnoreCase(searchingThrough[entry][creatorPos])) {
+                //filling out tempArray with results data + data for newest entry
+                tempArray = new int[results.length + 1];
+                for (int i = 0; i < results.length; i++)
+                    tempArray[i] = results[i];
+                tempArray[results.length] = entry;
+                //updating results
+                results = tempArray;
+            }
         }
         return results;
     }
 
     /**
-     * Gets entry data from an index
+     * Gets entry data from an index number
      * @param type book, cd, or dvd (case sensitive)
-     * @param index index of wanted entry
+     * @param entry index of wanted entry
      * @return entry data as a String[]
      */
-    public String[] getPosition(String type, int index){
+    public String[] getIndex(String type, int entry){
         if (type.equalsIgnoreCase("book"))
-            return books[index];
+            return books[entry];
         else if (type.equalsIgnoreCase("dvd"))
-            return dvds[index];
+            return dvds[entry];
         else if (type.equalsIgnoreCase("cd"))
-            return cds[index];
+            return cds[entry];
         else
             System.out.println(errorInvalidType);
             return null;
@@ -279,17 +238,17 @@ public class Inventory {
     /**
      * Gets a single tag of a single entry
      * @param type book, dvd, or cd
-     * @param index index of entry
+     * @param entry index of entry
      * @param tag index of wanted tag
      * @return a String holding the tag's value
      */
-    public String getTag(String type, int index, int tag){
+    public String getTag(String type, int entry, int tag){
         if (type.equalsIgnoreCase("book"))
-            return books[index][tag];
+            return books[entry][tag];
         else if (type.equalsIgnoreCase("dvd"))
-            return dvds[index][tag];
+            return dvds[entry][tag];
         else if (type.equalsIgnoreCase("cd"))
-            return cds[index][tag];
+            return cds[entry][tag];
         else{
             System.out.println(errorInvalidType);
             return null;
@@ -303,49 +262,32 @@ public class Inventory {
      * @return a String[][] containing the data of all entries with that title
      */
     public String[][] searchName(String type, String title){
-        String[][] results = new String[0][tagCount], tempArray; //array to hold results and tempArray used for updating results
-        if (type.equalsIgnoreCase("book")){
-            //check each entry for if it has the right title
-            for (int entry = 0; entry < books.length; entry++){
-                if (title.equalsIgnoreCase(books[entry][titlePos])){
-                    //fill out tempArray with result's data + newest find
-                    tempArray = new String[results.length + 1][tagCount];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results [i];
-                    tempArray[results.length] = books[entry];
-                    //updating results
-                    results = tempArray;
-                }
-            }
-        } else if (type.equalsIgnoreCase("dvd")) {
-            //check each entry for if it has the right title
-            for (int entry = 0; entry < dvds.length; entry++) {
-                if (title.equalsIgnoreCase(dvds[entry][titlePos])){
-                    //fill out tempArray with result's data + newest find
-                    tempArray = new String[results.length + 1][tagCount];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results[i];
-                    tempArray[results.length] = dvds[entry];
-                    //updating results
-                    results = tempArray;
-                }
-            }
-        } else if (type.equalsIgnoreCase("cd")){
-            //check each entry for if it has the right title
-            for (int entry = 0; entry < cds.length; entry++){
-                if (title.equalsIgnoreCase(cds[entry][titlePos])){
-                    //fill out tempArray with result's data + newest find
-                    tempArray = new String[results.length + 1][tagCount];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results [i];
-                    tempArray[results.length] = cds[entry];
-                    //updating results
-                    results = tempArray;
-                }
-            }
-        } else {
+        String[][] searchingThrough; //to hold type's String[][] for searching through
+        String[][] results = new String[0][tagCount], tempArray; //to hold search results and tempArray used for updating results
+
+        //putting appropriate String[][] in searchingThrough[][]
+        if (type.equalsIgnoreCase("book"))
+            searchingThrough = books;
+        else if (type.equalsIgnoreCase("dvd"))
+            searchingThrough = dvds;
+        else if (type.equalsIgnoreCase("cd"))
+            searchingThrough = cds;
+        else {
             System.out.println(errorInvalidType);
             return null;
+        }
+
+        //check each entry for if it has the selected creator
+        for (int entry = 0; entry < searchingThrough.length; entry++) {
+            if (title.equalsIgnoreCase(searchingThrough[entry][titlePos])) {
+                //filling out tempArray with results data + data for newest entry
+                tempArray = new String[results.length + 1][tagCount];
+                for (int i = 0; i < results.length; i++)
+                    tempArray[i] = results[i];
+                tempArray[results.length] = searchingThrough[entry];
+                //updating results
+                results = tempArray;
+            }
         }
         return results;
     }
@@ -357,49 +299,32 @@ public class Inventory {
      * @return String[][] of all works by that creator
      */
     public String[][] searchCreator(String type, String creator){
-        String[][] results = new String[0][tagCount], tempArray; //array to hold results and tempArray used for updating results
-        if (type.equalsIgnoreCase("book")){
-            //check each entry for if it has the right creator (author)
-            for (int entry = 0; entry < books.length; entry++){
-                if (creator.equalsIgnoreCase(books[entry][creatorPos])){
-                    //fill out tempArray with result's data + newest find
-                    tempArray = new String[results.length + 1][tagCount];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results [i];
-                    tempArray[results.length] = books[entry];
-                    //updating results
-                    results = tempArray;
-                }
-            }
-        } else if (type.equalsIgnoreCase("dvd")) {
-            //check each entry for if it has the right creator (director)
-            for (int entry = 0; entry < dvds.length; entry++) {
-                if (creator.equalsIgnoreCase(dvds[entry][creatorPos])){
-                    //fill out tempArray with result's data + newest find
-                    tempArray = new String[results.length + 1][tagCount];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results[i];
-                    tempArray[results.length] = dvds[entry];
-                    //updating results
-                    results = tempArray;
-                }
-            }
-        } else if (type.equalsIgnoreCase("cd")){
-            //check each entry for if it has the right creator (artist)
-            for (int entry = 0; entry < cds.length; entry++){
-                if (creator.equalsIgnoreCase(cds[entry][creatorPos])){
-                    //fill out tempArray with result's data + newest find
-                    tempArray = new String[results.length + 1][tagCount];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results [i];
-                    tempArray[results.length] = cds[entry];
-                    //updating results
-                    results = tempArray;
-                }
-            }
-        } else {
+        String[][] searchingThrough; //to hold the appropriate String[][] to search through
+        String[][] results = new String[0][tagCount], tempArray; //to hold search results and tempArray used for updating results
+
+        //putting appropriate String[][] in searchingThrough[][]
+        if (type.equalsIgnoreCase("book"))
+            searchingThrough = books;
+        else if (type.equalsIgnoreCase("dvd"))
+            searchingThrough = dvds;
+        else if (type.equalsIgnoreCase("cd"))
+            searchingThrough = cds;
+        else {
             System.out.println(errorInvalidType);
             return null;
+        }
+
+        //check each entry for if it has the selected creator
+        for (int entry = 0; entry < searchingThrough.length; entry++) {
+            if (creator.equalsIgnoreCase(searchingThrough[entry][creatorPos])) {
+                //filling out tempArray with results data + data for newest entry
+                tempArray = new String[results.length + 1][tagCount];
+                for (int i = 0; i < results.length; i++)
+                    tempArray[i] = results[i];
+                tempArray[results.length] = searchingThrough[entry];
+                //updating results
+                results = tempArray;
+            }
         }
         return results;
     }
@@ -410,49 +335,33 @@ public class Inventory {
      * @param genre genre being searched for
      * @return a String[][] containing the data of all entries of that genre
      */
-    public String[][] searchGenre(String type, String genre){
-        String[][] results = new String[0][tagCount], tempArray; //array to hold results and tempArray used for updating results
-        if (type.equalsIgnoreCase("book")){
-            //check each entry for if it has the selected genre in either of its genre tags
-            for (int entry = 0; entry < books.length; entry++){
-                if (genre.equalsIgnoreCase(books[entry][genre1Pos]) || genre.equalsIgnoreCase(books[entry][genre2Pos])){
-                    //filling out tempArray with results data + data for newest entry
-                    tempArray = new String[results.length + 1][tagCount];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results [i];
-                    tempArray[results.length] = books[entry];
-                    //updating results
-                    results = tempArray;
-                }
-            }
-        } else if (type.equalsIgnoreCase("dvd")) {
-            //check each entry for if it has the selected genre in either of its genre tags
-            for (int entry = 0; entry < dvds.length; entry++) {
-                if (genre.equalsIgnoreCase(dvds[entry][genre1Pos]) || genre.equalsIgnoreCase(dvds[entry][genre2Pos])) {
-                    //filling out tempArray with results data + data for newest entry
-                    tempArray = new String[results.length + 1][tagCount];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results[i];
-                    tempArray[results.length] = dvds[entry];
-                    results = tempArray;
-                }
-            }
-        } else if (type.equalsIgnoreCase("cd")){
-            //check each entry for if it has the selected genre in either of its genre tags
-            for (int entry = 0; entry < cds.length; entry++){
-                if (genre.equalsIgnoreCase(cds[entry][genre1Pos]) || genre.equalsIgnoreCase(cds[entry][genre2Pos])){
-                    //filling out tempArray with results data + data for newest entry
-                    tempArray = new String[results.length + 1][tagCount];
-                    for (int i = 0; i < results.length; i++)
-                        tempArray[i] = results [i];
-                    tempArray[results.length] = cds[entry];
-                    //updating results
-                    results = tempArray;
-                }
-            }
-        } else {
+    public String[][] searchGenre(String type, String genre) {
+        String[][] searchingThrough; //to hold the appropriate String[][] to search through
+        String[][] results = new String[0][tagCount], tempArray; //to hold search results and tempArray used for updating results
+
+        //putting appropriate String[][] in searchingThrough[][]
+        if (type.equalsIgnoreCase("book"))
+            searchingThrough = books;
+        else if (type.equalsIgnoreCase("dvd"))
+            searchingThrough = dvds;
+        else if (type.equalsIgnoreCase("cd"))
+            searchingThrough = cds;
+        else {
             System.out.println(errorInvalidType);
             return null;
+        }
+
+        //check each entry for if it has the selected genre in either of its genre tags
+        for (int entry = 0; entry < searchingThrough.length; entry++) {
+            if (genre.equalsIgnoreCase(searchingThrough[entry][genre1Pos]) || genre.equalsIgnoreCase(searchingThrough[entry][genre2Pos])) {
+                //filling out tempArray with results data + data for newest entry
+                tempArray = new String[results.length + 1][tagCount];
+                for (int i = 0; i < results.length; i++)
+                    tempArray[i] = results[i];
+                tempArray[results.length] = searchingThrough[entry];
+                //updating results
+                results = tempArray;
+            }
         }
         return results;
     }
@@ -464,45 +373,35 @@ public class Inventory {
      * @param creator creator of entry you want to find (author, artist, director)
      */
     public void checkIn(String type, String title, String creator){
-        if (type.equalsIgnoreCase("book")){
-            //checking each entry for if it meets the given tags and is checked out
-            for (int entry = 0; entry < books.length; entry++){
-                if (books[entry][titlePos].equalsIgnoreCase(title) &&
-                            books[entry][creatorPos].equalsIgnoreCase(creator) &&
-                            books[entry][inOutPos].equalsIgnoreCase("out")){
-                    //marking book as checked in
-                    books[entry][inOutPos] = "in";
-                    return;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else if (type.equalsIgnoreCase("dvd")){
-            //checking each entry for if it meets the given tags and is checked out
-            for (int entry = 0; entry < dvds.length; entry++){
-                if (dvds[entry][titlePos].equalsIgnoreCase(title) &&
-                            dvds[entry][creatorPos].equalsIgnoreCase(creator) &&
-                            dvds[entry][inOutPos].equalsIgnoreCase("out")){
-                    //marking dvd as checked in
-                    dvds[entry][inOutPos] = "in";
-                    return;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else if (type.equalsIgnoreCase("cd")){
-            //checking each entry for if it meets the given tags and is checked out
-            for (int entry = 0; entry < cds.length; entry++){
-                if (cds[entry][titlePos].equalsIgnoreCase(title) &&
-                            cds[entry][creatorPos].equalsIgnoreCase(creator) &&
-                            cds[entry][inOutPos].equalsIgnoreCase("out")){
-                    //marking cd as checked in
-                    cds[entry][inOutPos] = "in";
-                    return;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else {
+        //putting the appropriate String[][] to look through for the wanted entry in a String[][] called checkingIn
+        String[][] checkingIn;
+        if (type.equalsIgnoreCase("book"))
+            checkingIn = books;
+        else if (type.equalsIgnoreCase("dvd"))
+            checkingIn = dvds;
+        else if (type.equalsIgnoreCase("cd"))
+            checkingIn = cds;
+        else {
             System.out.println(errorInvalidType);
+            return;
         }
+        //looking for the entry that's wanted to be checked out and making sure its checked in
+        for (int entry = 0; entry < checkingIn.length; entry++){
+            if (checkingIn[entry][titlePos].equalsIgnoreCase(title) &&
+                    checkingIn[entry][creatorPos].equalsIgnoreCase(creator) &&
+                    checkingIn[entry][inOutPos].equalsIgnoreCase("in")){
+                //marking book as checked out
+                checkingIn[entry][inOutPos] = "out";
+                if (type.equalsIgnoreCase("book"))
+                    books = checkingIn;
+                else if (type.equalsIgnoreCase("dvd"))
+                    dvds = checkingIn;
+                else
+                    cds = checkingIn;
+                return;
+            }
+        }
+        System.out.println(errorEntryNotFound);
     }
 
     /**
@@ -512,45 +411,35 @@ public class Inventory {
      * @param creator creator of entry you want to find (author, artist, director)
      */
     public void checkOut(String type, String title, String creator){
-        //checking each entry for if it meets the given tags and is checked in
-        if (type.equalsIgnoreCase("book")){
-            for (int entry = 0; entry < books.length; entry++){
-                if (books[entry][titlePos].equalsIgnoreCase(title) &&
-                        books[entry][creatorPos].equalsIgnoreCase(creator) &&
-                        books[entry][inOutPos].equalsIgnoreCase("in")){
-                    //marking book as checked out
-                    books[entry][inOutPos] = "out";
-                    return;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else if (type.equalsIgnoreCase("dvd")){
-            //checking each entry for if it meets the given tags and is checked in
-            for (int entry = 0; entry < dvds.length; entry++){
-                if (dvds[entry][titlePos].equalsIgnoreCase(title) &&
-                        dvds[entry][creatorPos].equalsIgnoreCase(creator) &&
-                        dvds[entry][inOutPos].equalsIgnoreCase("in")){
-                    //marking dvd as checked out
-                    dvds[entry][inOutPos] = "out";
-                    return;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else if (type.equalsIgnoreCase("cd")){
-            //checking each entry for if it meets the given tags and is checked in
-            for (int entry = 0; entry < cds.length; entry++){
-                if (cds[entry][titlePos].equalsIgnoreCase(title) &&
-                        cds[entry][creatorPos].equalsIgnoreCase(creator) &&
-                        cds[entry][inOutPos].equalsIgnoreCase("in")){
-                    //marking cd as checked out
-                    cds[entry][inOutPos] = "out";
-                    return;
-                }
-                System.out.println(errorEntryNotFound);
-            }
-        } else {
+        //putting the appropriate String[][] to look through for the wanted entry in a String[][] called checkingOut
+        String[][] checkingOut;
+        if (type.equalsIgnoreCase("book"))
+            checkingOut = books;
+        else if (type.equalsIgnoreCase("dvd"))
+            checkingOut = dvds;
+        else if (type.equalsIgnoreCase("cd"))
+            checkingOut = cds;
+        else {
             System.out.println(errorInvalidType);
+            return;
         }
+        //looking for the entry that's wanted to be checked out and making sure its checked in
+        for (int entry = 0; entry < checkingOut.length; entry++){
+            if (checkingOut[entry][titlePos].equalsIgnoreCase(title) &&
+                    checkingOut[entry][creatorPos].equalsIgnoreCase(creator) &&
+                    checkingOut[entry][inOutPos].equalsIgnoreCase("in")){
+                //marking book as checked out
+                checkingOut[entry][inOutPos] = "out";
+                if (type.equalsIgnoreCase("book"))
+                    books = checkingOut;
+                else if (type.equalsIgnoreCase("dvd"))
+                    dvds = checkingOut;
+                else
+                    cds = checkingOut;
+                return;
+            }
+        }
+        System.out.println(errorEntryNotFound);
     }
 
     /**
