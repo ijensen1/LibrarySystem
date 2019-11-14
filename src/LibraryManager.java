@@ -4,26 +4,29 @@ import java.util.Scanner;
 import java.io.*;
 
 public class LibraryManager {
-  private Account[] accounts;
+  private Account[] accounts = new Account[1];
   private final String splitter = "::";
   public LibraryManager() { 
     try {
-      Scanner readAccounts = new Scanner(new File("accountslist.txt"));
-      int accountsNum = 0;
+      Scanner readAccounts = new Scanner(new File("AccountList.txt"));
+      String firstAccount = readAccounts.nextLine();
+      String[] firstAccountData;
+      firstAccountData = firstAccount.split(splitter, 7);
+      this.accounts[0] = new Account(firstAccountData[0], firstAccountData[1], firstAccountData[2],
+                                firstAccountData[3], firstAccountData[4], firstAccountData[5],
+                                firstAccountData[6]); //string firstName, string lastName
       while (readAccounts.hasNextLine()) {
         String acntData = readAccounts.nextLine();
-        
-        accounts = new Account[this.accounts.length + 1];
+        Account newaccounts[] = new Account[this.accounts.length + 1];
         for (int i = 0; i < this.accounts.length; i++){
-          accounts[i] = this.accounts[i];
+          newaccounts[i] = this.accounts[i];
         }
         String[] accountData;
         accountData = acntData.split(splitter, 7);
-        accounts[this.accounts.length] = new Account(accountData[0], accountData[1], accountData[2],
-                                                     accountData[3], accountData[4], accountData[5],
-                                                     accountData[6]); //string firstName, string lastName
-        this.accounts = accounts;
-        accountsNum++;
+        newaccounts[this.accounts.length] = new Account(accountData[0], accountData[1], accountData[2],
+                                                        accountData[3], accountData[4], accountData[5],
+                                                        accountData[6]); //string firstName, string lastName
+        this.accounts = newaccounts;
       }
     } catch (IOException e) {
       System.out.println("Failed to load accounts list");
@@ -48,7 +51,7 @@ public class LibraryManager {
     }
     accounts[this.accounts.length] = newAccount;
     this.accounts = accounts;
-    FileAppend out = new FileAppend("accountlist.txt");
+    FileAppend out = new FileAppend("AccountList.txt");
     for (Account acnt : accounts) {
       out.print(acnt.getFirstName() + "::");
       out.print(acnt.getLastName() + "::");

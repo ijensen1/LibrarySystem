@@ -30,11 +30,11 @@ public class Account {
 
     //getters
     public String getFirstName(){
-        return getFirstName();
+        return this.firstName;
     }
 
     public String getLastName(){
-        return getLastName();
+        return this.lastName;
     }
 
     public String getBorrowStatus(){
