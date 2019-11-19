@@ -11,6 +11,7 @@ public class Inventory {
 
     //constants
     private final String splitter = "::"; //used between tags for when reading from or saving to a file
+    private final String dataPath = "Data/"; //where is data in general being stored
     private final int tagCount = 5; //how many tags each entry has. tags are title, creator, genre1, genre2, and inOut
 
     //tag positions
@@ -28,9 +29,9 @@ public class Inventory {
     public Inventory(String libraryName) throws IOException{
         this.libraryName = libraryName;
         //making Files
-        File bookFile = new File(libraryName + "Books.txt"),
-                dvdFile = new File(libraryName + "DVDs.txt"),
-                cdFile = new File(libraryName + "CDs.txt");
+        File bookFile = new File(dataPath + libraryName + "/Books.txt"),
+                dvdFile = new File(dataPath + libraryName + "/DVDs.txt"),
+                cdFile = new File(dataPath + libraryName + "/CDs.txt");
 
         //variables for reading file data
         String currentLine; //for holding the current line when working through files
@@ -447,10 +448,13 @@ public class Inventory {
      * @throws IOException will throw an error if it can not write to file. can make a new file, so should not throw unless disk is full
      */
     public void save() throws IOException{
+        //Making directories if they don't already exist
+        File path = new File(dataPath + libraryName);
+        boolean madePath = path.mkdirs();
         //PrintWriters to write to files
-        PrintWriter saveBooks = new PrintWriter(libraryName + "Books.txt");
-        PrintWriter saveDVDs = new PrintWriter(libraryName + "DVDs.txt");
-        PrintWriter saveCDs = new PrintWriter(libraryName + "CDs.txt");
+        PrintWriter saveBooks = new PrintWriter(dataPath + libraryName + "/Books.txt");
+        PrintWriter saveDVDs = new PrintWriter(dataPath + libraryName + "/DVDs.txt");
+        PrintWriter saveCDs = new PrintWriter(dataPath + libraryName + "/CDs.txt");
         //save book data
         for (int line = 0; line < books.length; line++){
             for (int word = 0; word < tagCount; word++){
