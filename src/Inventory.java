@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.Scanner;
 
 /**
- * Class to handle inventory of a specific library, all method inputs are case in-sensitive
+ * Class to handle inventory of a specific library, all method inputs are case in-sensitive. Uses 2d arrays to hold information and has methods for data query.
  */
 public class Inventory {
     //Variables for library data
@@ -22,9 +22,9 @@ public class Inventory {
     private final String errorEntryNotFound = "Could not locate any entries containing that data";
 
     /**
-     * Constructor, populates arrays with data saved in files for that library
-     * @param libraryName name of the library
-     * @throws IOException may throw IOException, should not though as I made it so it only makes a Scanner for a file if the file exists
+     * Constructor, populates arrays with data saved in files for that library.
+     * @param libraryName name of the library.
+     * @throws IOException may throw IOException, should not though as I made it so it only makes a Scanner for a file if the file exists.
      */
     public Inventory(String libraryName) throws IOException{
         this.libraryName = libraryName;
@@ -93,11 +93,11 @@ public class Inventory {
     }
 
     /**
-     * Add an entry to a library's inventory
-     * @param type book, cd, or dvd
-     * @param title title of the entry
-     * @param genre1 a genre of the entry
-     * @param genre2 a second genre of the entry
+     * Add an entry to a library's inventory.
+     * @param type book, cd, or dvd.
+     * @param title title of the entry.
+     * @param genre1 a genre of the entry.
+     * @param genre2 a second genre of the entry.
      */
     public void add(String type, String title, String creator, String genre1, String genre2){
         String[][] tempArray; //temporary array for holding a modified array with the new value added to it
@@ -135,10 +135,20 @@ public class Inventory {
     }
 
     /**
-     * Remove an entry from a library's inventory. Will only remove entries with an in/out tag of "in"
-     * @param type book, cd, or dvd
-     * @param title title of entry
-     * @param creator creator of entry you want to remove (author, artist, director)
+     * Overload of add to allow books with just 1 genre to be easily added.
+     * @param type book, cd, or dvd.
+     * @param title title of the entry.
+     * @param genre the books genre.
+     */
+    public void add(String type, String title, String creator, String genre){
+        add(type, title, creator, genre, "noGenre2");
+    }
+
+    /**
+     * Remove an entry from a library's inventory. Will only remove entries with an in/out tag of "in".
+     * @param type book, cd, or dvd.
+     * @param title title of entry.
+     * @param creator creator of entry you want to remove (author, artist, director).
      */
     public void remove(String type, String title, String creator) {
         String[][] removeSearch, //array to hold the appropriate String[][] that we are looking through to find what to remove
@@ -181,11 +191,11 @@ public class Inventory {
     }
 
     /**
-     * Returns the indexes of all instances of an entry
-     * @param type book, dvd, or cd
-     * @param title title of entry being looked for
-     * @param creator creator of entry you want to find (author, artist, director)
-     * @return int[] holding indexes of every instance (for if multiple copies exist)
+     * Returns the indexes of all instances of an entry.
+     * @param type book, dvd, or cd.
+     * @param title title of entry being looked for.
+     * @param creator creator of entry you want to find (author, artist, director).
+     * @return int[] holding indexes of every instance (for if multiple copies exist).
      */
     public int[] findIndex(String type, String title, String creator){
         String[][] searchingThrough; //to hold type's String[][] for searching through
@@ -219,10 +229,10 @@ public class Inventory {
     }
 
     /**
-     * Gets entry data from an index number
-     * @param type book, cd, or dvd (case sensitive)
-     * @param entry index of wanted entry
-     * @return entry data as a String[]
+     * Gets entry data from an index number.
+     * @param type book, cd, or dvd (case sensitive).
+     * @param entry index of wanted entry.
+     * @return entry data as a String[].
      */
     public String[] getIndex(String type, int entry){
         if (type.equalsIgnoreCase("book"))
@@ -237,11 +247,11 @@ public class Inventory {
     }
 
     /**
-     * Gets a single tag of a single entry
-     * @param type book, dvd, or cd
-     * @param entry index of entry
-     * @param tag index of wanted tag
-     * @return a String holding the tag's value
+     * Gets a single tag of a single entry.
+     * @param type book, dvd, or cd.
+     * @param entry index of entry.
+     * @param tag index of wanted tag.
+     * @return a String holding the tag's value.
      */
     public String getTag(String type, int entry, int tag){
         if (type.equalsIgnoreCase("book"))
@@ -257,10 +267,10 @@ public class Inventory {
     }
 
     /**
-     * Search inventory based on type and title
-     * @param type book, dvd, or cd
-     * @param title title of what you're searching for
-     * @return a String[][] containing the data of all entries with that title
+     * Search inventory based on type and title.
+     * @param type book, dvd, or cd.
+     * @param title title of what you're searching for.
+     * @return a String[][] containing the data of all entries with that title.
      */
     public String[][] searchName(String type, String title){
         String[][] searchingThrough; //to hold type's String[][] for searching through
@@ -294,10 +304,10 @@ public class Inventory {
     }
 
     /**
-     * Search a library's inventor based on type and creator
-     * @param type book, dvd, or cd
-     * @param creator creator of entry you want to find (author, artist, director)
-     * @return String[][] of all works by that creator
+     * Search a library's inventor based on type and creator.
+     * @param type book, dvd, or cd.
+     * @param creator creator of entry you want to find (author, artist, director).
+     * @return String[][] of all works by that creator.
      */
     public String[][] searchCreator(String type, String creator){
         String[][] searchingThrough; //to hold the appropriate String[][] to search through
@@ -331,10 +341,10 @@ public class Inventory {
     }
 
     /**
-     * Search inventory based on type and genre
-     * @param type book, dvd, or cd
-     * @param genre genre being searched for
-     * @return a String[][] containing the data of all entries of that genre
+     * Search inventory based on type and genre.
+     * @param type book, dvd, or cd.
+     * @param genre genre being searched for.
+     * @return a String[][] containing the data of all entries of that genre.
      */
     public String[][] searchGenre(String type, String genre) {
         String[][] searchingThrough; //to hold the appropriate String[][] to search through
@@ -368,10 +378,10 @@ public class Inventory {
     }
 
     /**
-     * Marks the first occurrence of that entry with an in/out tag of "out" as "in"
-     * @param type book, dvd, or cd
-     * @param title tile of entry
-     * @param creator creator of entry you want to find (author, artist, director)
+     * Marks the first occurrence of that entry with an in/out tag of "out" as "in".
+     * @param type book, dvd, or cd.
+     * @param title tile of entry.
+     * @param creator creator of entry you want to find (author, artist, director).
      */
     public void checkIn(String type, String title, String creator){
         //putting the appropriate String[][] to look through for the wanted entry in a String[][] called checkingIn
@@ -406,10 +416,10 @@ public class Inventory {
     }
 
     /**
-     * Marks the first occurrence of that entry with an in/out tag of "in" as "out"
-     * @param type book, dvd, or cd
-     * @param title tile of entry
-     * @param creator creator of entry you want to find (author, artist, director)
+     * Marks the first occurrence of that entry with an in/out tag of "in" as "out".
+     * @param type book, dvd, or cd.
+     * @param title tile of entry.
+     * @param creator creator of entry you want to find (author, artist, director).
      */
     public void checkOut(String type, String title, String creator){
         //putting the appropriate String[][] to look through for the wanted entry in a String[][] called checkingOut
@@ -444,8 +454,8 @@ public class Inventory {
     }
 
     /**
-     * Writes all arrays to their appropriate files
-     * @throws IOException will throw an error if it can not write to file. can make a new file, so should not throw unless disk is full
+     * Writes all arrays to their appropriate files.
+     * @throws IOException will throw an error if it can not write to file. can make a new file, so should not throw unless disk is full.
      */
     public void save() throws IOException{
         //Making directories if they don't already exist
