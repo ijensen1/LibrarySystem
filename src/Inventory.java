@@ -12,10 +12,10 @@ public class Inventory {
     //constants
     private final String splitter = "::"; //used between tags for when reading from or saving to a file
     private final String dataPath = "Data/"; //where is data in general being stored
-    private final int tagCount = 5; //how many tags each entry has. tags are title, creator, genre1, genre2, and inOut
+    public final int tagCount = 5; //how many tags each entry has. tags are title, creator, genre1, genre2, and inOut
 
     //tag positions
-    private final int titlePos = 0, creatorPos = 1, genre1Pos = 2, genre2Pos = 3, inOutPos = 4;
+    public final int titlePos = 0, creatorPos = 1, genre1Pos = 2, genre2Pos = 3, inOutPos = 4;
 
     //error messages meant for user, or Jack, depending on how he implements things
     private final String errorInvalidType = "Invalid entry type. Valid entry types are \"book\", \"dvd\", and \"cd\" (case insensitive)";
