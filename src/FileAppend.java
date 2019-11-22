@@ -20,4 +20,14 @@ public class FileAppend {
   public void println(String data) {
     out.println(data);
   }
+  public void close() {
+    try {
+      out.close();
+      bw.close();
+      fw.close();
+    } catch (IOException e) {
+      System.out.println("Failed to close file. How'd you even do that anyway?");
+    }
+    
+  }
 }
