@@ -11,7 +11,7 @@ public class Inventory {
 
     //constants
     private final String splitter = "::"; //used between tags for when reading from or saving to a file
-    private final String dataPath = "Data/"; //where is data in general being stored
+    private final String dataPath = "../Data/"; //where is data in general being stored
     public final int tagCount = 5; //how many tags each entry has. tags are title, creator, genre1, genre2, and inOut
 
     //tag positions
