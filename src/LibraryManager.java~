@@ -44,24 +44,29 @@ public class LibraryManager {
     System.out.println("Account " + name + " not found");
     return null;
   }
+  
   public void addAccount(Account newAccount) {
-    accounts = new Account[this.accounts.length + 1];
+    Account copyaccounts[] = new Account[this.accounts.length + 1];
     for (int i = 0; i < this.accounts.length; i++){
-      accounts[i] = this.accounts[i];
+      copyaccounts[i] = this.accounts[i];
     }
-    accounts[this.accounts.length] = newAccount;
-    this.accounts = accounts;
+    copyaccounts[this.accounts.length] = newAccount;
+    this.accounts = copyaccounts;
     FileAppend out = new FileAppend("AccountList.txt");
-    for (Account acnt : accounts) {
-      out.print(acnt.getFirstName() + "::");
-      out.print(acnt.getLastName() + "::");
-      out.print(acnt.getBorrowStatus() + "::");
-      out.print(acnt.getBorrowBranch() + "::");
-      out.print(acnt.getPhoneNumber() + "::");
-      out.print(acnt.getEmail() + "::");
-      out.print(acnt.getAddress());
-    }
+    
+    out.print(newAccount.getFirstName() + "::");
+    out.print(newAccount.getLastName() + "::");
+    out.print(newAccount.getBorrowStatus() + "::");
+    out.print(newAccount.getBorrowBranch() + "::");
+    out.print(newAccount.getPhoneNumber() + "::");
+    out.print(newAccount.getEmail() + "::");
+    out.print(newAccount.getAddress());
+    
     out.println("");
+    out.close();
+  }
+  public int getAccountsLength() {
+    return this.accounts.length;
   }
   
 }

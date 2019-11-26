@@ -8,7 +8,7 @@ public class LibraryManager {
   private final String splitter = "::";
   public LibraryManager() { 
     try {
-      Scanner readAccounts = new Scanner(new File("AccountList.txt"));
+      Scanner readAccounts = new Scanner(new File("../Data/AccountList.txt"));
       String firstAccount = readAccounts.nextLine();
       String[] firstAccountData;
       firstAccountData = firstAccount.split(splitter, 7);
@@ -32,6 +32,13 @@ public class LibraryManager {
       System.out.println("Failed to load accounts list");
       System.exit(1);
     }
+    try {
+      File checkout = new File("../Data/CheckoutList.txt");
+      Scanner read
+    } catch (IOException e) {
+      System.out.println("Failed to load checkout list");
+      System.exit(1);
+    }
   }
   
   public Account getAccount(String name) {
@@ -52,7 +59,7 @@ public class LibraryManager {
     }
     copyaccounts[this.accounts.length] = newAccount;
     this.accounts = copyaccounts;
-    FileAppend out = new FileAppend("AccountList.txt");
+    FileAppend out = new FileAppend("../Data/AccountList.txt");
     
     out.print(newAccount.getFirstName() + "::");
     out.print(newAccount.getLastName() + "::");

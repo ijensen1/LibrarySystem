@@ -1,0 +1,10 @@
+public class AccountBookList {
+  private String name;
+  private String[] bookNames;
+  private String[] authorNames;
+  public AccountBookList() { 
+    /* YOUR CONSTRUCTOR CODE HERE*/
+  }
+  /* ADD YOUR CODE HERE */
+  
+}
