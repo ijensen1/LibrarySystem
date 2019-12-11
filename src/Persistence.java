@@ -49,7 +49,7 @@ class Persistence {
     /**
      * Method to load an array of Borrowables from a given File.
      * @param loadPath where the file to load from is located.
-     * @return
+     * @return an array of the Borrowables in that file.
      */
     static Borrowable[] loadBorrowables(String loadPath) {
         try {
@@ -77,6 +77,11 @@ class Persistence {
         }
     }
 
+    /**
+     * Method to load an array of Accounts from a given File.
+     * @param loadPath where the file to load from is located.
+     * @return an array of the Accounts in that file.
+     */
     static Account[] loadAccounts(String loadPath) {
         try {
             Account[] data = new Account[0]; //To hold data that the file contains
