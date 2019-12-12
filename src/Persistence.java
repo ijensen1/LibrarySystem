@@ -8,7 +8,26 @@ import java.util.Scanner;
 class Persistence {
     //constants
     static final String splitter = "::"; //used between tags for when reading from or saving to a file
-    static final String dataPath = "../Data/"; //where is data in general being stored
+    static final String dataPath = "../Data/", //where is data in general being stored
+            accountsPath = "Accounts.txt",
+            libariesPath = "Libraries.txt";
+
+    /**
+     * Method to save the list of library names.
+     * @param libraries the list of libaries.
+     */
+    static void saveToFile(Library[] libraries) {
+        try {
+            PrintWriter saveFile = new PrintWriter(dataPath + libariesPath); //To write names to file
+            for (Library library : libraries) {
+                saveFile.println(library.getLibraryName()); //Print the name of each library to the file.
+            }
+            saveFile.close(); //Close file
+        } catch (IOException e) {
+            //Some error occurred while trying to save to the file
+            System.out.println("Error trying to save file.");
+        }
+    }
 
     /**
      * Method to save an array of Borrowables to a given File.
@@ -30,12 +49,11 @@ class Persistence {
 
     /**
      * Method to save an array of Accounts to a given File.
-     * @param savePath where the file to save to is located.
      * @param data the Accounts to save.
      */
-    static void saveToFile(String savePath, Account[] data) {
+    static void saveToFile(Account[] data) {
         try {
-            PrintWriter saveFile = new PrintWriter(dataPath + savePath); //To write data to file
+            PrintWriter saveFile = new PrintWriter(dataPath + accountsPath); //To write data to file
             for (Account account : data) {
                 saveFile.println(account.makeString()); //Convert each account into a string and print to file
             }
@@ -43,6 +61,34 @@ class Persistence {
         } catch (IOException e) {
             //Some error occurred while trying to save to the file
             System.out.println("Error trying to save file.");
+        }
+    }
+
+    /**
+     * Method to read the names of all libraries.
+     * @return a String[] of library names.
+     */
+    static String[] loadLibraryNames() {
+        try {
+            String[] names = new String[0]; //To hold the names of the libraries
+            File load = new File(dataPath + libariesPath); //To hold the file
+
+            //Check if the file exists
+            if (!load.exists())
+                return names; //Return a length 0 array if the file doesn't exist
+
+            Scanner readFile = new Scanner(load); //To read from file
+
+            //Load all lines from the Scanner
+            while (readFile.hasNextLine()) {
+                names = Arrays.copyOf(names, names.length + 1); //Extend names by one
+                names[names.length - 1] = readFile.nextLine(); //Put the current library name in names
+            }
+            return names; //Return names of libraries
+        } catch (IOException e) {
+            //Some error occurred while trying to load from the file
+            System.out.println("Error trying to load file.");
+            return null;
         }
     }
 
@@ -79,13 +125,12 @@ class Persistence {
 
     /**
      * Method to load an array of Accounts from a given File.
-     * @param loadPath where the file to load from is located.
-     * @return an array of the Accounts in that file.
+     * @return an array of the Accounts in the accounts file.
      */
-    static Account[] loadAccounts(String loadPath) {
+    static Account[] loadAccounts() {
         try {
             Account[] data = new Account[0]; //To hold data that the file contains
-            File load = new File(dataPath + loadPath); //To hold the file
+            File load = new File(dataPath + accountsPath); //To hold the file
 
             //Check if the file exists
             if (!load.exists())
@@ -97,8 +142,8 @@ class Persistence {
             //Load all lines from the Scanner
             while (readFile.hasNextLine()) {
                 data = Arrays.copyOf(data, data.length + 1); //Extend data by one
-                current = readFile.nextLine().split(Persistence.splitter); //Read the next Borrowable and split it into its tags
-                data[data.length - 1] = new Account(current[0], current[1], current[2], current[3]); //Put the current Borrowable in data
+                current = readFile.nextLine().split(Persistence.splitter); //Read the next Account and split it into its tags
+                data[data.length - 1] = new Account(current[0], current[1], current[2], current[3]); //Put the current Account in data
             }
             return data; //Return data
         } catch (IOException e) {
