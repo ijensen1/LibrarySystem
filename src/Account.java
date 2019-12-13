@@ -44,6 +44,9 @@ public class Account {
         this.email = email;
     }
 
-
+    public String makeString(){
+        String finalString = getFirstName() +Persistence.splitter+ getLastName() +Persistence.splitter+ getPhone() +Persistence.splitter+ getEmail();
+        return finalString;
+    }
 }
 

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2d0521dd-8e4d-49a5-b899-4723ee30661e" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="htGAWWss" />
+  </component>
+  <component name="ProjectId" id="1UnEtmXnDXgi3TTmQD021HFXucq" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2d0521dd-8e4d-49a5-b899-4723ee30661e" name="Default Changelist" comment="" />
+      <created>1575984175794</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1575984175794</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="689" y="212" key="FileChooserDialogImpl" timestamp="1575984212387">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="689" y="212" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1575984212387" />
+    <state x="352" y="72" key="SettingsEditor" timestamp="1575984213590">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="352" y="72" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1575984213590" />
+    <state x="591" y="296" key="com.intellij.ide.util.TipDialog" timestamp="1576242083801">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="591" y="296" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1576242083801" />
+    <state x="616" y="218" key="new project wizard" timestamp="1576157896659">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="218" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1576157896659" />
+    <state x="532" y="237" key="run.anything.popup" timestamp="1576246269333">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="532" y="237" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1576246269333" />
+  </component>
+</project>
