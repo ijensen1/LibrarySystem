@@ -63,11 +63,8 @@ public class LibraryManager {
     
     out.print(newAccount.getFirstName() + "::");
     out.print(newAccount.getLastName() + "::");
-    out.print(newAccount.getBorrowStatus() + "::");
-    out.print(newAccount.getBorrowBranch() + "::");
-    out.print(newAccount.getPhoneNumber() + "::");
     out.print(newAccount.getEmail() + "::");
-    out.print(newAccount.getAddress());
+    out.print(newAccount.getPhone() + "::");
     
     out.println("");
     out.close();

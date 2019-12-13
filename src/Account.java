@@ -46,7 +46,7 @@ public class Account {
 
     public void makeString(String firstName, String lastName, String email, String phone){
 
-        String account = new
+
 
     }
 }
