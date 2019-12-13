@@ -4,76 +4,54 @@ import java.util.Scanner;
 import java.io.*;
 
 public class LibraryManager {
-  private Account[] accounts = new Account[1];
-  private final String splitter = "::";
-  public LibraryManager() { 
-    try {
-      Scanner readAccounts = new Scanner(new File("../Data/AccountList.txt"));
-      String firstAccount = readAccounts.nextLine();
-      String[] firstAccountData;
-      firstAccountData = firstAccount.split(splitter, 7);
-      this.accounts[0] = new Account(firstAccountData[0], firstAccountData[1], firstAccountData[2],
-                                firstAccountData[3], firstAccountData[4], firstAccountData[5],
-                                firstAccountData[6]); //string firstName, string lastName
-      while (readAccounts.hasNextLine()) {
-        String acntData = readAccounts.nextLine();
-        Account newaccounts[] = new Account[this.accounts.length + 1];
-        for (int i = 0; i < this.accounts.length; i++){
-          newaccounts[i] = this.accounts[i];
-        }
-        String[] accountData;
-        accountData = acntData.split(splitter, 7);
-        newaccounts[this.accounts.length] = new Account(accountData[0], accountData[1], accountData[2],
-                                                        accountData[3], accountData[4], accountData[5],
-                                                        accountData[6]); //string firstName, string lastName
-        this.accounts = newaccounts;
+  private Account[] accounts;
+  private Library[] libraries;
+  private static final int ERR_NOT_IN = -1;
+  private static final int ERR_LIBRARY_NOT_FOUND = -2;
+  public LibraryManager() {
+      String[] libNames = Persistence.loadLibraryNames();
+      libraries = new Library[libNames.length];
+      for (int i = 0; i < libraries.length; i++) {
+        libraries[i] = new Library(libNames[i]);
       }
-    } catch (IOException e) {
-      System.out.println("Failed to load accounts list");
-      System.exit(1);
-    }
-    try {
-      File checkout = new File("../Data/CheckoutList.txt");
-      Scanner read
-    } catch (IOException e) {
-      System.out.println("Failed to load checkout list");
-      System.exit(1);
-    }
+      accounts = Persistence.loadAccounts();
   }
-  
-  public Account getAccount(String name) {
-    for (int i = 0; i < accounts.length; i++) {
-      if ((accounts[i].getFirstName() + " " + accounts[i].getLastName()).equals(name)) {
-        return accounts[i];
+  public void close() {
+    Persistence.saveToFile(accounts);
+    for (Library lib : libraries) {
+      try {
+        lib.save();
+      } catch (IOException e) {
+        System.err.println("Error saving library data. ");
       }
     }
-    //Account not found
-    System.out.println("Account " + name + " not found");
-    return null;
   }
-  
-  public void addAccount(Account newAccount) {
-    Account copyaccounts[] = new Account[this.accounts.length + 1];
-    for (int i = 0; i < this.accounts.length; i++){
-      copyaccounts[i] = this.accounts[i];
+  public int transfer(String libname1, String libname2, Borrowable item) {
+    if (item.getInOut().equals("out")) {
+      return LibraryManager.ERR_NOT_IN;
     }
-    copyaccounts[this.accounts.length] = newAccount;
-    this.accounts = copyaccounts;
-    FileAppend out = new FileAppend("../Data/AccountList.txt");
-    
-    out.print(newAccount.getFirstName() + "::");
-    out.print(newAccount.getLastName() + "::");
-    out.print(newAccount.getBorrowStatus() + "::");
-    out.print(newAccount.getBorrowBranch() + "::");
-    out.print(newAccount.getPhoneNumber() + "::");
-    out.print(newAccount.getEmail() + "::");
-    out.print(newAccount.getAddress());
-    
-    out.println("");
-    out.close();
-  }
-  public int getAccountsLength() {
-    return this.accounts.length;
+    Library lib1 = null;
+    Library lib2 = null;
+    for (Library lib : libraries) {
+      if (lib.getLibraryName().equals(libname1)) {
+        lib1 = lib;
+      }
+    }
+    if (lib1 == null) {
+      return LibraryManager.ERR_LIBRARY_NOT_FOUND;
+    }
+
+    for (Library lib : libraries) {
+      if (lib.getLibraryName().equals(libname2)) {
+        lib2 = lib;
+      }
+    }
+    if (lib2 == null) {
+      return LibraryManager.ERR_LIBRARY_NOT_FOUND;
+    }
+
+    lib1.remove(item.getType(), item.getTitle(), item.getCreator());
+    lib2.add(item.getTitle(), item.getTitle(), item.getCreator(), item.getGenre1(), item.getGenre2());
   }
   
 }
