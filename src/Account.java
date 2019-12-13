@@ -44,10 +44,9 @@ public class Account {
         this.email = email;
     }
 
-    public void makeString(String firstName, String lastName, String email, String phone){
-
-
-
+    public String makeString(){
+        String finalString = getFirstName() +Persistence.splitter+ getLastName() +Persistence.splitter+ getPhone() +Persistence.splitter+ getEmail();
+        return finalString;
     }
 }
 
