@@ -44,6 +44,10 @@ public class Account {
         this.email = email;
     }
 
+    public void makeString(String firstName, String lastName, String email, String phone){
 
+
+
+    }
 }
 

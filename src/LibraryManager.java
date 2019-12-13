@@ -27,31 +27,31 @@ public class LibraryManager {
     }
   }
   public int transfer(String libname1, String libname2, Borrowable item) {
-    if (item.getInOut().equals("out")) {
-      return LibraryManager.ERR_NOT_IN;
-    }
-    Library lib1 = null;
-    Library lib2 = null;
-    for (Library lib : libraries) {
-      if (lib.getLibraryName().equals(libname1)) {
-        lib1 = lib;
+      if (item.getInOut().equals("out")) {
+          return LibraryManager.ERR_NOT_IN;
       }
-    }
-    if (lib1 == null) {
-      return LibraryManager.ERR_LIBRARY_NOT_FOUND;
-    }
-
-    for (Library lib : libraries) {
-      if (lib.getLibraryName().equals(libname2)) {
-        lib2 = lib;
+      Library lib1 = null;
+      Library lib2 = null;
+      for (Library lib : libraries) {
+          if (lib.getLibraryName().equals(libname1)) {
+              lib1 = lib;
+          }
       }
-    }
-    if (lib2 == null) {
-      return LibraryManager.ERR_LIBRARY_NOT_FOUND;
-    }
+      if (lib1 == null) {
+          return LibraryManager.ERR_LIBRARY_NOT_FOUND;
+      }
 
-    lib1.remove(item.getType(), item.getTitle(), item.getCreator());
-    lib2.add(item.getTitle(), item.getTitle(), item.getCreator(), item.getGenre1(), item.getGenre2());
+      for (Library lib : libraries) {
+          if (lib.getLibraryName().equals(libname2)) {
+              lib2 = lib;
+          }
+      }
+      if (lib2 == null) {
+          return LibraryManager.ERR_LIBRARY_NOT_FOUND;
+      }
+
+      lib1.remove(item.getType(), item.getTitle(), item.getCreator());
+      lib2.add(item.getTitle(), item.getTitle(), item.getCreator(), item.getGenre1(), item.getGenre2());
+      return 0;
   }
-  
 }
