@@ -38,6 +38,14 @@ class Borrowable {
                 inOut);
     }
 
+    public byte getType() {
+        return type;
+    }
+
+    public void setType(byte type) {
+        this.type = type;
+    }
+
     String getTitle() {
         return title;
     }

@@ -6,13 +6,11 @@ import java.util.Scanner;
  * Class to handle inventory of a specific library, all method inputs are case in-sensitive. Uses 2d arrays to hold information and has methods for data query.
  */
 public class Library {
-    //Variables for library data
-    private Borrowable[] books, dvds, cds;   //arrays to hold data on library's books, DVDs, and CDs
-    private String libraryName;
+    final byte BOOKS = 0, DVDS = 1, CDS = 2;
 
-    public String getLibraryName() {
-        return libraryName;
-    }
+    //Variables for library data
+    private Borrowable[][] inventory = new Borrowable[3][];   //arrays to hold data on library's books, DVDs, and CDs
+    private String libraryName;
 
     //error messages meant for user, or Jack, depending on how he implements things
     private final String errorInvalidType = "Invalid entry type. Valid entry types are \"book\", \"dvd\", and \"cd\" (case insensitive)";
@@ -27,9 +25,13 @@ public class Library {
         this.libraryName = libraryName;
 
         //Loading possible files that could exist for library items.
-        books = Persistence.loadBorrowables(libraryName + "/books.txt");
-        dvds = Persistence.loadBorrowables(libraryName + "/dvds.txt");
-        cds = Persistence.loadBorrowables(libraryName + "/cds.txt");
+        inventory[BOOKS] = Persistence.loadBorrowables(libraryName + "/books.txt");
+        inventory[DVDS] = Persistence.loadBorrowables(libraryName + "/dvds.txt");
+        inventory[CDS] = Persistence.loadBorrowables(libraryName + "/cds.txt");
+    }
+
+    public String getLibraryName() {
+        return libraryName;
     }
 
     /**
@@ -39,21 +41,11 @@ public class Library {
      * @param genre1 a genre of the entry.
      * @param genre2 a second genre of the entry.
      */
-    void add(String type, String title, String creator, String genre1, String genre2){
+    void add(byte type, String title, String creator, String genre1, String genre2){
         String[][] tempArray; //temporary array for holding a modified array with the new value added to it
 
-        if (type.equalsIgnoreCase("book")) {
-            books = Arrays.copyOf(books, books.length + 1); //Extend books by 1
-            books[books.length - 1] = new Borrowable(title, creator, genre1, genre2); //Make a Borrowable of the new entry and put at end of books
-        } else if (type.equalsIgnoreCase("dvd")){
-            dvds = Arrays.copyOf(dvds, dvds.length + 1); //Extend dvds by 1
-            dvds[dvds.length - 1] = new Borrowable(title, creator, genre1, genre2); //Make a Borrowable of the new entry and put at end of books
-        } else if (type.equalsIgnoreCase("cd")){
-            cds = Arrays.copyOf(cds, cds.length + 1);
-            cds[cds.length - 1] = new Borrowable(title, creator, genre1, genre2);
-        } else {
-            System.out.println(errorInvalidType);
-        }
+        inventory[type] = Arrays.copyOf(inventory[type], inventory[type].length + 1);
+        inventory[type][inventory[type].length - 1] = new Borrowable(type, title, creator, genre1, genre2); //Make a Borrowable of the new entry and put at end of books
     }
 
     /**
@@ -62,7 +54,7 @@ public class Library {
      * @param title title of the entry.
      * @param genre the books genre.
      */
-    public void add(String type, String title, String creator, String genre){
+    public void add(byte type, String title, String creator, String genre){
         add(type, title, creator, genre, "noGenre2");
     }
 
@@ -72,44 +64,28 @@ public class Library {
      * @param title title of entry.
      * @param creator creator of entry you want to remove (author, artist, director).
      */
-    public void remove(String type, String title, String creator) {
-        Borrowable[] removeSearch, //to hold which Borrowable[] is being removed from
-                removed; //to hold data in removeSearch but exclude the entry being removed
-
-        //setting removeSearch to appropriate String[][]
-        if (type.equalsIgnoreCase("book"))
-            removeSearch = books;
-        else if (type.equalsIgnoreCase("dvd"))
-            removeSearch = dvds;
-        else if (type.equalsIgnoreCase("cd"))
-            removeSearch = cds;
-        else {
-            System.out.println(errorInvalidType);
-            return;
-        }
+    public Borrowable remove(byte type, String title, String creator) {
+        Borrowable[] removed; //to hold data in removeSearch but exclude the entry being removed
+        Borrowable removing;
 
         //checking if tags equal what was put in to be removed and that entry is in the library for each entry
-        for (int entry = 0; entry < removeSearch.length; entry++){
-            if (removeSearch[entry].getTitle() == title &&
-                    removeSearch[entry].getCreator() == creator &&
-                    removeSearch[entry].getInOut() == "in"){
+        for (int entry = 0; entry < inventory[type].length; entry++){
+            if (inventory[type][entry].getTitle().equalsIgnoreCase(title) &&
+                    inventory[type][entry].getCreator().equalsIgnoreCase(creator) &&
+                    inventory[type][entry].getInOut().equalsIgnoreCase("in")) {
+                removing = inventory[type][entry];
                 //fill out tempArray with entries' data (minus entry being removed) after right entry is found
-                removed = new Borrowable[removeSearch.length - 1];
+                removed = new Borrowable[inventory[type].length - 1];
                 for (int upToRemoved = 0; upToRemoved < entry; upToRemoved++)
-                    removed[upToRemoved] = removeSearch[upToRemoved];
-                for (int afterRemoved = entry + 1; afterRemoved < removeSearch.length; afterRemoved++)
-                    removed[afterRemoved - 1] = removeSearch[afterRemoved];
+                    removed[upToRemoved] = inventory[type][upToRemoved];
+                for (int afterRemoved = entry + 1; afterRemoved < inventory[type].length; afterRemoved++)
+                    removed[afterRemoved - 1] = inventory[type][afterRemoved];
                 //change String[][] for type to the updated catalog
-                if (type.equalsIgnoreCase("book"))
-                    books = removed;
-                else if (type.equalsIgnoreCase("dvd"))
-                    dvds = removed;
-                else
-                    cds = removed;
-                return;
+                inventory[type] = removed;
+                return removing;
             }
-            System.out.println(errorEntryNotFound);
         }
+        return null;
     }
 
     /**
@@ -119,25 +95,12 @@ public class Library {
      * @param creator creator of entry you want to find (author, artist, director).
      * @return int[] holding indexes of every instance (for if multiple copies exist).
      */
-    public int[] findIndex(String type, String title, String creator){
-        Borrowable[] searchingThrough; //to hold type's array for searching through
-        int[] results = new int[0], tempArray; //to hold search results and tempArray used for updating results
-
-        //putting appropriate array in searchingThrough
-        if (type.equalsIgnoreCase("book"))
-            searchingThrough = books;
-        else if (type.equalsIgnoreCase("dvd"))
-            searchingThrough = dvds;
-        else if (type.equalsIgnoreCase("cd"))
-            searchingThrough = cds;
-        else {
-            System.out.println(errorInvalidType);
-            return null;
-        }
+    public int[] findIndex(byte type, String title, String creator){
+        int[] results = new int[0]; //to hold search results and tempArray used for updating results
 
         //check each entry for if it has the selected creator
-        for (int entry = 0; entry < searchingThrough.length; entry++) {
-            if (searchingThrough[entry].getTitle() = title && creator.equalsIgnoreCase(searchingThrough[entry][creatorPos])) {
+        for (int entry = 0; entry < .length; entry++) {
+            if ((search[entry].getTitle().equalsIgnoreCase(title)) && (search[entry].getCreator().equalsIgnoreCase(creator))) {
                 //filling out tempArray with results data + data for newest entry
                 tempArray = new int[results.length + 1];
                 for (int i = 0; i < results.length; i++)
@@ -156,7 +119,7 @@ public class Library {
      * @param entry index of wanted entry.
      * @return entry data as a String[].
      */
-    public String[] getIndex(String type, int entry){
+    public Borrowable getIndex(String type, int entry){
         if (type.equalsIgnoreCase("book"))
             return books[entry];
         else if (type.equalsIgnoreCase("dvd"))
