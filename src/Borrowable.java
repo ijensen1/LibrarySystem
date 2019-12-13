@@ -7,6 +7,7 @@ class Borrowable {
             genre1, //To hold the work's first genre
             genre2, //To hold the work's second genre
             inOut; //To hold whether or not the work is checked in or out
+    private byte type;
 
     /**
      * Constructor to take in and set the tags to appropriate values.
@@ -15,7 +16,8 @@ class Borrowable {
      * @param genre1 first genre of the work.
      * @param genre2 second genre of the work.
      */
-    Borrowable(String title, String creator, String genre1, String genre2) {
+    Borrowable(byte type, String title, String creator, String genre1, String genre2) {
+        this.type = type;
         this.title = title;
         this.creator = creator;
         this.genre1 = genre1;
@@ -28,7 +30,8 @@ class Borrowable {
      * @return a String of the Borrowable's tags.
      */
     String makeString(){
-        return (title + Persistence.splitter +
+        return (type + Persistence.splitter +
+                title + Persistence.splitter +
                 creator + Persistence.splitter +
                 genre1 + Persistence.splitter +
                 genre2 + Persistence.splitter +
