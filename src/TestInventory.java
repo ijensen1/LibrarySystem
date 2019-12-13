@@ -1,12 +1,11 @@
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class TestInventory {
     public static void main(String[] args) {
-        Inventory i = null;
+        Library i = null;
         try {
-            i = new Inventory("test");
+            i = new Library("test");
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
