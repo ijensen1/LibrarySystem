@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07546dd3-e916-4814-a1b9-389d86524cc7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Library.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -59,6 +57,14 @@
       <option name="presentableId" value="Default" />
       <updated>1575984175794</updated>
     </task>
+    <task id="LOCAL-00001" summary="Updated Library to now work using Borrowables.">
+      <created>1576677990937</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1576677990937</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -73,6 +79,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updated Library to now work using Borrowables." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Library to now work using Borrowables." />
   </component>
   <component name="WindowStateProjectService">
     <state x="689" y="212" key="FileChooserDialogImpl" timestamp="1575984212387">

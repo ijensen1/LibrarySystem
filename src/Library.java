@@ -198,7 +198,7 @@ public class Library {
         if (entry.getInOut().equalsIgnoreCase("out")) {
             entry.setInOut("in");
         } else {
-            System.out.println("Entry already checked in.");
+            System.out.println("Entry already checked out.");
         }
     }
 
