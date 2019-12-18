@@ -206,8 +206,8 @@ public class Library {
      * Writes all arrays to their appropriate files.
      */
     public void save() {
-        Persistence.saveToFile(libraryName + "/books", inventory[0]);
-        Persistence.saveToFile(libraryName + "/dvds", inventory[1]);
-        Persistence.saveToFile(libraryName + "/cds", inventory[2]);
+        Persistence.saveToFile(libraryName + "/books.txt", inventory[0]);
+        Persistence.saveToFile(libraryName + "/dvds.txt", inventory[1]);
+        Persistence.saveToFile(libraryName + "/cds.txt", inventory[2]);
     }
 }

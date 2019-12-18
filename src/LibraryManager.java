@@ -15,6 +15,7 @@ public class LibraryManager {
       LibraryManager lm = new LibraryManager();
 
       Account userAccount;
+      Library userLibrary;
       System.out.println("Welcome to the TVHS Library System. Please log in or register: ");
       System.out.println("    ==login==                                  ==register==    ");
       String choice = lm.input.nextLine().toLowerCase();
@@ -27,7 +28,7 @@ public class LibraryManager {
           }
           System.out.println("Welcome, " + userAccount.getFirstName() + "!");
       } else {
-          if (choice.equals("register")) {
+          if (choice.equals("register")) { //New account! Getting information...
               System.out.println("Thank you for registering! Please enter your first name: ");
               String firstName = lm.input.nextLine();
               System.out.print("Please enter your last name: ");
@@ -37,18 +38,52 @@ public class LibraryManager {
               System.out.print("Please enter your email address. You'll use this for logging in: ");
               String email = lm.input.nextLine();
               lm.accounts = Arrays.copyOf(lm.accounts, lm.accounts.length+1);
-              lm.accounts[lm.accounts.length-1] = new Account(firstName, lastName, phone, email);
-              lm.login(email);
+              lm.accounts[lm.accounts.length-1] = new Account(firstName, lastName, phone, email); //Adding the new account to the list
+              lm.login(email); //Logging in, so userAccount is set correctly
               System.out.println("Registered! You are now logged in.");
 
           } else {
-              System.out.println("Choice not recognized. Quitting...");
+              System.err.println("Choice not recognized. Quitting...");
               System.exit(-1);
           }
 
       }
       //Done logging in! finally
+      System.out.println("Libraries in system: ");
+      for (Library lib : lm.libraries)
+          System.out.println(lib.getLibraryName());
+      System.out.print("Please enter the name of the library you are in: ");
+      String libName = lm.input.nextLine();
+      userLibrary = lm.chooseLibrary(libName);
+      if (userLibrary == null) {
+          System.err.println("Library not found. Quitting...");
+          System.exit(-1);
+      }
       //Actions are: check in, check out, transfer, search
+      System.out.println(); //extra line to clean things up
+      boolean done = false;
+      while (!done) {
+          System.out.println("===============Actions are:================");
+          System.out.println(" checkin  checkout  search  transfer  quit ");
+          System.out.print(": ");
+          choice = lm.input.nextLine();
+          if (choice.equals("checkin")) {
+              System.out.println("Not implemented yet");
+          }
+          if (choice.equals("checkout")) {
+              System.out.println("Not implemented yet");
+          }
+          if (choice.equals("search")) {
+              System.out.println("Not implemented yet");
+          }
+          if (choice.equals("transfer")) {
+              System.out.println("Not implemented yet");
+          }
+          if (choice.equals("quit")) {
+              System.out.println("Quitting...");
+              done = true;
+          }
+      }
       lm.close();
   }
   public LibraryManager() {
@@ -64,6 +99,14 @@ public class LibraryManager {
       for (Account acnt : accounts) {
           if (acnt.getEmail().equals(email)) {
               return acnt;
+          }
+      }
+      return null;
+  }
+  public Library chooseLibrary(String libName) {
+      for (Library lib : libraries) {
+          if (lib.getLibraryName().equals(libName)) {
+              return lib;
           }
       }
       return null;
