@@ -8,6 +8,10 @@ public class LibraryManager {
   private Library[] libraries;
   private static final int ERR_NOT_IN = -1;
   private static final int ERR_LIBRARY_NOT_FOUND = -2;
+
+    public static void main(String[] args) {
+
+    }
   public LibraryManager() {
       String[] libNames = Persistence.loadLibraryNames();
       libraries = new Library[libNames.length];
