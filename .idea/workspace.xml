@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2d0521dd-8e4d-49a5-b899-4723ee30661e" name="Default Changelist" comment="" />
+    <list default="true" id="07546dd3-e916-4814-a1b9-389d86524cc7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Library.java" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -9,6 +12,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="C:\Users\aburgazoli\IdeaProjects\LibrarySystem\.idea" />
+      </set>
+    </option>
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="htGAWWss" />
@@ -21,29 +31,58 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
+  <component name="RunDashboard">
+    <option name="ruleStates">
       <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
       </list>
     </option>
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2d0521dd-8e4d-49a5-b899-4723ee30661e" name="Default Changelist" comment="" />
+      <changelist id="07546dd3-e916-4814-a1b9-389d86524cc7" name="Default Changelist" comment="" />
       <created>1575984175794</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1575984175794</updated>
     </task>
+    <task id="LOCAL-00001" summary="Updated Library to now work using Borrowables.">
+      <created>1576677990937</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1576677990937</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updated Library to now work using Borrowables." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Library to now work using Borrowables." />
   </component>
   <component name="WindowStateProjectService">
     <state x="689" y="212" key="FileChooserDialogImpl" timestamp="1575984212387">
