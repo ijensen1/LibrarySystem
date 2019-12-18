@@ -9,7 +9,7 @@ class Persistence {
     //constants
     static final String splitter = "::"; //used between tags for when reading from or saving to a file
     static final String dataPath = "../Data/", //where is data in general being stored
-            accountsPath = "Accounts.txt",
+            accountsPath = "AccountList.txt",
             libariesPath = "Libraries.txt";
 
     /**
@@ -25,7 +25,7 @@ class Persistence {
             saveFile.close(); //Close file
         } catch (IOException e) {
             //Some error occurred while trying to save to the file
-            System.out.println("Error trying to save file.");
+            System.out.println("Error trying to save file: " + e.toString());
         }
     }
 
@@ -43,7 +43,7 @@ class Persistence {
             saveFile.close(); //Close file
         } catch (IOException e) {
             //Some error occurred while trying to save to the file
-            System.out.println("Error trying to save file.");
+            System.out.println("Error trying to save file: " + e.toString());
         }
     }
 
@@ -60,7 +60,7 @@ class Persistence {
             saveFile.close(); //Close file
         } catch (IOException e) {
             //Some error occurred while trying to save to the file
-            System.out.println("Error trying to save file.");
+            System.out.println("Error trying to save file: " + e.toString());
         }
     }
 
@@ -87,7 +87,7 @@ class Persistence {
             return names; //Return names of libraries
         } catch (IOException e) {
             //Some error occurred while trying to load from the file
-            System.out.println("Error trying to load file.");
+            System.out.println("Error trying to load file: " + e.toString());
             return null;
         }
     }
@@ -118,7 +118,7 @@ class Persistence {
             return data; //Return data
         } catch (IOException e) {
             //Some error occurred while trying to load from the file
-            System.out.println("Error trying to load file.");
+            System.out.println("Error trying to load file: " + e.toString());
             return null;
         }
     }
@@ -148,7 +148,7 @@ class Persistence {
             return data; //Return data
         } catch (IOException e) {
             //Some error occurred while trying to load from the file
-            System.out.println("Error trying to load file.");
+            System.out.println("Error trying to load file: " + e.toString());
             return null;
         }
     }
