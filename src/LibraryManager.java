@@ -125,6 +125,7 @@ public class LibraryManager {
                   }
 
                   if (!lib.equals(userLibrary)) {
+                      System.out.println("Found in other library");
                       local = false;
                       foundBranchName = lib.getLibraryName();
                       bookID = foundBranchName+Persistence.splitter+itemType+Persistence.splitter+lib.findIndex(itemType, foundItem.getTitle(), foundItem.getCreator())[0];
