@@ -12,12 +12,15 @@ class Borrowable {
 
     /**
      * Constructor to take in and set the tags to appropriate values.
+     * @param home The home library of the work.
+     * @param type The type of the work. 0 is books, 1 is DVDs, 2 is CDs. If you forget, they're there as final bytes under Library.
      * @param title title of the work.
      * @param creator creator of the work.
      * @param genre1 first genre of the work.
      * @param genre2 second genre of the work.
      */
     Borrowable(String home, byte type, String title, String creator, String genre1, String genre2) {
+        this.home = home;
         this.type = type;
         this.title = title;
         this.creator = creator;
