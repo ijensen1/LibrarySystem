@@ -57,31 +57,26 @@ public class Library {
     /**
      * Remove an entry from a library's inventory. Will only remove entries with an in/out tag of "in".
      * @param type book, cd, or dvd.
-     * @param title title of entry.
-     * @param creator creator of entry you want to remove (author, artist, director).
+     * @param entry the borrowable.
      */
-    public Borrowable remove(byte type, String title, String creator) {
+    public void remove(byte type, Borrowable entry) {
         Borrowable[] removed; //to hold data in removeSearch but exclude the entry being removed
         Borrowable removing;
 
         //checking if tags equal what was put in to be removed and that entry is in the library for each entry
-        for (int entry = 0; entry < inventory[type].length; entry++){
-            if (inventory[type][entry].getTitle().equalsIgnoreCase(title) &&
-                    inventory[type][entry].getCreator().equalsIgnoreCase(creator) &&
-                    inventory[type][entry].getInOut().equalsIgnoreCase("in")) {
-                removing = inventory[type][entry];
+        for (int i = 0; i < inventory[type].length; i++){
+            if (inventory[type][i] == entry) {
                 //fill out tempArray with entries' data (minus entry being removed) after right entry is found
                 removed = new Borrowable[inventory[type].length - 1];
-                for (int upToRemoved = 0; upToRemoved < entry; upToRemoved++)
+                for (int upToRemoved = 0; upToRemoved < i; upToRemoved++)
                     removed[upToRemoved] = inventory[type][upToRemoved];
-                for (int afterRemoved = entry + 1; afterRemoved < inventory[type].length; afterRemoved++)
+                for (int afterRemoved = i + 1; afterRemoved < inventory[type].length; afterRemoved++)
                     removed[afterRemoved - 1] = inventory[type][afterRemoved];
-                //change String[][] for type to the updated catalog
+                //update inventory
                 inventory[type] = removed;
-                return removing;
+                return;
             }
         }
-        return null;
     }
 
     /**

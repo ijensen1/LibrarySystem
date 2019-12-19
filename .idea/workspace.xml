@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eb9e8540-a42b-4fe6-abb2-5e2fd665a922" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Library.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +92,21 @@
       <option name="project" value="LOCAL" />
       <updated>1576721438738</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Fixed persistence to work with home field in Borrowable">
+      <created>1576721693461</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1576721693461</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Moved checkIn and checkOut to Borrowable">
+      <created>1576722297600</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1576722297600</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -110,7 +125,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated Library to now work using Borrowables." />
     <MESSAGE value="Added a &quot;home&quot; field to Borrowable" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a &quot;home&quot; field to Borrowable" />
+    <MESSAGE value="Fixed persistence to work with home field in Borrowable" />
+    <MESSAGE value="Moved checkIn and checkOut to Borrowable" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved checkIn and checkOut to Borrowable" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="163" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1576682885335">
