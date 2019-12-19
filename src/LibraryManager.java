@@ -9,8 +9,6 @@ public class LibraryManager {
   private Account[] accounts;
   private Library[] libraries;
   private Scanner input;
-  private static final int ERR_NOT_IN = -1;
-  private static final int ERR_LIBRARY_NOT_FOUND = -2;
   public static void main(String[] args) {
       LibraryManager lm = new LibraryManager();
 
@@ -82,7 +80,7 @@ public class LibraryManager {
               } else {
                   System.out.println("Checking in all books...");
                   for (Borrowable book : itemsHeld) {
-                      userLibrary.checkIn(book);
+                      book.checkIn();
                   }
                   itemsHeld = new Borrowable[0]; //Resetting back to empty after books are checked in
               }
@@ -124,7 +122,7 @@ public class LibraryManager {
                       break;
                   }
 
-                  if (!lib.equals(userLibrary)) {
+                  if (foundItem.getHome().equals(userLibrary.getLibraryName())) {
                       System.out.println("Found in other library");
                       local = false;
                       foundBranchName = lib.getLibraryName();
@@ -145,19 +143,7 @@ public class LibraryManager {
               }
           }
           if (choice.equals("transfer")) {
-              System.out.println("Please enter book ID (from search): ");
-              String[] bookID = lm.input.nextLine().split(Persistence.splitter);
-              String branchName = bookID[0];
-              byte itemType = Byte.parseByte(bookID[1]);
-              int index = Integer.parseInt(bookID[2]);
-              Library branch = null;
-              for (Library lib : lm.libraries) {
-                  if (lib.getLibraryName().equals(branchName)) {
-                      branch = lib;
-                  }
-              }
-              lm.transfer(libName, userLibrary.getLibraryName(), branch.getIndex(itemType, index));
-              System.out.println("Item transferred successfully.");
+
           }
           if (choice.equals("quit")) {
               System.out.println("Quitting...");
@@ -196,33 +182,5 @@ public class LibraryManager {
     for (Library lib : libraries) {
       lib.save();
     }
-  }
-  public int transfer(String libname1, String libname2, Borrowable item) {
-      if (item.getInOut().equals("out")) {
-          return LibraryManager.ERR_NOT_IN;
-      }
-      Library lib1 = null;
-      Library lib2 = null;
-      for (Library lib : libraries) {
-          if (lib.getLibraryName().equals(libname1)) {
-              lib1 = lib;
-          }
-      }
-      if (lib1 == null) {
-          return LibraryManager.ERR_LIBRARY_NOT_FOUND;
-      }
-
-      for (Library lib : libraries) {
-          if (lib.getLibraryName().equals(libname2)) {
-              lib2 = lib;
-          }
-      }
-      if (lib2 == null) {
-          return LibraryManager.ERR_LIBRARY_NOT_FOUND;
-      }
-
-      lib1.remove(item.getType(), item.getTitle(), item.getCreator());
-      lib2.add(item.getType(), item.getTitle(), item.getCreator(), item.getGenre1(), item.getGenre2());
-      return 0;
   }
 }
