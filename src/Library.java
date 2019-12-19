@@ -60,6 +60,10 @@ public class Library {
      * @param entry the borrowable.
      */
     public void remove(byte type, Borrowable entry) {
+        if (entry.getInOut().equalsIgnoreCase("out")) {
+            System.out.println("Can not remove a book that is checked out.");
+            return;
+        }
         Borrowable[] removed; //to hold data in removeSearch but exclude the entry being removed
         Borrowable removing;
 
