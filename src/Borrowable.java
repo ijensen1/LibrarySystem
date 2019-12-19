@@ -40,6 +40,28 @@ class Borrowable {
                 inOut);
     }
 
+    /**
+     * Updates the inOut field of the Borrowable to "out" if it is currently "in".
+     */
+    public void checkOut(){
+        if (inOut.equalsIgnoreCase("in")) {
+            inOut = "out";
+        } else {
+            System.out.println("Entry already checked out.");
+        }
+    }
+
+    /**
+     * Updates the inOut field of the Borrowable to "in" if it is currently "out".
+     */
+    public void checkIn(){
+        if (inOut.equalsIgnoreCase("out")) {
+            inOut = "in";
+        } else {
+            System.out.println("Entry already checked in.");
+        }
+    }
+
     public String getHome() {
         return home;
     }

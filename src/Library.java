@@ -179,30 +179,6 @@ public class Library {
     }
 
     /**
-     * Updates the inOut field of a borrowable to "in" if it is currently "out".
-     * @param entry the Borrowable to check in.
-     */
-    public void checkIn(Borrowable entry){
-        if (entry.getInOut().equalsIgnoreCase("out")) {
-            entry.setInOut("in");
-        } else {
-            System.out.println("Entry already checked in.");
-        }
-    }
-
-    /**
-     * Updates the inOut field of a borrowable to "out" if it is currently "in".
-     * @param entry the Borrowable to check out.
-     */
-    public void checkOut(Borrowable entry){
-        if (entry.getInOut().equalsIgnoreCase("out")) {
-            entry.setInOut("in");
-        } else {
-            System.out.println("Entry already checked out.");
-        }
-    }
-
-    /**
      * Writes all arrays to their appropriate files.
      */
     public void save() {
