@@ -11,6 +11,7 @@ public class Account {
         this.lastName = lastName;
         this.phone = phone;
         this.email = email;
+        this.checkedOut = new Borrowable[0];
     }
 
     public String getFirstName() {
@@ -54,10 +55,14 @@ public class Account {
     }
 
     public String makeString(){
-        String finalString = getFirstName() +Persistence.splitter+ getLastName() +Persistence.splitter+ getPhone() +Persistence.splitter+ getEmail() + "\n";
-        for (Borrowable item : checkedOut) {
-            finalString += Persistence.splitter2 + item.makeString();
+        String finalString = getFirstName() +Persistence.splitter+ getLastName() +Persistence.splitter+ getPhone() +Persistence.splitter+ getEmail();
+        if (checkedOut.length > 0) {
+            finalString += "\nCHECKED_OUT:";
+            for (Borrowable item : checkedOut) {
+                finalString += Persistence.splitter2 + item.makeString();
+            }
         }
+
         return finalString;
     }
 }

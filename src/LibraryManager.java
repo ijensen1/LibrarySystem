@@ -12,7 +12,7 @@ public class LibraryManager {
   public static void main(String[] args) {
       LibraryManager lm = new LibraryManager();
 
-      Account userAccount;
+      Account userAccount = null;
       Library userLibrary;
       Borrowable[] itemsHeld = new Borrowable[0]; //This holds all the items you are checking out or in. It's literally what you are holding.
       System.out.println("Welcome to the TVHS Library System. Please log in or register: ");
@@ -38,6 +38,7 @@ public class LibraryManager {
               String email = lm.input.nextLine();
               lm.accounts = Arrays.copyOf(lm.accounts, lm.accounts.length+1);
               lm.accounts[lm.accounts.length-1] = new Account(firstName, lastName, phone, email); //Adding the new account to the list
+              Persistence.saveToFile(lm.accounts);
               lm.login(email); //Logging in, so userAccount is set correctly
               System.out.println("Registered! You are now logged in.");
 
@@ -62,31 +63,28 @@ public class LibraryManager {
       System.out.println(); //extra line to clean things up
       boolean done = false;
       while (!done) {
-          if (itemsHeld.length > 0) {
+          if (userAccount.getCheckedOut().length > 0) {
               System.out.println("Books held:");
-              for (Borrowable book : itemsHeld) {
+              for (Borrowable book : userAccount.getCheckedOut()) {
                   System.out.println(book.getTitle());
               }
           } else {
-              System.out.println("No books held currently. Search for some! ");
+              System.out.println("No books checked out currently. Search for some! ");
           }
           System.out.println("===============Actions are:================");
-          System.out.println(" checkin  checkout  search  transfer  quit ");
+          System.out.println("  checkin  search/checkout  transfer  quit ");
           System.out.print(": ");
           choice = lm.input.nextLine().toLowerCase();
           if (choice.equals("checkin")) {
-              if (itemsHeld.length == 0) {
+              if (userAccount.getCheckedOut().length == 0) {
                   System.out.println("Error: No books held. ");
               } else {
                   System.out.println("Checking in all books...");
-                  for (Borrowable book : itemsHeld) {
+                  for (Borrowable book : userAccount.getCheckedOut()) {
                       book.checkIn();
                   }
-                  itemsHeld = new Borrowable[0]; //Resetting back to empty after books are checked in
+                  userAccount.setCheckedOut(new Borrowable[0]); //Resetting back to empty after books are checked in
               }
-          }
-          if (choice.equals("checkout")) {
-              System.out.println("Not implemented yet");
           }
           if (choice.equals("search")) {
               System.out.println("Please select search type; title, creator, or genre: ");
@@ -95,7 +93,6 @@ public class LibraryManager {
               byte itemType = Byte.parseByte(lm.input.nextLine());
               System.out.println("Please enter " + searchType + ": ");
               String searchTerm = lm.input.nextLine();
-              String bookID = "";
               Borrowable foundItem = null;
               String foundBranchName = userLibrary.getLibraryName();
               boolean local = true;
@@ -126,17 +123,25 @@ public class LibraryManager {
                       System.out.println("Found in other library");
                       local = false;
                       foundBranchName = lib.getLibraryName();
-                      bookID = foundBranchName+Persistence.splitter+itemType+Persistence.splitter+lib.findIndex(itemType, foundItem.getTitle(), foundItem.getCreator())[0];
                   }
               }
               if (!foundItem.equals(null)) {
                   if (local) {
-                      itemsHeld = Arrays.copyOf(itemsHeld, itemsHeld.length+1);
-                      itemsHeld[itemsHeld.length-1] = foundItem;
-                      System.out.println(foundItem.getTitle() + " is added to held books!");
+                      System.out.println("Found " + foundItem.getTitle() + "! Would you like to check it out? Y/N");
+                      if (lm.input.nextLine().equalsIgnoreCase("y")) {
+                          foundItem.checkOut();
+                          Borrowable[] items;
+                          try {
+                              items = userAccount.getCheckedOut();
+                          } catch (NullPointerException e) {
+                              items = new Borrowable[0];
+                          }
+                          items = Arrays.copyOf(items, items.length+1);
+                          items[items.length-1] = foundItem;
+                          userAccount.setCheckedOut(items);
+                      }
                   } else {
-                      System.out.println("Sorry! That item isn't in this branch. You'll need to transfer it from " + foundBranchName +
-                              "first. Use book ID " + bookID); //ID might not stay constant across different launches of the app, but good enough for this
+                      System.out.println("Sorry! That item isn't in this branch. You'll need to transfer it from " + foundBranchName + " first.");
                   }
               } else {
                   System.out.println("Item not found!");
