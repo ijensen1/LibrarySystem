@@ -41,7 +41,7 @@ public class Library {
      */
     void add(byte type, String title, String creator, String genre1, String genre2){
         inventory[type] = Arrays.copyOf(inventory[type], inventory[type].length + 1);
-        inventory[type][inventory[type].length - 1] = new Borrowable(type, title, creator, genre1, genre2); //Make a Borrowable of the new entry and put at end of books
+        inventory[type][inventory[type].length - 1] = new Borrowable(libraryName, type, title, creator, genre1, genre2); //Make a Borrowable of the new entry and put at end of books
     }
 
     /**

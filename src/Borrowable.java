@@ -2,7 +2,8 @@
  * To create a single book/dvd/cd.
  */
 class Borrowable {
-    private String title, //To hold the work's title
+    private String home, //To hold the work's home
+            title, //To hold the work's title
             creator, //To hold the work's creator
             genre1, //To hold the work's first genre
             genre2, //To hold the work's second genre
@@ -16,7 +17,7 @@ class Borrowable {
      * @param genre1 first genre of the work.
      * @param genre2 second genre of the work.
      */
-    Borrowable(byte type, String title, String creator, String genre1, String genre2) {
+    Borrowable(String home, byte type, String title, String creator, String genre1, String genre2) {
         this.type = type;
         this.title = title;
         this.creator = creator;
@@ -36,6 +37,10 @@ class Borrowable {
                 genre1 + Persistence.splitter +
                 genre2 + Persistence.splitter +
                 inOut);
+    }
+
+    public String getHome() {
+        return home;
     }
 
     public byte getType() {
