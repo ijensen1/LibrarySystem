@@ -4,6 +4,7 @@ public class Account {
     private String lastName;
     private String phone;
     private String email;
+    private Borrowable[] checkedOut;
 
     public Account (String firstName, String lastName, String phone, String email){
         this.firstName = firstName;
@@ -28,6 +29,10 @@ public class Account {
         return email;
     }
 
+    public Borrowable[] getCheckedOut() {
+        return checkedOut;
+    }
+
     public void setFirstName(String firstName){
         this.firstName = firstName;
     }
@@ -42,6 +47,10 @@ public class Account {
 
     public void setEmail(String email){
         this.email = email;
+    }
+
+    public void setCheckedOut(Borrowable[] checkedOut) {
+        this.checkedOut = checkedOut;
     }
 
     public String makeString(){
