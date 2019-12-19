@@ -54,7 +54,10 @@ public class Account {
     }
 
     public String makeString(){
-        String finalString = getFirstName() +Persistence.splitter+ getLastName() +Persistence.splitter+ getPhone() +Persistence.splitter+ getEmail();
+        String finalString = getFirstName() +Persistence.splitter+ getLastName() +Persistence.splitter+ getPhone() +Persistence.splitter+ getEmail() + "\n";
+        for (Borrowable item : checkedOut) {
+            finalString += Persistence.splitter2 + item.makeString();
+        }
         return finalString;
     }
 }

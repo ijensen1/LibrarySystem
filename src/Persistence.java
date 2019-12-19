@@ -8,6 +8,7 @@ import java.util.Scanner;
 class Persistence {
     //constants
     static final String splitter = "::"; //used between tags for when reading from or saving to a file
+    static final String splitter2 = ";;"; //used between tags on complex files (like Account's borrowables)
     static final String dataPath = "../Data/", //where is data in general being stored
             accountsPath = "AccountList.txt",
             libariesPath = "Libraries.txt";
@@ -141,9 +142,17 @@ class Persistence {
 
             //Load all lines from the Scanner
             while (readFile.hasNextLine()) {
+                Borrowable[] items = new Borrowable[0];
                 data = Arrays.copyOf(data, data.length + 1); //Extend data by one
                 current = readFile.nextLine().split(Persistence.splitter); //Read the next Account and split it into its tags
+                String[] checkedOut = readFile.nextLine().split(Persistence.splitter2);
+                for (String item : checkedOut) {
+                    String[] info = item.split(Persistence.splitter);
+                    items = Arrays.copyOf(items, items.length+1);
+                    items[items.length-1] = new Borrowable(info[0], Byte.parseByte(info[1]), info[2], info[3], info[4], info[5]);
+                }
                 data[data.length - 1] = new Account(current[0], current[1], current[2], current[3]); //Put the current Account in data
+                data[data.length - 1].setCheckedOut(items);
             }
             return data; //Return data
         } catch (IOException e) {
