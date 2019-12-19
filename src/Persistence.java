@@ -113,7 +113,7 @@ class Persistence {
             while (readFile.hasNextLine()) {
                 data = Arrays.copyOf(data, data.length + 1); //Extend data by one
                 current = readFile.nextLine().split(Persistence.splitter); //Read the next Borrowable and split it into its tags
-                data[data.length - 1] = new Borrowable(Byte.parseByte(current[0]), current[1], current[2], current[3], current[4]); //Put the current Borrowable in data
+                data[data.length - 1] = new Borrowable(current[0], Byte.parseByte(current[1]), current[2], current[3], current[4], current[5]); //Put the current Borrowable in data
             }
             return data; //Return data
         } catch (IOException e) {

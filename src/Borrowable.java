@@ -31,7 +31,8 @@ class Borrowable {
      * @return a String of the Borrowable's tags.
      */
     String makeString(){
-        return (type + Persistence.splitter +
+        return (home + Persistence.splitter +
+                type + Persistence.splitter +
                 title + Persistence.splitter +
                 creator + Persistence.splitter +
                 genre1 + Persistence.splitter +
