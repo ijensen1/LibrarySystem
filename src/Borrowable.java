@@ -1,46 +1,27 @@
+import java.util.ArrayList;
+
 /**
  * To create a single book/dvd/cd.
  */
-class Borrowable {
+class Borrowable implements Persistable{
     private String home, //To hold the work's home
             title, //To hold the work's title
-            creator, //To hold the work's creator
-            genre1, //To hold the work's first genre
-            genre2, //To hold the work's second genre
-            inOut; //To hold whether or not the work is checked in or out
-    private byte type;
+            inOut, //To hold whether or not the work is checked in or out
+            genres[]; //To hold the work's genres
+
+    Borrowable(){}
 
     /**
      * Constructor to take in and set the tags to appropriate values.
      * @param home The home library of the work.
-     * @param type The type of the work. 0 is books, 1 is DVDs, 2 is CDs. If you forget, they're there as final bytes under Library.
      * @param title title of the work.
-     * @param creator creator of the work.
-     * @param genre1 first genre of the work.
-     * @param genre2 second genre of the work.
+     * @param genres the genres of the work.
      */
-    Borrowable(String home, byte type, String title, String creator, String genre1, String genre2) {
+    Borrowable(String home, String title, String... genres) {
         this.home = home;
-        this.type = type;
         this.title = title;
-        this.creator = creator;
-        this.genre1 = genre1;
-        this.genre2 = genre2;
+        this.genres = genres;
         inOut = "in";
-    }
-
-    /**
-     * Method to convert the Borrowable's tags into a single String.
-     * @return a String of the Borrowable's tags.
-     */
-    String makeString(){
-        return (home + Persistence.splitter +
-                type + Persistence.splitter +
-                title + Persistence.splitter +
-                creator + Persistence.splitter +
-                genre1 + Persistence.splitter +
-                genre2 + Persistence.splitter +
-                inOut);
     }
 
     /**
@@ -69,14 +50,6 @@ class Borrowable {
         return home;
     }
 
-    public byte getType() {
-        return type;
-    }
-
-    public void setType(byte type) {
-        this.type = type;
-    }
-
     String getTitle() {
         return title;
     }
@@ -85,28 +58,12 @@ class Borrowable {
         this.title = title;
     }
 
-    String getCreator() {
-        return creator;
+    public String[] getGenres() {
+        return genres;
     }
 
-    void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    String getGenre1() {
-        return genre1;
-    }
-
-    void setGenre1(String genre1) {
-        this.genre1 = genre1;
-    }
-
-    String getGenre2() {
-        return genre2;
-    }
-
-    void setGenre2(String genre2) {
-        this.genre2 = genre2;
+    public void setGenres(String[] genres) {
+        this.genres = genres;
     }
 
     String getInOut() {
@@ -115,5 +72,10 @@ class Borrowable {
 
     void setInOut(String inOut) {
         this.inOut = inOut;
+    }
+
+    @Override
+    public String makeString() {
+        return null;
     }
 }
