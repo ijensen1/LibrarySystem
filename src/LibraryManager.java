@@ -1,9 +1,7 @@
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.LinkPermission;
+
 import java.util.Scanner;
 import java.util.Arrays;
-import java.io.*;
+
 /**
  * Frontend that instances the accounts, loads the libraries, and takes input.
  * Never fear, main is here!
@@ -67,7 +65,6 @@ public class LibraryManager {
       System.out.println(); //extra line to clean things up
       boolean done = false;
       while (!done) { //This is the main frontend loop. All commands entered here
-          System.out.println(userAccount.getCheckedOut().length);
           if (userAccount.getCheckedOut().length > 0) {
               System.out.println("Books held:");
               for (Borrowable book : userAccount.getCheckedOut()) {
@@ -130,7 +127,7 @@ public class LibraryManager {
                       foundBranchName = lib.getLibraryName();
                   }
               }
-              if (!foundItem.equals(null)) {
+              if (foundItem !=null) {
                   if (local) {
                       System.out.println("Found " + foundItem.getTitle() + "! Would you like to check it out? Y/N");
                       if (lm.input.nextLine().equalsIgnoreCase("y")) {
