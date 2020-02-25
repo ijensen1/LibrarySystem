@@ -1,4 +1,4 @@
-public class CD extends Book{
+public class CD extends Borrowable{
     private String artist;
 
     CD(){
