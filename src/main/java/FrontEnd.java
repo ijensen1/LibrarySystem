@@ -1,17 +1,19 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class FrontEnd {
     private Scanner input;
-    private Account[] accounts;
-    private Library[] libraries;
+    private ArrayList<Account> accounts;
+    private ArrayList<Library> libraries;
     public FrontEnd() {
         String[] libNames = Persistence.loadLibraryNames();
-        libraries = new Library[libNames.length];
-        for (int i = 0; i < libraries.length; i++) {
-            libraries[i] = new Library(libNames[i]);
+        libraries = new ArrayList<Library>(libNames.length);
+        for (int i = 0; i < libraries.size(); i++) {
+            libraries.set(i, new Library(libNames[i]));
         }
-        accounts = Persistence.loadAccounts();
+        accounts = new ArrayList<Account>();
+        accounts.addAll(Arrays.asList(Persistence.loadAccounts()));
     }
     public void run() {
         LibraryManager lm = new LibraryManager(); //Instancing it because we have instance variables already.
@@ -40,9 +42,8 @@ public class FrontEnd {
                 String phone = input.nextLine();
                 System.out.print("Please enter your email address. You'll use this for logging in: ");
                 String email = input.nextLine();
-                accounts = Arrays.copyOf(accounts, accounts.length+1);
-                accounts[accounts.length-1] = new Account(firstName, lastName, phone, email); //Adding the new account to the list
-                Persistence.saveToFile(accounts);
+                accounts.add(new Account(firstName, lastName, phone, email)); //Adding the new account to the list
+                Persistence.saveToFile(accounts.toArray(new Account[accounts.size()]));
                 lm.login(email, accounts); //Logging in, so userAccount is set correctly
                 System.out.println("Registered! You are now logged in.");
 

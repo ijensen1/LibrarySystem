@@ -1,5 +1,4 @@
-interface Persistable {
-    String type = null;
-
-    String makeString();
+interface JSONSerializable {
+    String serialize();
+    JSONSerializable deserialize();
 }
