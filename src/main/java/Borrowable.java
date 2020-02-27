@@ -83,7 +83,7 @@ class Borrowable implements JSONSerializeable{
         return null;
     }
 
-    public JSONSerializeable deserialize() {
+    public Borrowable deserialize() {
         return null;
     }
 }

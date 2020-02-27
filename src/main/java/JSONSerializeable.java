@@ -1,4 +1,4 @@
-interface JSONSerializeable {
-    String serialize();
-    JSONSerializeable deserialize();
+interface JSONSerializeable<E> {
+    public String serialize();
+    public E deserialize();
 }
