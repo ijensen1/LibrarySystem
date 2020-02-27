@@ -46,6 +46,14 @@ class Borrowable implements JSONSerializable{
         }
     }
 
+    /**
+     * Class to determine whether or not two Borrowable objects are equal.
+     */
+    public boolean equals(Borrowable borrowable){
+//        return String equality of their serializations
+        return false;
+    }
+
     public String getHome() {
         return home;
     }

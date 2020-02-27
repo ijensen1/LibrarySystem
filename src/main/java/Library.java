@@ -1,17 +1,18 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
  * Class to handle inventory of a specific library, all method inputs are case in-sensitive. Uses 2d arrays to hold information and has methods for data query.
  */
 public class Library {
-    final byte BOOKS = 0, DVDS = 1, CDS = 2;
-
     //Variables for library data
-    private Borrowable[][] inventory = new Borrowable[3][];   //arrays to hold data on library's books, DVDs, and CDs
     private String libraryName;
+    private ArrayList<Book> books = new ArrayList<Book>(0);
+    private ArrayList<CD> cds = new ArrayList<CD>(0);
+    private ArrayList<DVD> dvds = new ArrayList<DVD>(0);
 
     //error messages meant for user, or Jack, depending on how he implements things
-    private final String errorInvalidType = "Invalid entry type. Valid entry types are \"book\", \"dvd\", and \"cd\" (case insensitive)";
+    private final String errorInvalidType = "Invalid entry class, valid entry classes are Book, CD, and DVD";
     private final String errorEntryNotFound = "Could not locate any entries containing that data";
 
     /**
@@ -22,10 +23,7 @@ public class Library {
         //Set library's name to whatever was entered.
         this.libraryName = libraryName;
 
-        //Loading possible files that could exist for library items.
-        inventory[BOOKS] = Persistence.loadBorrowables(libraryName + "/books.txt");
-        inventory[DVDS] = Persistence.loadBorrowables(libraryName + "/dvds.txt");
-        inventory[CDS] = Persistence.loadBorrowables(libraryName + "/cds.txt");
+//        Deserialize from files here *********************
     }
 
     public String getLibraryName() {
@@ -33,53 +31,34 @@ public class Library {
     }
 
     /**
-     * Add an entry to a library's inventory.
-     * @param type book, cd, or dvd.
-     * @param title title of the entry.
-     * @param genre1 a genre of the entry.
-     * @param genre2 a second genre of the entry.
+     * Add a book to the library.
+     * @param borrowable a Borrowable object to add to the library's inventory.
      */
-    void add(byte type, String title, String creator, String genre1, String genre2){
-        inventory[type] = Arrays.copyOf(inventory[type], inventory[type].length + 1);
-        inventory[type][inventory[type].length - 1] = new Borrowable(libraryName, type, title, creator, genre1, genre2); //Make a Borrowable of the new entry and put at end of books
-    }
-
-    /**
-     * Overload of add to allow books with just 1 genre to be easily added.
-     * @param type book, cd, or dvd.
-     * @param title title of the entry.
-     * @param genre the books genre.
-     */
-    public void add(byte type, String title, String creator, String genre){
-        add(type, title, creator, genre, "noGenre2");
+    void add(Borrowable borrowable) throws Exception {
+        if (borrowable instanceof Book){
+            books.add((Book) borrowable);
+        } else if (borrowable instanceof CD){
+            cds.add((CD) borrowable);
+        } else if (borrowable instanceof  DVD){
+            dvds.add((DVD) borrowable);
+        } else {
+            throw new Exception(errorInvalidType);
+        }
     }
 
     /**
      * Remove an entry from a library's inventory. Will only remove entries with an in/out tag of "in".
-     * @param type book, cd, or dvd.
-     * @param entry the borrowable.
+     * @param borrowable the Borrowable to remove from the inventory.
      */
-    public void remove(byte type, Borrowable entry) {
-        if (entry.getInOut().equalsIgnoreCase("out")) {
-            System.out.println("Can not remove a book that is checked out.");
-            return;
-        }
-        Borrowable[] removed; //to hold data in removeSearch but exclude the entry being removed
-        Borrowable removing;
-
-        //checking if tags equal what was put in to be removed and that entry is in the library for each entry
-        for (int i = 0; i < inventory[type].length; i++){
-            if (inventory[type][i] == entry) {
-                //fill out tempArray with entries' data (minus entry being removed) after right entry is found
-                removed = new Borrowable[inventory[type].length - 1];
-                for (int upToRemoved = 0; upToRemoved < i; upToRemoved++)
-                    removed[upToRemoved] = inventory[type][upToRemoved];
-                for (int afterRemoved = i + 1; afterRemoved < inventory[type].length; afterRemoved++)
-                    removed[afterRemoved - 1] = inventory[type][afterRemoved];
-                //update inventory
-                inventory[type] = removed;
-                return;
-            }
+    public void remove(Borrowable borrowable) throws Exception {
+        if (borrowable instanceof Book){
+            books.remove(borrowable);
+        } else if (borrowable instanceof CD){
+            cds.remove(borrowable);
+        } else if (borrowable instanceof DVD){
+            dvds.remove(borrowable);
+        } else {
+            throw new Exception(errorInvalidType);
         }
     }
 
