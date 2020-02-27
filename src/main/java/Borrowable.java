@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * To create a single book/dvd/cd.
  */
-class Borrowable implements Persistable{
+class Borrowable implements JSONSerializable{
     private String home, //To hold the work's home
             title, //To hold the work's title
             inOut, //To hold whether or not the work is checked in or out
@@ -74,9 +74,16 @@ class Borrowable implements Persistable{
         this.inOut = inOut;
     }
 
-    @Override
     @Deprecated
     public String makeString() {
+        return null;
+    }
+
+    public String serialize() {
+        return null;
+    }
+
+    public JSONSerializable deserialize() {
         return null;
     }
 }
