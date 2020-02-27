@@ -136,15 +136,14 @@ public class FrontEnd {
                         System.out.println("Found " + foundItem.getTitle() + "! Would you like to check it out? Y/N");
                         if (input.nextLine().equalsIgnoreCase("y")) {
                             foundItem.checkOut();
-                            Borrowable[] items; //Get items, or empty list if none checked out already
+                            ArrayList<Borrowable> items; //Get items, or empty list if none checked out already
                             try {
-                                items = userAccount.getCheckedOut();
+                                items = new ArrayList<Borrowable>(Arrays.asList(userAccount.getCheckedOut()));
                             } catch (NullPointerException e) {
-                                items = new Borrowable[0];
+                                items = new ArrayList<Borrowable>(0);
                             }
-                            items = Arrays.copyOf(items, items.length+1);
-                            items[items.length-1] = foundItem; //Add new item
-                            userAccount.setCheckedOut(items); //Save to account
+                            items.add(foundItem);
+                            userAccount.setCheckedOut(items.toArray(new Borrowable[items.size()])); //Save to account
                         }
                     } else {
                         System.out.println("Sorry! That item isn't in this branch. You'll need to transfer it from " + foundBranchName + " first.");
