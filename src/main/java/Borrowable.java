@@ -75,6 +75,7 @@ class Borrowable implements Persistable{
     }
 
     @Override
+    @Deprecated
     public String makeString() {
         return null;
     }
