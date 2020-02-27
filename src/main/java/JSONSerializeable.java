@@ -1,4 +1,4 @@
-interface JSONSerializable {
+interface JSONSerializeable {
     String serialize();
-    JSONSerializable deserialize();
+    JSONSerializeable deserialize();
 }
