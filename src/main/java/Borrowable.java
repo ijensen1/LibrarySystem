@@ -17,7 +17,7 @@ class Borrowable implements Persistable{
      * @param title title of the work.
      * @param genres the genres of the work.
      */
-    Borrowable(String home, String title, String... genres) {
+    Borrowable(String home, String title, String[] genres) {
         this.home = home;
         this.title = title;
         this.genres = genres;

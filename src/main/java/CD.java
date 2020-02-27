@@ -1,7 +1,7 @@
-public class CD extends Book{
+public class CD extends Borrowable{
     private String artist;
 
-    CD(){
-        super();
+    CD(String home, String title, String[] genres, String artist, String rating){
+        super(home, title, genres);
     }
 }

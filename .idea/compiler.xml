@@ -6,8 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="LibrarySystem-Maven" />
+        <module name="LibrarySystem2" />
         <module name="librarysystem-core" />
+        <module name="LibrarySystem-Maven" />
       </profile>
     </annotationProcessing>
   </component>
