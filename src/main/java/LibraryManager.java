@@ -1,4 +1,7 @@
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Arrays;
@@ -27,7 +30,8 @@ public class LibraryManager {
    * @param email the email to log in with
    * @return the account selected
    */
-  public Account login(String email, ArrayList<Account> accounts) {
+  public Account login(String email, String passhash, ArrayList<Account> accounts) {
+
       for (Account acnt : accounts) {
           if (acnt.getEmail().equals(email)) {
               return acnt;
@@ -56,5 +60,25 @@ public class LibraryManager {
     for (Library lib : libraries) {
       lib.save();
     }
+
+  }
+
+  public String passToHash(String password) {
+      try {
+          MessageDigest digest = MessageDigest.getInstance("SHA-512");
+          byte[] hash = digest.digest(
+                  password.getBytes(StandardCharsets.UTF_8));
+          StringBuffer hexString = new StringBuffer();
+          for (int i = 0; i < hash.length; i++) {
+              String hex = Integer.toHexString(0xff & hash[i]);
+              if(hex.length() == 1) hexString.append('0');
+              hexString.append(hex);
+          }
+          return hexString.toString();
+      } catch (NoSuchAlgorithmException e) {
+          System.out.println("Error! " + e.toString());
+          System.exit(-1);
+      }
+      return null;
   }
 }

@@ -8,6 +8,9 @@ public class Account {
     private String lastName;
     private String phone;
     private String email;
+    private String passhash;
+
+
     private Borrowable[] checkedOut; //List of borrowables checked out
 
     /**
@@ -17,7 +20,7 @@ public class Account {
      * @param phone The account holder's phone
      * @param email The account holder's email address. We use this for login.
      */
-    public Account (String firstName, String lastName, String phone, String email){
+    public Account (String firstName, String lastName, String phone, String email, String passhash){
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -64,6 +67,15 @@ public class Account {
     public void setCheckedOut(Borrowable[] checkedOut) {
         this.checkedOut = checkedOut;
     }
+
+    public String getPasshash() {
+        return passhash;
+    }
+
+    public void setPasshash(String passhash) {
+        this.passhash = passhash;
+    }
+
     /**
      * Method to convert class data to string.
      * Persistence.splitter and Persistence.splitter2 are used to delineate different values and different sets of values, respectively.

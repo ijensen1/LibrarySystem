@@ -25,8 +25,11 @@ public class FrontEnd {
         System.out.println("    ==login==                                  ==register==    ");
         String choice = input.nextLine().toLowerCase();
         if (choice.equals("login")) {
-            System.out.print("Please enter your email address");
-            userAccount = lm.login(input.nextLine(), accounts); //Login function searches accounts for a matching one based off of email
+            System.out.print("Please enter your email address: ");
+            String email = input.nextLine();
+            System.out.print("Please enter your password: ");
+            String password = input.nextLine();
+            userAccount = lm.login(email, password, accounts); //Login function searches accounts for a matching one based off of email and password hash
             if (userAccount == null) {
                 System.err.println("User account not found. Quitting...");
                 System.exit(-1);
@@ -42,9 +45,11 @@ public class FrontEnd {
                 String phone = input.nextLine();
                 System.out.print("Please enter your email address. You'll use this for logging in: ");
                 String email = input.nextLine();
-                accounts.add(new Account(firstName, lastName, phone, email)); //Adding the new account to the list
+                System.out.println("Please choose a password: ");
+                String passhash = lm.passToHash(input.nextLine());
+                accounts.add(new Account(firstName, lastName, phone, email, passhash)); //Adding the new account to the list
                 Persistence.saveToFile(accounts.toArray(new Account[accounts.size()]));
-                lm.login(email, accounts); //Logging in, so userAccount is set correctly
+                lm.login(email, passhash, accounts); //Logging in, so userAccount is set correctly
                 System.out.println("Registered! You are now logged in.");
 
             } else {
