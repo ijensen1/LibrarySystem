@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * To create a single book/dvd/cd.
  */
-class Borrowable implements JSONSerializeable{
+class Borrowable<E> implements JSONSerializeable<E> {
     private String home, //To hold the work's home
             title, //To hold the work's title
             inOut, //To hold whether or not the work is checked in or out
@@ -91,7 +91,7 @@ class Borrowable implements JSONSerializeable{
         return null;
     }
 
-    public Borrowable deserialize() {
+    public E deserialize() {
         return null;
     }
 }
