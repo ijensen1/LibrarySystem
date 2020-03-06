@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="librarysystem-core" />
+        <module name="LibrarySystem_3" />
         <module name="LibrarySystem2" />
         <module name="LibrarySystem-Maven" />
       </profile>
