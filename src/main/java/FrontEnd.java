@@ -170,8 +170,14 @@ public class FrontEnd {
                     byte itemType = Byte.parseByte(input.nextLine());
                     Borrowable item = otherLib.getIndex(itemType, otherLib.findIndex(itemType, title, creator)[0]);
                     if (!item.equals(null)) { //found item?
-                        userLibrary.add(itemType, item.getTitle(), item.getCreator(), item.getGenre1(), item.getGenre2());
-                        otherLib.remove(itemType, item); //Take out from one library, add to another
+
+                        try {
+                            userLibrary.add(item);
+                            otherLib.remove(item); //Take out from one library, add to another
+                        } catch (Exception e) {
+                            System.out.println("Error: " + e.toString());
+                            e.printStackTrace();
+                        }
                         item.checkOut();
                         Borrowable[] items;
                         try {

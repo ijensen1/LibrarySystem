@@ -55,7 +55,7 @@ public class LibraryManager {
   /**
    * Method to save all resources to files. main calls this just before exiting.
    */
-  public void close(ArrayList<Library> accounts, ArrayList<Library> libraries) {
+  public void close(ArrayList<Account> accounts, ArrayList<Library> libraries) {
     Persistence.saveToFile(accounts.toArray(new Account[accounts.size()]));
     for (Library lib : libraries) {
       lib.save();
