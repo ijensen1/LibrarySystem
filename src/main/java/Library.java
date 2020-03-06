@@ -63,40 +63,6 @@ public class Library {
     }
 
     /**
-     * Returns the indexes of all instances of an entry.
-     * @param type book, dvd, or cd.
-     * @param title title of entry being looked for.
-     * @param creator creator of entry you want to find (author, artist, director).
-     * @return int[] holding indexes of every instance of the wanted object (for if multiple copies exist).
-     */
-    public int[] findIndex(byte type, String title, String creator){
-        int[] results = new int[0]; //to hold search results and tempArray used for updating results
-
-        //check each entry for if it has the selected creator
-        for (int entry = 0; entry < inventory[type].length; entry++) {
-            if ((inventory[type][entry].getTitle().equalsIgnoreCase(title)) && (inventory[type][entry].getCreator().equalsIgnoreCase(creator))) {
-                //updating results if there is a match
-                results = Arrays.copyOf(results, 1);
-                results[results.length - 1] = entry;
-            }
-        }
-        return results;
-    }
-
-    /**
-     * Gets entry data from an index number.
-     * @param type book, cd, or dvd.
-     * @param entry index of wanted entry.
-     * @return the wanted borrowable object, null if out of bounds.
-     */
-    public Borrowable getIndex(byte type, int entry){
-        if (inventory[type].length > entry)
-            return inventory[type][entry];
-        else
-            return null;
-    }
-
-    /**
      * Search inventory based on type and title.
      * @param type book, dvd, or cd.
      * @param title title of what you're searching for.
@@ -104,13 +70,22 @@ public class Library {
      */
     public Borrowable[] searchName(byte type, String title){
         Borrowable[] results = new Borrowable[0]; //to hold search results
-
-        //check each entry for if it has the wanted title
-        for (int entry = 0; entry < inventory[type].length; entry++) {
-            if (title.equalsIgnoreCase(inventory[type][entry].getTitle())) {
-                //updating results
+        for (Borrowable item : this.cds) {
+            if (title.equalsIgnoreCase(item.getTitle())) {
                 results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = inventory[type][entry];
+                results[results.length - 1] = item;
+            }
+        }
+        for (Borrowable item : this.dvds) {
+            if (title.equalsIgnoreCase(item.getTitle())) {
+                results = Arrays.copyOf(results, results.length + 1);
+                results[results.length - 1] = item;
+            }
+        }
+        for (Borrowable item : this.books) {
+            if (title.equalsIgnoreCase(item.getTitle())) {
+                results = Arrays.copyOf(results, results.length + 1);
+                results[results.length - 1] = item;
             }
         }
         return results;
@@ -124,13 +99,22 @@ public class Library {
      */
     public Borrowable[] searchCreator(byte type, String creator){
         Borrowable[] results = new Borrowable[0]; //to hold search results
-
-        //check each entry for if it has the wanted creator
-        for (int entry = 0; entry < inventory[type].length; entry++) {
-            if (creator.equalsIgnoreCase(inventory[type][entry].getCreator())) {
-                //updating results
+        for (CD item : this.cds) {
+            if (creator.equalsIgnoreCase(item.getArtist())) {
                 results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = inventory[type][entry];
+                results[results.length - 1] = item;
+            }
+        }
+        for (DVD item : this.dvds) {
+            if (creator.equalsIgnoreCase(item.getDirector())) {
+                results = Arrays.copyOf(results, results.length + 1);
+                results[results.length - 1] = item;
+            }
+        }
+        for (Book item : this.books) {
+            if (creator.equalsIgnoreCase(item.getAuthor())) {
+                results = Arrays.copyOf(results, results.length + 1);
+                results[results.length - 1] = item;
             }
         }
         return results;
@@ -144,15 +128,32 @@ public class Library {
      */
     public Borrowable[] searchGenre(byte type, String genre) {
         Borrowable[] results = new Borrowable[0]; //to hold search results
-
         //check each entry for if it has the wanted genre
-        for (int entry = 0; entry < inventory[type].length; entry++) {
-            if (genre.equalsIgnoreCase(inventory[type][entry].getGenre1()) || genre.equalsIgnoreCase(inventory[type][entry].getGenre2())) {
-                //updating results
-                results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = inventory[type][entry];
+        for (CD item : this.cds) {
+            for (String itemgenre : item.getGenres()) {
+                if (genre.equalsIgnoreCase(itemgenre)) {
+                    results = Arrays.copyOf(results, results.length + 1);
+                    results[results.length - 1] = item;
+                }
             }
         }
+        for (DVD item : this.dvds) {
+            for (String itemgenre : item.getGenres()) {
+                if (genre.equalsIgnoreCase(itemgenre)) {
+                    results = Arrays.copyOf(results, results.length + 1);
+                    results[results.length - 1] = item;
+                }
+            }
+        }
+        for (Book item : this.books) {
+            for (String itemgenre : item.getGenres()) {
+                if (genre.equalsIgnoreCase(itemgenre)) {
+                    results = Arrays.copyOf(results, results.length + 1);
+                    results[results.length - 1] = item;
+                }
+            }
+        }
+
         return results;
     }
 
@@ -160,8 +161,8 @@ public class Library {
      * Writes all arrays to their appropriate files.
      */
     public void save() {
-        Persistence.saveToFile(libraryName + "/books.txt", inventory[0]);
-        Persistence.saveToFile(libraryName + "/dvds.txt", inventory[1]);
-        Persistence.saveToFile(libraryName + "/cds.txt", inventory[2]);
+        Persistence.saveToFile(libraryName + "/books.txt", books.toArray(new Borrowable[0]));
+        Persistence.saveToFile(libraryName + "/dvds.txt", dvds.toArray(new Borrowable[0]));
+        Persistence.saveToFile(libraryName + "/cds.txt", cds.toArray(new Borrowable[0]));
     }
 }
