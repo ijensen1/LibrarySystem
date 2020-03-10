@@ -66,7 +66,7 @@ public class Library {
      * Search inventory based on type and title.
      * @param type whether a book, cd, or dvd is wanted.
      * @param title title of what you're searching for.
-     * @return an array of entries that meet the search criteria.
+     * @return an ArrayList of works with that title.
      */
     public ArrayList<Borrowable> searchTitle(String type, String title){
         ArrayList<Borrowable> results = new ArrayList<Borrowable>(10);
@@ -91,10 +91,10 @@ public class Library {
     }
 
     /**
-     * Search a library's inventor based on type and creator.
+     * Search a library's inventor based on type and person.
      * @param type whether a book, dvd, or cd is wanted.
      * @param person the person being searched for, could be author, artist, director, actor, etc.
-     * @return an array of Borrowables of works of that creator.
+     * @return an ArrayList of Borrowables of works featuring that person.
      */
     public ArrayList<Borrowable> searchPerson(String type, String person){
         ArrayList<Borrowable> results = new ArrayList<>(10);
@@ -110,8 +110,11 @@ public class Library {
         }
 
         for (Borrowable item : searchThrough){
-            if (item.getPeople().contains(person)){
-                results.add(item);
+            for (String persons : item.getPeople()){
+                if (persons.equalsIgnoreCase(person)){
+                    results.add(item);
+                    break;
+                }
             }
         }
 
@@ -121,7 +124,7 @@ public class Library {
     /**
      * Search inventory based on type and genre.
      * @param genre genre being searched for.
-     * @return an array of Borrowables of works of that genre.
+     * @return an ArrayList of Borrowables of works of that genre.
      */
     public ArrayList<Borrowable> searchGenre(String type, String genre) {
         ArrayList<Borrowable> results = new ArrayList<>(10);
@@ -140,6 +143,7 @@ public class Library {
             for (String genres : item.getGenres()){
                 if (genres.equalsIgnoreCase(genre)){
                     results.add(item);
+                    break;
                 }
             }
         }

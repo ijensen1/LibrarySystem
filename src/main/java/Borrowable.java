@@ -82,7 +82,7 @@ class Borrowable<E> implements JSONSerializeable<E> {
         this.inOut = inOut;
     }
 
-    ArrayList<String> getPeople(){
+    String[] getPeople(){
         return null;
     };
 
