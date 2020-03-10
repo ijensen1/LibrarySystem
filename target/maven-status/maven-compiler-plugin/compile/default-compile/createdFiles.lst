@@ -1,2 +1,8 @@
-LibraryManager.class
+CD.class
+DVD.class
+JSONSerializeable.class
+Borrowable.class
 Account.class
+LibraryManager.class
+Library.class
+Book.class
