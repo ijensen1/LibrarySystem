@@ -82,6 +82,10 @@ class Borrowable<E> implements JSONSerializeable<E> {
         this.inOut = inOut;
     }
 
+    ArrayList<String> getPeople(){
+        return null;
+    };
+
     @Deprecated
     public String makeString() {
         return null;

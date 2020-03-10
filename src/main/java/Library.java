@@ -47,7 +47,7 @@ public class Library {
     }
 
     /**
-     * Remove an entry from a library's inventory. Will only remove entries with an in/out tag of "in".
+     * Remove an entry from a library's inventory.
      * @param borrowable the Borrowable to remove from the inventory.
      */
     public void remove(Borrowable borrowable) throws Exception {
@@ -64,92 +64,82 @@ public class Library {
 
     /**
      * Search inventory based on type and title.
-     * @param type book, dvd, or cd.
+     * @param type whether a book, cd, or dvd is wanted.
      * @param title title of what you're searching for.
      * @return an array of entries that meet the search criteria.
      */
-    public Borrowable[] searchName(byte type, String title){
-        Borrowable[] results = new Borrowable[0]; //to hold search results
-        for (Borrowable item : this.cds) {
+    public ArrayList<Borrowable> searchTitle(String type, String title){
+        ArrayList<Borrowable> results = new ArrayList<Borrowable>(10);
+        ArrayList<Borrowable> searchThrough = new ArrayList<>();
+        if (type.equalsIgnoreCase("book")){
+            searchThrough.addAll(books);
+        } else if (type.equalsIgnoreCase("dvd")){
+            searchThrough.addAll(dvds);
+        } else if (type.equalsIgnoreCase("cd")){
+            searchThrough.addAll(cds);
+        } else {
+            return null;
+        }
+
+        for (Borrowable item : searchThrough) {
             if (title.equalsIgnoreCase(item.getTitle())) {
-                results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = item;
+                results.add(item);
             }
         }
-        for (Borrowable item : this.dvds) {
-            if (title.equalsIgnoreCase(item.getTitle())) {
-                results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = item;
-            }
-        }
-        for (Borrowable item : this.books) {
-            if (title.equalsIgnoreCase(item.getTitle())) {
-                results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = item;
-            }
-        }
+
         return results;
     }
 
     /**
      * Search a library's inventor based on type and creator.
-     * @param type book, dvd, or cd.
-     * @param creator creator of entry you want to find (author, artist, director).
+     * @param type whether a book, dvd, or cd is wanted.
+     * @param person the person being searched for, could be author, artist, director, actor, etc.
      * @return an array of Borrowables of works of that creator.
      */
-    public Borrowable[] searchCreator(byte type, String creator){
-        Borrowable[] results = new Borrowable[0]; //to hold search results
-        for (CD item : this.cds) {
-            if (creator.equalsIgnoreCase(item.getArtist())) {
-                results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = item;
+    public ArrayList<Borrowable> searchPerson(String type, String person){
+        ArrayList<Borrowable> results = new ArrayList<>(10);
+        ArrayList<Borrowable> searchThrough = new ArrayList<>();
+        if (type.equalsIgnoreCase("book")){
+            searchThrough.addAll(books);
+        } else if (type.equalsIgnoreCase("dvd")){
+            searchThrough.addAll(dvds);
+        } else if (type.equalsIgnoreCase("cd")){
+            searchThrough.addAll(cds);
+        } else {
+            return null;
+        }
+
+        for (Borrowable item : searchThrough){
+            if (item.getPeople().contains(person)){
+                results.add(item);
             }
         }
-        for (DVD item : this.dvds) {
-            if (creator.equalsIgnoreCase(item.getDirector())) {
-                results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = item;
-            }
-        }
-        for (Book item : this.books) {
-            if (creator.equalsIgnoreCase(item.getAuthor())) {
-                results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = item;
-            }
-        }
+
         return results;
     }
 
     /**
      * Search inventory based on type and genre.
-     * @param type book, dvd, or cd.
      * @param genre genre being searched for.
      * @return an array of Borrowables of works of that genre.
      */
-    public Borrowable[] searchGenre(byte type, String genre) {
-        Borrowable[] results = new Borrowable[0]; //to hold search results
-        //check each entry for if it has the wanted genre
-        for (CD item : this.cds) {
-            for (String itemgenre : item.getGenres()) {
-                if (genre.equalsIgnoreCase(itemgenre)) {
-                    results = Arrays.copyOf(results, results.length + 1);
-                    results[results.length - 1] = item;
-                }
-            }
+    public ArrayList<Borrowable> searchGenre(String type, String genre) {
+        ArrayList<Borrowable> results = new ArrayList<>(10);
+        ArrayList<Borrowable> searchThrough = new ArrayList<>();
+        if (type.equalsIgnoreCase("book")){
+            searchThrough.addAll(books);
+        } else if (type.equalsIgnoreCase("dvd")){
+            searchThrough.addAll(dvds);
+        } else if (type.equalsIgnoreCase("cd")){
+            searchThrough.addAll(cds);
+        } else {
+            return null;
         }
-        for (DVD item : this.dvds) {
-            for (String itemgenre : item.getGenres()) {
-                if (genre.equalsIgnoreCase(itemgenre)) {
-                    results = Arrays.copyOf(results, results.length + 1);
-                    results[results.length - 1] = item;
-                }
-            }
-        }
-        for (Book item : this.books) {
-            for (String itemgenre : item.getGenres()) {
-                if (genre.equalsIgnoreCase(itemgenre)) {
-                    results = Arrays.copyOf(results, results.length + 1);
-                    results[results.length - 1] = item;
+
+        for (Borrowable item : searchThrough){
+            for (String genres : item.getGenres()){
+                if (genres.equalsIgnoreCase(genre)){
+                    results.add(item);
                 }
             }
         }
@@ -158,7 +148,7 @@ public class Library {
     }
 
     /**
-     * Writes all arrays to their appropriate files.
+     * Save library's collections to their appropriate files.
      */
     public void save() {
         Persistence.saveToFile(libraryName + "/books.txt", books.toArray(new Borrowable[0]));
