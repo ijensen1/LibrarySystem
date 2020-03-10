@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Data class to hold account details, as well as a list of items the account holder may have checked out.
  * Also includes makeString() for Persistance compatibility.
@@ -11,7 +13,7 @@ public class Account {
     private String passhash;
 
 
-    private Borrowable[] checkedOut; //List of borrowables checked out
+    private ArrayList<Borrowable> checkedOut; //List of borrowables checked out
 
     /**
      * Constructor that assigns MOST data. Make sure to set checkedOut yourself!
@@ -25,7 +27,7 @@ public class Account {
         this.lastName = lastName;
         this.phone = phone;
         this.email = email;
-        this.checkedOut = new Borrowable[0]; //By default this starts at zero. Make sure to set it when loading!
+        this.checkedOut = new ArrayList<>(); //By default this starts at zero. Make sure to set it when loading!
     }
 
     public String getFirstName() {
@@ -44,7 +46,7 @@ public class Account {
         return email;
     }
 
-    public Borrowable[] getCheckedOut() {
+    public ArrayList<Borrowable> getCheckedOut() {
         return checkedOut;
     }
 
@@ -64,7 +66,7 @@ public class Account {
         this.email = email;
     }
 
-    public void setCheckedOut(Borrowable[] checkedOut) {
+    public void setCheckedOut(ArrayList<Borrowable> checkedOut) {
         this.checkedOut = checkedOut;
     }
 
@@ -83,13 +85,13 @@ public class Account {
     public String makeString(){
         String finalString = getFirstName() +Persistence.splitter+ getLastName() +Persistence.splitter+ getPhone() +Persistence.splitter+ getEmail();
         finalString += "\nCHECKED_OUT:";//Make things a little more readable in the file
-        if (checkedOut.length > 0) { //Do we even have anything to add here?
+        if (checkedOut.size() > 0) { //Do we even have anything to add here?
 
-            for (int i = 0; i < checkedOut.length; i++) {
+            for (int i = 0; i < checkedOut.size(); i++) {
                 if (i == 0) {
-                    finalString += checkedOut[i].makeString();//For the first Borrowable, we don't need the splitter beforehand.
+                    finalString += checkedOut.get(i).makeString();//For the first Borrowable, we don't need the splitter beforehand.
                 } else {
-                    finalString += Persistence.splitter2 + checkedOut[i].makeString();
+                    finalString += Persistence.splitter2 + checkedOut.get(i).makeString();
                 }
             }
         }
