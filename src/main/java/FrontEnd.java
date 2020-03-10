@@ -48,7 +48,7 @@ public class FrontEnd {
                 System.out.println("Please choose a password: ");
                 String passhash = lm.passToHash(input.nextLine());
                 accounts.add(new Account(firstName, lastName, phone, email, passhash)); //Adding the new account to the list
-                Persistence.saveToFile(accounts.toArray(new Account[accounts.size()]));
+                Persistence.saveToFile(accounts.toArray(new Account[0]));
                 lm.login(email, passhash, accounts); //Logging in, so userAccount is set correctly
                 System.out.println("Registered! You are now logged in.");
 
@@ -161,7 +161,7 @@ public class FrontEnd {
             if (choice.equals("transfer")) { //Transfer item from one library inventory to another and check out
                 System.out.println("Which branch are you transferring from? ");
                 Library otherLib = lm.chooseLibrary(input.nextLine(), libraries);
-                if (!otherLib.equals(null)) { //found library?
+                if (otherLib != null) { //found library?
                     System.out.println("Please enter title of the item you are looking for: ");
                     String title = input.nextLine();
                     System.out.println("Please enter the creator of the item you are looking for: ");
