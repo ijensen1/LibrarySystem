@@ -44,4 +44,8 @@ public class Book extends Borrowable{
     public void setHardcover(boolean hardcover) {
         this.hardcover = hardcover;
     }
+
+    public String[] getPeople(){
+        return new String[]{author};
+    }
 }

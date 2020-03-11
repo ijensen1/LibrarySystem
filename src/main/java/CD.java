@@ -54,4 +54,8 @@ public class CD extends Borrowable{
     public void setSongs(String[] songs) {
         this.songs = songs;
     }
+
+    public String[] getPeople() {
+        return new String[]{artist};
+    }
 }
