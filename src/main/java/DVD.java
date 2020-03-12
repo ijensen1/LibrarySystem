@@ -4,8 +4,8 @@ import java.util.Arrays;
  * Class to hold information about a DVD.
  */
 public class DVD extends Borrowable{
-    private String director, rating;
-    private String[] actors;
+    protected String director, rating;
+    protected String[] actors;
 
     /**
      * Constructor to make a DVD object.
