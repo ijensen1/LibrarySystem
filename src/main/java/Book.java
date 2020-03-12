@@ -2,8 +2,8 @@
  * Class to hold information about a book.
  */
 public class Book extends Borrowable{
-    private String author, isbn;
-    private boolean hardcover;
+    protected String author, isbn;
+    protected boolean hardcover;
 
     /**
      * Constructor to make a Book object.

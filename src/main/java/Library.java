@@ -34,7 +34,7 @@ public class Library {
      * @param borrowable a Borrowable object to add to the library's inventory.
      * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
-    void add(Borrowable borrowable) throws Exception {
+    public void add(Borrowable borrowable) throws Exception {
         if (borrowable instanceof Book){
             books.add((Book) borrowable);
         } else if (borrowable instanceof CD){
