@@ -30,11 +30,11 @@ public class PictureBook extends Book {
         this.illustrator = illustrator;
     }
 
-    public boolean isPopupBook() {
+    public boolean isPopUpBook() {
         return isPopUpBook;
     }
 
-    public void setPopupBook(boolean popupBook) {
+    public void setPopUpBook(boolean popupBook) {
         isPopUpBook = popupBook;
     }
 
