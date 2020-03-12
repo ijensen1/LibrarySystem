@@ -104,52 +104,53 @@ public class FrontEnd {
                 String itemType = input.nextLine();
                 System.out.println("Please enter " + searchType + ": ");
                 String searchTerm = input.nextLine();
-                Borrowable foundItem = null;
+                ArrayList<Borrowable> foundItems = new ArrayList<Borrowable>();
                 String foundBranchName = userLibrary.getLibraryName(); //By default we found it here, but might change as we look
                 for (Library lib : libraries) { //Searching with different search types
                     if (searchType.equals("title")) {
-                        ArrayList<Borrowable> results = lib.searchName(itemType, searchTerm);
+                        ArrayList<Borrowable> results = lib.searchTitle(itemType, searchTerm);
                         if (results.size() > 0) { //Did we find anything?
-                            foundItem = results.get(0);
+                            foundItems.addAll(results);
                         }
                         break;
                     }
                     if (searchType.equals("creator")) {
-                        ArrayList<Borrowable> results = lib.searchCreator(itemType, searchTerm);
+                        ArrayList<Borrowable> results = lib.searchPerson(itemType, searchTerm);
                         if (results.size() > 0) {
-                            foundItem = results.get(0);
+                            foundItems.addAll(results);
                         }
                         break;
                     }
                     if (searchType.equals("genre")) {
                         ArrayList<Borrowable> results = lib.searchGenre(itemType, searchTerm);
                         if (results.size() > 0) {
-                            foundItem = results.get(0);
+                            foundItems.addAll(results);
                         }
                         break;
                     }
-                    if (foundItem == null) {
-                        System.out.println("Item not found.");
+                    if (foundItems.isEmpty()) {
+                        System.out.println("No items found.");
                         break;
-                    }
-                    if (!foundItem.getHome().equals(userLibrary.getLibraryName())) { //Did we find this item here or somewhere else?
-                        System.out.println("Found in other library");
-                        foundBranchName = lib.getLibraryName();
                     }
                 }
-                if (foundItem !=null) {
-                    System.out.println("Found " + foundItem.getTitle() + "! Would you like to check it out? Y/N");
-                    if (input.nextLine().equalsIgnoreCase("y")) {
-                        foundItem.checkOut();
-                        ArrayList<Borrowable> items; //Get items, or empty list if none checked out already
-                        try {
-                            items = userAccount.getCheckedOut();
-                        } catch (NullPointerException e) {
-                            items = new ArrayList<Borrowable>(0);
-                        }
-                        items.add(foundItem);
-                        userAccount.setCheckedOut(items); //Save to account
+                if (!foundItems.isEmpty()) {
+                    System.out.println("Found items:");
+                    for (int i = 0; i < foundItems.size(); i++) {
+                        System.out.println(i + ": " + foundItems.get(i).getTitle());
                     }
+                    System.out.print("Please select which item you want:");
+                    int index = Integer.parseInt(input.nextLine());
+                    foundItems.get(index).checkOut();
+                    ArrayList<Borrowable> items; //Get items, or empty list if none checked out already
+                    try {
+                        items = userAccount.getCheckedOut();
+                    } catch (NullPointerException e) {
+                        items = new ArrayList<Borrowable>(0);
+                    }
+                    items.add(foundItems.get(index));
+                    userAccount.setCheckedOut(items); //Save to account
+                    System.out.println("Checked in " + foundItems.get(index).getTitle());
+
                 } else {
                     System.out.println("Item not found!");
                 }
