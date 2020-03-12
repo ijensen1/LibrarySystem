@@ -3,7 +3,7 @@
  */
 public class PictureBook extends Book {
     protected String illustrator;
-    protected boolean isPopupBook;
+    protected boolean isPopUpBook;
 
     /**
      * Constructor to make a Book object.
@@ -14,12 +14,12 @@ public class PictureBook extends Book {
      * @param isbn the ISBN number of the book.
      * @param hardcover whether or not the book is hardcover.
      * @param illustrator the picture book's illustrator.
-     * @param isPopupBook whether or not the picture book is also a pop-up book.
+     * @param isPopUpBook whether or not the picture book is also a pop-up book.
      */
-    PictureBook(String home, String title, String[] genres, String author, String isbn, boolean hardcover, String illustrator, boolean isPopupBook) {
+    PictureBook(String home, String title, String[] genres, String author, String isbn, boolean hardcover, String illustrator, boolean isPopUpBook) {
         super(home, title, genres, author, isbn, hardcover);
         this.illustrator = illustrator;
-        this.isPopupBook = isPopupBook;
+        this.isPopUpBook = isPopUpBook;
     }
 
     public String getIllustrator() {
@@ -31,11 +31,11 @@ public class PictureBook extends Book {
     }
 
     public boolean isPopupBook() {
-        return isPopupBook;
+        return isPopUpBook;
     }
 
     public void setPopupBook(boolean popupBook) {
-        isPopupBook = popupBook;
+        isPopUpBook = popupBook;
     }
 
     public String[] getPeople(){
