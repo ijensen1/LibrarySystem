@@ -107,30 +107,35 @@ public class FrontEnd {
                 ArrayList<Borrowable> foundItems = new ArrayList<Borrowable>();
                 String foundBranchName = userLibrary.getLibraryName(); //By default we found it here, but might change as we look
                 for (Library lib : libraries) { //Searching with different search types
-                    if (searchType.equals("title")) {
-                        ArrayList<Borrowable> results = lib.searchTitle(itemType, searchTerm);
-                        if (results.size() > 0) { //Did we find anything?
-                            foundItems.addAll(results);
+                    try {
+                        if (searchType.equals("title")) {
+                            ArrayList<Borrowable> results = lib.searchTitle(itemType, searchTerm);
+                            if (results.size() > 0) { //Did we find anything?
+                                foundItems.addAll(results);
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    if (searchType.equals("creator")) {
-                        ArrayList<Borrowable> results = lib.searchPerson(itemType, searchTerm);
-                        if (results.size() > 0) {
-                            foundItems.addAll(results);
+                        if (searchType.equals("creator")) {
+                            ArrayList<Borrowable> results = lib.searchPerson(itemType, searchTerm);
+                            if (results.size() > 0) {
+                                foundItems.addAll(results);
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    if (searchType.equals("genre")) {
-                        ArrayList<Borrowable> results = lib.searchGenre(itemType, searchTerm);
-                        if (results.size() > 0) {
-                            foundItems.addAll(results);
+                        if (searchType.equals("genre")) {
+                            ArrayList<Borrowable> results = lib.searchGenre(itemType, searchTerm);
+                            if (results.size() > 0) {
+                                foundItems.addAll(results);
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    if (foundItems.isEmpty()) {
-                        System.out.println("No items found.");
-                        break;
+                        if (foundItems.isEmpty()) {
+                            System.out.println("No items found.");
+                            break;
+                        }
+                    } catch (Exception e) {
+                        System.out.println("We done messed up: " + e.toString());
+                        System.exit(-1);
                     }
                 }
                 if (!foundItems.isEmpty()) {
