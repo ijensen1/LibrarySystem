@@ -3,8 +3,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Arrays;
+
 
 /**
  * Frontend that instances the accounts, loads the libraries, and takes input.
@@ -68,10 +67,10 @@ public class LibraryManager {
           MessageDigest digest = MessageDigest.getInstance("SHA-512");
           byte[] hash = digest.digest(
                   password.getBytes(StandardCharsets.UTF_8));
-          StringBuffer hexString = new StringBuffer();
-          for (int i = 0; i < hash.length; i++) {
-              String hex = Integer.toHexString(0xff & hash[i]);
-              if(hex.length() == 1) hexString.append('0');
+          StringBuilder hexString = new StringBuilder();
+          for (byte b : hash) {
+              String hex = Integer.toHexString(0xff & b);
+              if (hex.length() == 1) hexString.append('0');
               hexString.append(hex);
           }
           return hexString.toString();

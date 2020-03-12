@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Class to handle inventory of a specific library, all method inputs are case in-sensitive. Uses 2d arrays to hold information and has methods for data query.
@@ -7,13 +6,12 @@ import java.util.Arrays;
 public class Library {
     //Variables for library data
     private String libraryName;
-    private ArrayList<Book> books = new ArrayList<Book>(0);
-    private ArrayList<CD> cds = new ArrayList<CD>(0);
-    private ArrayList<DVD> dvds = new ArrayList<DVD>(0);
+    private ArrayList<Book> books = new ArrayList<>(0);
+    private ArrayList<CD> cds = new ArrayList<>(0);
+    private ArrayList<DVD> dvds = new ArrayList<>(0);
 
-    //error messages meant for user, or Jack, depending on how he implements things
-    private final String errorInvalidType = "Invalid entry class, valid entry classes are Book, CD, and DVD";
-    private final String errorEntryNotFound = "Could not locate any entries containing that data";
+    //error messages
+    private Exception invalidType = new Exception("Exception: Invalid Entry Type");
 
     /**
      * Constructor, populates arrays with data saved in files for that library.
@@ -33,8 +31,9 @@ public class Library {
     /**
      * Add a book to the library.
      * @param borrowable a Borrowable object to add to the library's inventory.
+     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
-    void add(Borrowable borrowable) throws Exception {
+    public void add(Borrowable borrowable) throws Exception {
         if (borrowable instanceof Book){
             books.add((Book) borrowable);
         } else if (borrowable instanceof CD){
@@ -42,13 +41,14 @@ public class Library {
         } else if (borrowable instanceof  DVD){
             dvds.add((DVD) borrowable);
         } else {
-            throw new Exception(errorInvalidType);
+            throw invalidType;
         }
     }
 
     /**
-     * Remove an entry from a library's inventory. Will only remove entries with an in/out tag of "in".
+     * Remove an entry from a library's inventory.
      * @param borrowable the Borrowable to remove from the inventory.
+     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
     public void remove(Borrowable borrowable) throws Exception {
         if (borrowable instanceof Book){
@@ -58,110 +58,108 @@ public class Library {
         } else if (borrowable instanceof DVD){
             dvds.remove(borrowable);
         } else {
-            throw new Exception(errorInvalidType);
+            throw invalidType;
         }
-    }
-
-    /**
-     * Returns the indexes of all instances of an entry.
-     * @param type book, dvd, or cd.
-     * @param title title of entry being looked for.
-     * @param creator creator of entry you want to find (author, artist, director).
-     * @return int[] holding indexes of every instance of the wanted object (for if multiple copies exist).
-     */
-    public int[] findIndex(byte type, String title, String creator){
-        int[] results = new int[0]; //to hold search results and tempArray used for updating results
-
-        //check each entry for if it has the selected creator
-        for (int entry = 0; entry < inventory[type].length; entry++) {
-            if ((inventory[type][entry].getTitle().equalsIgnoreCase(title)) && (inventory[type][entry].getCreator().equalsIgnoreCase(creator))) {
-                //updating results if there is a match
-                results = Arrays.copyOf(results, 1);
-                results[results.length - 1] = entry;
-            }
-        }
-        return results;
-    }
-
-    /**
-     * Gets entry data from an index number.
-     * @param type book, cd, or dvd.
-     * @param entry index of wanted entry.
-     * @return the wanted borrowable object, null if out of bounds.
-     */
-    public Borrowable getIndex(byte type, int entry){
-        if (inventory[type].length > entry)
-            return inventory[type][entry];
-        else
-            return null;
     }
 
     /**
      * Search inventory based on type and title.
-     * @param type book, dvd, or cd.
+     * @param type whether a book, cd, or dvd is wanted.
      * @param title title of what you're searching for.
-     * @return an array of entries that meet the search criteria.
+     * @return an ArrayList of works with that title.
+     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
-    public Borrowable[] searchName(byte type, String title){
-        Borrowable[] results = new Borrowable[0]; //to hold search results
+    public ArrayList<Borrowable> searchTitle(String type, String title) throws Exception {
+        ArrayList<Borrowable> results = new ArrayList<>(10);
+        ArrayList<Borrowable> searchThrough = new ArrayList<>();
+        if (type.equalsIgnoreCase("book")){
+            searchThrough.addAll(books);
+        } else if (type.equalsIgnoreCase("dvd")){
+            searchThrough.addAll(dvds);
+        } else if (type.equalsIgnoreCase("cd")){
+            searchThrough.addAll(cds);
+        } else {
+            throw invalidType;
+        }
 
-        //check each entry for if it has the wanted title
-        for (int entry = 0; entry < inventory[type].length; entry++) {
-            if (title.equalsIgnoreCase(inventory[type][entry].getTitle())) {
-                //updating results
-                results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = inventory[type][entry];
+        for (Borrowable item : searchThrough) {
+            if (title.equalsIgnoreCase(item.getTitle())) {
+                results.add(item);
             }
         }
+
         return results;
     }
 
     /**
-     * Search a library's inventor based on type and creator.
-     * @param type book, dvd, or cd.
-     * @param creator creator of entry you want to find (author, artist, director).
-     * @return an array of Borrowables of works of that creator.
+     * Search a library's inventor based on type and person.
+     * @param type whether a book, dvd, or cd is wanted.
+     * @param person the person being searched for, could be author, artist, director, actor, etc.
+     * @return an ArrayList of Borrowables of works featuring that person.
+     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
-    public Borrowable[] searchCreator(byte type, String creator){
-        Borrowable[] results = new Borrowable[0]; //to hold search results
+    public ArrayList<Borrowable> searchPerson(String type, String person) throws Exception {
+        ArrayList<Borrowable> results = new ArrayList<>(10);
+        ArrayList<Borrowable> searchThrough = new ArrayList<>();
+        if (type.equalsIgnoreCase("book")){
+            searchThrough.addAll(books);
+        } else if (type.equalsIgnoreCase("dvd")){
+            searchThrough.addAll(dvds);
+        } else if (type.equalsIgnoreCase("cd")){
+            searchThrough.addAll(cds);
+        } else {
+            throw invalidType;
+        }
 
-        //check each entry for if it has the wanted creator
-        for (int entry = 0; entry < inventory[type].length; entry++) {
-            if (creator.equalsIgnoreCase(inventory[type][entry].getCreator())) {
-                //updating results
-                results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = inventory[type][entry];
+        for (Borrowable item : searchThrough){
+            for (String persons : item.getPeople()){
+                if (persons.equalsIgnoreCase(person)){
+                    results.add(item);
+                    break;
+                }
             }
         }
+
         return results;
     }
 
     /**
      * Search inventory based on type and genre.
-     * @param type book, dvd, or cd.
      * @param genre genre being searched for.
-     * @return an array of Borrowables of works of that genre.
+     * @return an ArrayList of Borrowables of works of that genre.
+     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
-    public Borrowable[] searchGenre(byte type, String genre) {
-        Borrowable[] results = new Borrowable[0]; //to hold search results
+    public ArrayList<Borrowable> searchGenre(String type, String genre) throws Exception {
+        ArrayList<Borrowable> results = new ArrayList<>(10);
+        ArrayList<Borrowable> searchThrough = new ArrayList<>();
+        if (type.equalsIgnoreCase("book")){
+            searchThrough.addAll(books);
+        } else if (type.equalsIgnoreCase("dvd")){
+            searchThrough.addAll(dvds);
+        } else if (type.equalsIgnoreCase("cd")){
+            searchThrough.addAll(cds);
+        } else {
+            throw invalidType;
+        }
 
-        //check each entry for if it has the wanted genre
-        for (int entry = 0; entry < inventory[type].length; entry++) {
-            if (genre.equalsIgnoreCase(inventory[type][entry].getGenre1()) || genre.equalsIgnoreCase(inventory[type][entry].getGenre2())) {
-                //updating results
-                results = Arrays.copyOf(results, results.length + 1);
-                results[results.length - 1] = inventory[type][entry];
+        for (Borrowable item : searchThrough){
+            for (String genres : item.getGenres()){
+                if (genres.equalsIgnoreCase(genre)){
+                    results.add(item);
+                    break;
+                }
             }
         }
+
         return results;
     }
 
     /**
-     * Writes all arrays to their appropriate files.
+     * Save library's collections to their appropriate files.
      */
     public void save() {
-        Persistence.saveToFile(libraryName + "/books.txt", inventory[0]);
-        Persistence.saveToFile(libraryName + "/dvds.txt", inventory[1]);
-        Persistence.saveToFile(libraryName + "/cds.txt", inventory[2]);
+        Persistence.saveToFile(libraryName + "/books.txt", books.toArray(new Borrowable[0]));
+        Persistence.saveToFile(libraryName + "/dvds.txt", dvds.toArray(new Borrowable[0]));
+        Persistence.saveToFile(libraryName + "/cds.txt", cds.toArray(new Borrowable[0]));
     }
 }

@@ -3,21 +3,20 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class FrontEnd {
-    private Scanner input;
     private ArrayList<Account> accounts;
     private ArrayList<Library> libraries;
     public FrontEnd() {
         String[] libNames = Persistence.loadLibraryNames();
-        libraries = new ArrayList<Library>(libNames.length);
+        libraries = new ArrayList<>(libNames.length);
         for (int i = 0; i < libraries.size(); i++) {
             libraries.set(i, new Library(libNames[i]));
         }
-        accounts = new ArrayList<Account>();
+        accounts = new ArrayList<>();
         accounts.addAll(Arrays.asList(Persistence.loadAccounts()));
     }
     public void run() {
         LibraryManager lm = new LibraryManager(); //Instancing it because we have instance variables already.
-        input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
 
         Account userAccount = null; //This is the user account you log in to at the start.
         Library userLibrary; //This is the library location you select.
@@ -48,7 +47,7 @@ public class FrontEnd {
                 System.out.println("Please choose a password: ");
                 String passhash = lm.passToHash(input.nextLine());
                 accounts.add(new Account(firstName, lastName, phone, email, passhash)); //Adding the new account to the list
-                Persistence.saveToFile(accounts.toArray(new Account[accounts.size()]));
+                Persistence.saveToFile(accounts.toArray(new Account[0]));
                 lm.login(email, passhash, accounts); //Logging in, so userAccount is set correctly
                 System.out.println("Registered! You are now logged in.");
 
@@ -73,7 +72,7 @@ public class FrontEnd {
         System.out.println(); //extra line to clean things up
         boolean done = false;
         while (!done) { //This is the main frontend loop. All commands entered here
-            if (userAccount.getCheckedOut().length > 0) {
+            if (userAccount.getCheckedOut().size() > 0) {
                 System.out.println("Books held:");
                 for (Borrowable book : userAccount.getCheckedOut()) {
                     System.out.println(book.getTitle()); //Letting the user know what books they have out
@@ -83,119 +82,83 @@ public class FrontEnd {
             }
 
             System.out.println("===============Actions are:================");
-            System.out.println("  checkin  search/checkout  transfer  quit ");
+            System.out.println("    checkin  search/checkout  quit   ");
             System.out.print(": ");
             choice = input.nextLine().toLowerCase();
             if (choice.equals("checkin")) {
-                if (userAccount.getCheckedOut().length == 0) {
+                if (userAccount.getCheckedOut().size() == 0) {
                     System.out.println("Error: No books held. ");
                 } else {
                     System.out.println("Checking in all books...");
                     for (Borrowable book : userAccount.getCheckedOut()) {//Getting all books checked out, and set all of them to in
                         book.checkIn();
                     }
-                    userAccount.setCheckedOut(new Borrowable[0]); //Resetting back to empty after books are checked in
+                    userAccount.setCheckedOut(new ArrayList<Borrowable>()); //Resetting back to empty after books are checked in
                 }
             }
             if (choice.equals("search")) {
                 System.out.println("Please select search type; title, creator, or genre: ");
                 String searchType = input.nextLine().toLowerCase();
-                System.out.println("Please enter item type: 0 for books, 1 for DVDs, 2 for CDs: ");
-                byte itemType = Byte.parseByte(input.nextLine());
+                System.out.println("Please enter item type: book, dvd, or cd: ");
+                String itemType = input.nextLine();
                 System.out.println("Please enter " + searchType + ": ");
                 String searchTerm = input.nextLine();
-                Borrowable foundItem = null;
-                String foundBranchName = userLibrary.getLibraryName(); //By default we found it here, but might change as we look
-                boolean local = true;
+                ArrayList<Borrowable> foundItems = new ArrayList<>();
                 for (Library lib : libraries) { //Searching with different search types
-                    if (searchType.equals("title")) {
-                        Borrowable[] results = lib.searchName(itemType, searchTerm);
-                        if (results.length > 0) { //Did we find anything?
-                            foundItem = results[0];
+                    try {
+                        if (searchType.equals("title")) {
+                            ArrayList<Borrowable> results = lib.searchTitle(itemType, searchTerm);
+                            if (results.size() > 0) { //Did we find anything?
+                                foundItems.addAll(results);
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    if (searchType.equals("creator")) {
-                        Borrowable[] results = lib.searchCreator(itemType, searchTerm);
-                        if (results.length > 0) {
-                            foundItem = results[0];
+                        if (searchType.equals("creator")) {
+                            ArrayList<Borrowable> results = lib.searchPerson(itemType, searchTerm);
+                            if (results.size() > 0) {
+                                foundItems.addAll(results);
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    if (searchType.equals("genre")) {
-                        Borrowable[] results = lib.searchGenre(itemType, searchTerm);
-                        if (results.length > 0) {
-                            foundItem = results[0];
+                        if (searchType.equals("genre")) {
+                            ArrayList<Borrowable> results = lib.searchGenre(itemType, searchTerm);
+                            if (results.size() > 0) {
+                                foundItems.addAll(results);
+                            }
+                            break;
                         }
-                        break;
-                    }
-
-                    if (!foundItem.getHome().equals(userLibrary.getLibraryName())) { //Did we find this item here or somewhere else?
-                        System.out.println("Found in other library");
-                        local = false;
-                        foundBranchName = lib.getLibraryName();
+                        if (foundItems.isEmpty()) {
+                            System.out.println("No items found.");
+                            break;
+                        }
+                    } catch (Exception e) {
+                        System.out.println("We done messed up: " + e.toString());
+                        System.exit(-1);
                     }
                 }
-                if (foundItem !=null) {
-                    if (local) {
-                        System.out.println("Found " + foundItem.getTitle() + "! Would you like to check it out? Y/N");
-                        if (input.nextLine().equalsIgnoreCase("y")) {
-                            foundItem.checkOut();
-                            ArrayList<Borrowable> items; //Get items, or empty list if none checked out already
-                            try {
-                                items = new ArrayList<Borrowable>(Arrays.asList(userAccount.getCheckedOut()));
-                            } catch (NullPointerException e) {
-                                items = new ArrayList<Borrowable>(0);
-                            }
-                            items.add(foundItem);
-                            userAccount.setCheckedOut(items.toArray(new Borrowable[items.size()])); //Save to account
-                        }
-                    } else {
-                        System.out.println("Sorry! That item isn't in this branch. You'll need to transfer it from " + foundBranchName + " first.");
+                if (!foundItems.isEmpty()) {
+                    System.out.println("Found items:");
+                    for (int i = 0; i < foundItems.size(); i++) {
+                        System.out.println(i + ": " + foundItems.get(i).getTitle());
                     }
+                    System.out.print("Please select which item you want:");
+                    int index = Integer.parseInt(input.nextLine());
+                    foundItems.get(index).checkOut();
+                    ArrayList<Borrowable> items; //Get items, or empty list if none checked out already
+                    try {
+                        items = userAccount.getCheckedOut();
+                    } catch (NullPointerException e) {
+                        items = new ArrayList<>(0);
+                    }
+                    items.add(foundItems.get(index));
+                    userAccount.setCheckedOut(items); //Save to account
+                    System.out.println("Checked in " + foundItems.get(index).getTitle());
+
                 } else {
                     System.out.println("Item not found!");
                 }
             }
 
-            if (choice.equals("transfer")) { //Transfer item from one library inventory to another and check out
-                System.out.println("Which branch are you transferring from? ");
-                Library otherLib = lm.chooseLibrary(input.nextLine(), libraries);
-                if (!otherLib.equals(null)) { //found library?
-                    System.out.println("Please enter title of the item you are looking for: ");
-                    String title = input.nextLine();
-                    System.out.println("Please enter the creator of the item you are looking for: ");
-                    String creator = input.nextLine();
-                    System.out.println("Please enter item type: 0 for books, 1 for DVDs, 2 for CDs: ");
-                    byte itemType = Byte.parseByte(input.nextLine());
-                    Borrowable item = otherLib.getIndex(itemType, otherLib.findIndex(itemType, title, creator)[0]);
-                    if (!item.equals(null)) { //found item?
-
-                        try {
-                            userLibrary.add(item);
-                            otherLib.remove(item); //Take out from one library, add to another
-                        } catch (Exception e) {
-                            System.out.println("Error: " + e.toString());
-                            e.printStackTrace();
-                        }
-                        item.checkOut();
-                        Borrowable[] items;
-                        try {
-                            items = userAccount.getCheckedOut();
-                        } catch (NullPointerException e) {
-                            items = new Borrowable[0];
-                        }
-                        items = Arrays.copyOf(items, items.length+1);//Add to user account inventory
-                        items[items.length-1] = item;
-                        userAccount.setCheckedOut(items);
-
-                    } else {
-                        System.out.println("Item not found");
-                    }
-                } else {
-                    System.out.println("Library not found");
-                }
-            }
             if (choice.equals("quit")) {
                 System.out.println("Quitting..."); //End the loop, which calls lm.close() and then exits main
                 done = true;

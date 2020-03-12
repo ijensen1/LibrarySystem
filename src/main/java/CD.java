@@ -2,8 +2,8 @@
  * Class to hold information about a CD.
  */
 public class CD extends Borrowable{
-    private String producer, artist, rating;
-    private String[] songs;
+    protected String producer, artist, rating;
+    protected String[] songs;
 
     /**
      * Constructor to make a CD object.
@@ -53,5 +53,9 @@ public class CD extends Borrowable{
 
     public void setSongs(String[] songs) {
         this.songs = songs;
+    }
+
+    public String[] getPeople() {
+        return new String[]{artist};
     }
 }

@@ -4,12 +4,10 @@ import java.util.ArrayList;
  * To create a single book/dvd/cd.
  */
 class Borrowable<E> implements JSONSerializeable<E> {
-    private String home, //To hold the work's home
+    protected String home, //To hold the work's home
             title, //To hold the work's title
             inOut, //To hold whether or not the work is checked in or out
             genres[]; //To hold the work's genres
-
-    Borrowable(){}
 
     /**
      * Constructor to take in and set the tags to appropriate values.
@@ -81,6 +79,10 @@ class Borrowable<E> implements JSONSerializeable<E> {
     void setInOut(String inOut) {
         this.inOut = inOut;
     }
+
+    String[] getPeople(){
+        return null;
+    };
 
     @Deprecated
     public String makeString() {
