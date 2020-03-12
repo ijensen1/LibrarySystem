@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Class to handle inventory of a specific library, all method inputs are case in-sensitive. Uses 2d arrays to hold information and has methods for data query.
@@ -7,9 +6,9 @@ import java.util.Arrays;
 public class Library {
     //Variables for library data
     private String libraryName;
-    private ArrayList<Book> books = new ArrayList<Book>(0);
-    private ArrayList<CD> cds = new ArrayList<CD>(0);
-    private ArrayList<DVD> dvds = new ArrayList<DVD>(0);
+    private ArrayList<Book> books = new ArrayList<>(0);
+    private ArrayList<CD> cds = new ArrayList<>(0);
+    private ArrayList<DVD> dvds = new ArrayList<>(0);
 
     //error messages
     private Exception invalidType = new Exception("Exception: Invalid Entry Type");
@@ -71,7 +70,7 @@ public class Library {
      * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
     public ArrayList<Borrowable> searchTitle(String type, String title) throws Exception {
-        ArrayList<Borrowable> results = new ArrayList<Borrowable>(10);
+        ArrayList<Borrowable> results = new ArrayList<>(10);
         ArrayList<Borrowable> searchThrough = new ArrayList<>();
         if (type.equalsIgnoreCase("book")){
             searchThrough.addAll(books);

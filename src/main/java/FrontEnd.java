@@ -3,21 +3,20 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class FrontEnd {
-    private Scanner input;
     private ArrayList<Account> accounts;
     private ArrayList<Library> libraries;
     public FrontEnd() {
         String[] libNames = Persistence.loadLibraryNames();
-        libraries = new ArrayList<Library>(libNames.length);
+        libraries = new ArrayList<>(libNames.length);
         for (int i = 0; i < libraries.size(); i++) {
             libraries.set(i, new Library(libNames[i]));
         }
-        accounts = new ArrayList<Account>();
+        accounts = new ArrayList<>();
         accounts.addAll(Arrays.asList(Persistence.loadAccounts()));
     }
     public void run() {
         LibraryManager lm = new LibraryManager(); //Instancing it because we have instance variables already.
-        input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
 
         Account userAccount = null; //This is the user account you log in to at the start.
         Library userLibrary; //This is the library location you select.
@@ -104,8 +103,7 @@ public class FrontEnd {
                 String itemType = input.nextLine();
                 System.out.println("Please enter " + searchType + ": ");
                 String searchTerm = input.nextLine();
-                ArrayList<Borrowable> foundItems = new ArrayList<Borrowable>();
-                String foundBranchName = userLibrary.getLibraryName(); //By default we found it here, but might change as we look
+                ArrayList<Borrowable> foundItems = new ArrayList<>();
                 for (Library lib : libraries) { //Searching with different search types
                     try {
                         if (searchType.equals("title")) {
@@ -150,7 +148,7 @@ public class FrontEnd {
                     try {
                         items = userAccount.getCheckedOut();
                     } catch (NullPointerException e) {
-                        items = new ArrayList<Borrowable>(0);
+                        items = new ArrayList<>(0);
                     }
                     items.add(foundItems.get(index));
                     userAccount.setCheckedOut(items); //Save to account
