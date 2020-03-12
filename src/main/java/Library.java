@@ -11,9 +11,8 @@ public class Library {
     private ArrayList<CD> cds = new ArrayList<CD>(0);
     private ArrayList<DVD> dvds = new ArrayList<DVD>(0);
 
-    //error messages meant for user, or Jack, depending on how he implements things
-    private final String errorInvalidType = "Invalid entry class, valid entry classes are Book, CD, and DVD";
-    private final String errorEntryNotFound = "Could not locate any entries containing that data";
+    //error messages
+    private Exception invalidType = new Exception("Exception: Invalid Entry Type");
 
     /**
      * Constructor, populates arrays with data saved in files for that library.
@@ -33,6 +32,7 @@ public class Library {
     /**
      * Add a book to the library.
      * @param borrowable a Borrowable object to add to the library's inventory.
+     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
     void add(Borrowable borrowable) throws Exception {
         if (borrowable instanceof Book){
@@ -42,13 +42,14 @@ public class Library {
         } else if (borrowable instanceof  DVD){
             dvds.add((DVD) borrowable);
         } else {
-            throw new Exception(errorInvalidType);
+            throw invalidType;
         }
     }
 
     /**
      * Remove an entry from a library's inventory.
      * @param borrowable the Borrowable to remove from the inventory.
+     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
     public void remove(Borrowable borrowable) throws Exception {
         if (borrowable instanceof Book){
@@ -58,7 +59,7 @@ public class Library {
         } else if (borrowable instanceof DVD){
             dvds.remove(borrowable);
         } else {
-            throw new Exception(errorInvalidType);
+            throw invalidType;
         }
     }
 
@@ -67,8 +68,9 @@ public class Library {
      * @param type whether a book, cd, or dvd is wanted.
      * @param title title of what you're searching for.
      * @return an ArrayList of works with that title.
+     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
-    public ArrayList<Borrowable> searchTitle(String type, String title){
+    public ArrayList<Borrowable> searchTitle(String type, String title) throws Exception {
         ArrayList<Borrowable> results = new ArrayList<Borrowable>(10);
         ArrayList<Borrowable> searchThrough = new ArrayList<>();
         if (type.equalsIgnoreCase("book")){
@@ -78,7 +80,7 @@ public class Library {
         } else if (type.equalsIgnoreCase("cd")){
             searchThrough.addAll(cds);
         } else {
-            return null;
+            throw invalidType;
         }
 
         for (Borrowable item : searchThrough) {
@@ -95,8 +97,9 @@ public class Library {
      * @param type whether a book, dvd, or cd is wanted.
      * @param person the person being searched for, could be author, artist, director, actor, etc.
      * @return an ArrayList of Borrowables of works featuring that person.
+     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
-    public ArrayList<Borrowable> searchPerson(String type, String person){
+    public ArrayList<Borrowable> searchPerson(String type, String person) throws Exception {
         ArrayList<Borrowable> results = new ArrayList<>(10);
         ArrayList<Borrowable> searchThrough = new ArrayList<>();
         if (type.equalsIgnoreCase("book")){
@@ -106,7 +109,7 @@ public class Library {
         } else if (type.equalsIgnoreCase("cd")){
             searchThrough.addAll(cds);
         } else {
-            return null;
+            throw invalidType;
         }
 
         for (Borrowable item : searchThrough){
@@ -125,8 +128,9 @@ public class Library {
      * Search inventory based on type and genre.
      * @param genre genre being searched for.
      * @return an ArrayList of Borrowables of works of that genre.
+     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
      */
-    public ArrayList<Borrowable> searchGenre(String type, String genre) {
+    public ArrayList<Borrowable> searchGenre(String type, String genre) throws Exception {
         ArrayList<Borrowable> results = new ArrayList<>(10);
         ArrayList<Borrowable> searchThrough = new ArrayList<>();
         if (type.equalsIgnoreCase("book")){
@@ -136,7 +140,7 @@ public class Library {
         } else if (type.equalsIgnoreCase("cd")){
             searchThrough.addAll(cds);
         } else {
-            return null;
+            throw invalidType;
         }
 
         for (Borrowable item : searchThrough){
