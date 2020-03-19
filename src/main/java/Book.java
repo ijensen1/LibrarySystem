@@ -1,7 +1,14 @@
+import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsonable;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+
 /**
  * Class to hold information about a book.
  */
-public class Book extends Borrowable{
+public class Book extends Borrowable implements Jsonable {
     protected String author, isbn;
     protected boolean hardcover;
 
@@ -37,7 +44,7 @@ public class Book extends Borrowable{
         this.isbn = isbn;
     }
 
-    public boolean isHardcover() {
+    public Boolean isHardcover() {
         return hardcover;
     }
 
@@ -48,4 +55,33 @@ public class Book extends Borrowable{
     public String[] getPeople(){
         return new String[]{author};
     }
+
+    @Override
+    public String toJson(){
+
+        final StringWriter writable = new StringWriter();
+        try{
+            this.toJson(writable);
+        } catch (final IOException e) {
+
+        }
+        return writable.toString();
+
+    }
+
+    @Override
+    public void toJson(Writer writer) throws IOException {
+
+        final JsonObject json = new JsonObject();
+        json.put("title", this.getTitle());
+        json.put("Home", this.getHome());
+        json.put("Author", this.getAuthor());
+        json.put("isbn", this.getIsbn());
+        json.put("hardcover", this.isHardcover());
+        json.put("genre", this.getGenres());
+        json.toJson(writer);
+
+    }
+
+
 }

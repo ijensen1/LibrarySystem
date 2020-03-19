@@ -1,7 +1,14 @@
+import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsonable;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+
 /**
  * Class to hold information about a picture book.
  */
-public class PictureBook extends Book {
+public class PictureBook extends Book implements Jsonable {
     protected String illustrator;
     protected boolean isPopUpBook;
 
@@ -30,7 +37,7 @@ public class PictureBook extends Book {
         this.illustrator = illustrator;
     }
 
-    public boolean isPopUpBook() {
+    public Boolean isPopUpBook() {
         return isPopUpBook;
     }
 
@@ -40,5 +47,31 @@ public class PictureBook extends Book {
 
     public String[] getPeople(){
         return new String[]{author, illustrator};
+    }
+
+    @Override
+    public String toJson(){
+
+        final StringWriter writable = new StringWriter();
+        try{
+            this.toJson(writable);
+        } catch (final IOException e) {
+
+        }
+        return writable.toString();
+
+    }
+
+    @Override
+    public void toJson(Writer writer) throws IOException {
+
+        final JsonObject json = new JsonObject();
+        json.put("home", this.getHome());
+        json.put("title", this.getTitle());
+        json.put("Genres", this.getGenres());
+        json.put("Illustrator", this.getIllustrator());
+        json.put("salary", this.isPopUpBook());
+        json.toJson(writer);
+
     }
 }
