@@ -15,6 +15,7 @@ class Persistence {
     static final String splitter2 = ";;"; //used between tags on complex files (like Account's borrowables)
     static final String dataPath = "../Data/", //where is data in general being stored
             accountsPath = "AccountList.json",
+            borrowablesPath = "borrowables.json",
             libariesPath = "Libraries.txt";
 
     /**
@@ -41,9 +42,9 @@ class Persistence {
      */
     static void saveToFile(String savePath, Borrowable[] data) {
         try {
-            PrintWriter saveFile = new PrintWriter(dataPath + savePath); //To write data to file
+            FileWriter saveFile = new FileWriter(dataPath + borrowablesPath); //To write data to file
             for (Borrowable borrowable : data) {
-                saveFile.println(borrowable.makeString()); //Convert each borrowable into a string and print to file
+                Jsoner.serialize(List.of(data), saveFile); //Convert each borrowable into a json string and print to file
             }
             saveFile.close(); //Close file
         } catch (IOException e) {
