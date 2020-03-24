@@ -1,5 +1,9 @@
+import com.github.cliftonlabs.json_simple.Jsoner;
+
 import java.io.*;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -10,7 +14,7 @@ class Persistence {
     static final String splitter = "::"; //used between tags for when reading from or saving to a file
     static final String splitter2 = ";;"; //used between tags on complex files (like Account's borrowables)
     static final String dataPath = "../Data/", //where is data in general being stored
-            accountsPath = "AccountList.txt",
+            accountsPath = "AccountList.json",
             libariesPath = "Libraries.txt";
 
     /**
@@ -54,9 +58,9 @@ class Persistence {
      */
     static void saveToFile(Account[] data) {
         try {
-            PrintWriter saveFile = new PrintWriter(dataPath + accountsPath); //To write data to file
+            FileWriter saveFile = new FileWriter(dataPath + accountsPath); //To write data to file
             for (Account account : data) {
-                saveFile.println(account.makeString()); //Convert each account into a string and print to file
+                Jsoner.serialize(List.of(data), saveFile); //Convert each account into a json string and print to file
             }
             saveFile.close(); //Close file
         } catch (IOException e) {

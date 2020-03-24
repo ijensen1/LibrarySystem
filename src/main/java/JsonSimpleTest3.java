@@ -6,6 +6,7 @@ import org.dozer.Mapper;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,14 +18,20 @@ public class JsonSimpleTest3 {
         try (FileReader fileReader = new FileReader(("C:\\projects\\user4.json"))) {
 
             JsonArray objects = Jsoner.deserializeMany(fileReader);
+            for (Object obj : objects) {
+                if (obj instanceof JsonTestStaff) {
 
+                }
+            }
+
+            /*
             Mapper mapper = new DozerBeanMapper();
 
             JsonArray o = (JsonArray) objects.get(0);
             List<JsonTestStaff> collect = o.stream()
                     .map(x -> mapper.map(x, JsonTestStaff.class)).collect(Collectors.toList());
             collect.forEach(x -> System.out.println(x));
-
+            */
         }
 
     }
