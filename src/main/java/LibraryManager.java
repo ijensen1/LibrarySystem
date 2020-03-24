@@ -3,6 +3,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 /**
@@ -14,8 +15,31 @@ import java.util.ArrayList;
 public class LibraryManager {
 
   public static void main(String[] args) {
-      FrontEnd fe = new FrontEnd();
-      fe.run();
+      Scanner input = new Scanner(System.in);
+      System.out.print("Are you running in admin mode? true/false");
+      boolean adminMode = Boolean.parseBoolean(input.nextLine());
+      if (adminMode) {
+          while (true) {
+              System.out.print("Please enter your password: ");
+              if (!LibraryManager.passToHash(input.nextLine()).equals(AdminConsole.pass)) {
+                  System.out.println("Password invalid. Please try again.");
+              } else {
+                  System.out.println("Recognized.");
+                  break;
+              }
+          }
+          AdminConsole ac = new AdminConsole();
+          try {
+              ac.run();
+          } catch (Exception e) {
+              System.out.println(e.toString());
+          }
+
+      } else {
+          FrontEnd fe = new FrontEnd();
+          fe.run();
+      }
+
   }
 
     /**
@@ -29,8 +53,8 @@ public class LibraryManager {
    * @param email the email to log in with
    * @return the account selected
    */
-  public Account login(String email, String passhash, ArrayList<Account> accounts) {
-
+  public Account login(String email, String passhash, ArrayList<Account> accounts) throws Exception {
+      System.out.println("Password not implemented!");
       for (Account acnt : accounts) {
           if (acnt.getEmail().equals(email)) {
               return acnt;
@@ -62,7 +86,7 @@ public class LibraryManager {
 
   }
 
-  public String passToHash(String password) {
+  public static String passToHash(String password) {
       try {
           MessageDigest digest = MessageDigest.getInstance("SHA-512");
           byte[] hash = digest.digest(
