@@ -126,37 +126,20 @@ class Persistence {
      * Method to load an array of Accounts from a given File.
      * @return an array of the Accounts in the accounts file.
      */
-    static Account[] loadAccounts() {
+    static Account[] loadAccounts(String loadPath) throws IOException, JsonException {
         try {
-            Account[] data = new Account[0]; //To hold data that the file contains
-            File load = new File(dataPath + accountsPath); //To hold the file
 
-            //Check if the file exists
-            if (!load.exists())
-                return data; //Return a length 0 array if the file doesn't exist
-
-            Scanner readFile = new Scanner(load); //To read from file
-            String[] current; //To hold the current Borrowable being read
-
-            //Load all lines from the Scanner
-            while (readFile.hasNextLine()) {
-                Borrowable[] items = new Borrowable[0];
-                data = Arrays.copyOf(data, data.length + 1); //Extend data by one
-                current = readFile.nextLine().split(Persistence.splitter); //Read the next Account and split it into its tags
-                String[] checkedOut = readFile.nextLine().replace("CHECKED_OUT:", "").split(Persistence.splitter2);
-                if (!checkedOut[0].equals("")) { //Checking that there are any checked out books
-                    for (String item : checkedOut) {
-                        String[] info = item.split(Persistence.splitter);
-                        items = Arrays.copyOf(items, items.length+1);
-                        items[items.length-1] = new Borrowable(info[0], Byte.parseByte(info[1]), info[2], info[3], info[4], info[5]);
-                    }
+            FileReader load = new FileReader(dataPath + loadPath); //To hold the file
+            JsonArray objects = Jsoner.deserializeMany(load);
+            ArrayList<Account> result = new ArrayList<>();
+            for (Object obj : objects) {
+                if (obj instanceof Account) {
+                    result.add((Account) obj);
                 }
-                data[data.length - 1] = new Account(current[0], current[1], current[2], current[3]); //Put the current Account in data
-                data[data.length - 1].setCheckedOut(items);
-
             }
-            return data; //Return data
-        } catch (IOException e) {
+
+            return result.toArray(new Account[0]);
+        } catch (IOException | JsonException e) {
             //Some error occurred while trying to load from the file
             System.out.println("Error trying to load file: " + e.toString());
             return null;
