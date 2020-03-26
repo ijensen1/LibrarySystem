@@ -20,18 +20,22 @@ public class Library {
     public Library(String libraryName) {
         //Set library's name to whatever was entered.
         this.libraryName = libraryName;
-        Borrowable[] loaded = Persistence.loadBorrowables();
-        for (Borrowable item : loaded) {
-            if (item.getHome().equals(libraryName)) {
-                if (item instanceof Book) {
-                    books.add((Book) item);
-                }
-                if (item instanceof CD) {
-                    cds.add((CD) item);
-                }
-                if (item instanceof DVD) {
-                    dvds.add((DVD) item);
-                }
+        Borrowable[] books = Persistence.loadBorrowables("books");
+        Borrowable[] cds = Persistence.loadBorrowables("cds");
+        Borrowable[] dvds = Persistence.loadBorrowables("dvds");
+        for (Borrowable book : books) {
+            if (book.getHome().equals(libraryName)) {
+                this.books.add((Book) book);
+            }
+        }
+        for (Borrowable cd : cds) {
+            if (cd.getHome().equals(libraryName)) {
+                this.cds.add((CD) cd);
+            }
+        }
+        for (Borrowable dvd : dvds) {
+            if (dvd.getHome().equals(libraryName)) {
+                this.dvds.add((DVD) dvd);
             }
         }
 
@@ -172,17 +176,9 @@ public class Library {
      * Save library's collections to their appropriate files.
      */
     public void save() {
-        ArrayList<Borrowable> all = new ArrayList<>();
-        for (Book book : books) {
-            all.add(book);
-        }
-        for (DVD dvd : dvds) {
-            all.add(dvd);
-        }
-        for (CD cd : cds) {
-            all.add(cd);
-        }
-        Persistence.saveToFile(all.toArray(new Borrowable[0]));
+        Persistence.saveToFile("books", books.toArray(new Borrowable[0]));
+        Persistence.saveToFile("dvds", dvds.toArray(new Borrowable[0]));
+        Persistence.saveToFile("cds", cds.toArray(new Borrowable[0]));
     }
 
 }

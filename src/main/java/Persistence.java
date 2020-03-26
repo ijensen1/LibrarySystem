@@ -24,9 +24,9 @@ class Persistence {
      * Method to save an array of Borrowables to a given File.
      * @param data the Borrowables to save.
      */
-    static void saveToFile(Borrowable[] data) {
+    static void saveToFile(String type, Borrowable[] data) {
         try {
-            FileWriter saveFile = new FileWriter(dataPath + borrowablesPath); //To write data to file
+            FileWriter saveFile = new FileWriter(dataPath + type + ".json"); //To write data to file
             for (Borrowable borrowable : data) {
                 Jsoner.serialize(List.of(data), saveFile); //Convert each borrowable into a json string and print to file
             }
@@ -86,10 +86,10 @@ class Persistence {
      * Method to load an array of Borrowables from a given File.
      * @return an array of the Borrowables in that file.
      */
-    static Borrowable[] loadBorrowables() {
+    static Borrowable[] loadBorrowables(String type) {
         try {
 
-            FileReader load = new FileReader(dataPath + borrowablesPath); //To hold the file
+            FileReader load = new FileReader(dataPath + type + ".json"); //To hold the file
             JsonArray objects = Jsoner.deserializeMany(load);
             ArrayList<Borrowable> result = new ArrayList<>();
             for (Object obj : objects) {
