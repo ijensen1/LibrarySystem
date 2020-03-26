@@ -68,9 +68,12 @@ public class PictureBook extends Book implements Jsonable {
         final JsonObject json = new JsonObject();
         json.put("home", this.getHome());
         json.put("title", this.getTitle());
-        json.put("Genres", this.getGenres());
-        json.put("Illustrator", this.getIllustrator());
-        json.put("salary", this.isPopUpBook());
+        json.put("genres", this.getGenres());
+        json.put("author", this.getAuthor());
+        json.put("isbn", this.getIsbn());
+        json.put("isHardcover", this.isHardcover());
+        json.put("illustrator", this.getIllustrator());
+        json.put("isPopUpBook", this.isPopUpBook());
         json.toJson(writer);
 
     }

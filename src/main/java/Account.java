@@ -1,4 +1,5 @@
 import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsonable;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * Data class to hold account details, as well as a list of items the account holder may have checked out.
  * Also includes makeString() for Persistance compatibility.
  */
-public class Account {
+public class Account implements Jsonable {
 
     private String firstName;
     private String lastName;
@@ -32,7 +33,8 @@ public class Account {
         this.lastName = lastName;
         this.phone = phone;
         this.email = email;
-        this.checkedOut = new ArrayList<>(); //By default this starts at zero. Make sure to set it when loading!
+        this.checkedOut = new ArrayList<>();
+        this.passhash = passhash;
     }
 
     public String getFirstName() {
@@ -121,11 +123,12 @@ public class Account {
     public void toJson(Writer writer) throws IOException {
 
         final JsonObject json = new JsonObject();
-        json.put("First Name", this.getFirstName());
-        json.put("Last Name", this.getLastName());
-        json.put("Phone", this.getPhone());
-        json.put("Email", this.getEmail());
-        json.put("Check Out", this.getCheckedOut());
+        json.put("firstName", this.getFirstName());
+        json.put("lastName", this.getLastName());
+        json.put("phone", this.getPhone());
+        json.put("email", this.getEmail());
+        json.put("checkedOut", this.getCheckedOut());
+        json.put("passhash", this.getPasshash());
         json.toJson(writer);
 
     }

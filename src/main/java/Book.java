@@ -74,11 +74,11 @@ public class Book extends Borrowable implements Jsonable {
 
         final JsonObject json = new JsonObject();
         json.put("title", this.getTitle());
-        json.put("Home", this.getHome());
-        json.put("Author", this.getAuthor());
+        json.put("home", this.getHome());
+        json.put("author", this.getAuthor());
         json.put("isbn", this.getIsbn());
-        json.put("hardcover", this.isHardcover());
-        json.put("genre", this.getGenres());
+        json.put("isHardcover", this.isHardcover());
+        json.put("genres", this.getGenres());
         json.toJson(writer);
 
     }

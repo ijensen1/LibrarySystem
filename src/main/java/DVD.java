@@ -79,11 +79,11 @@ public class DVD extends Borrowable implements Jsonable {
     public void toJson(Writer writer) throws IOException {
 
         final JsonObject json = new JsonObject();
-        json.put("Home", this.getHome());
-        json.put("Title", this.getTitle());
+        json.put("home", this.getHome());
+        json.put("title", this.getTitle());
         json.put("genres", this.getGenres());
-        json.put("directors", this.getDirector());
-        json.put("ratings", this.getRating());
+        json.put("director", this.getDirector());
+        json.put("rating", this.getRating());
         json.put("actors", this.getActors());
         json.toJson(writer);
 

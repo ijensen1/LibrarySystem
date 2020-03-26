@@ -61,10 +61,11 @@ public class LibraryManager {
    * @return the account selected
    */
   public Account login(String email, String passhash, ArrayList<Account> accounts) throws Exception {
-      System.out.println("Password not implemented!");
       for (Account acnt : accounts) {
           if (acnt.getEmail().equals(email)) {
-              return acnt;
+              if (acnt.getPasshash().equals(passhash)) {
+                  return acnt;
+              }
           }
       }
       return null;
@@ -72,6 +73,7 @@ public class LibraryManager {
   /**
    * Find library from loaded list by name
    * @param libName the name to search for
+   * @param libraries List of libraries to search
    * @return the library found, or null if none found
    */
   public Library chooseLibrary(String libName, ArrayList<Library> libraries) {
