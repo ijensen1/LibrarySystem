@@ -15,13 +15,14 @@ class Persistence {
     //constants
     static final String splitter = "::"; //used between tags for when reading from or saving to a file
     static final String splitter2 = ";;"; //used between tags on complex files (like Account's borrowables)
-    static final String dataPath = "C:\\Users\\blue_\\IdeaProjects\\LibrarySystem2\\target\\Data", //where is data in general being stored
+    static final String dataPath = "C:/Users/jganger-spivak/Documents/GitHub/LibrarySystem/target/Data/", //where is data in general being stored. Direct path, change if needed
             accountsPath = "AccountList.json",
             borrowablesPath = "borrowables.json",
             libariesPath = "Libraries.txt";
 
     /**
      * Method to save an array of Borrowables to a given File.
+     * @param type The type of borrowable to save (what file)
      * @param data the Borrowables to save.
      */
     static void saveToFile(String type, Borrowable[] data) {
@@ -84,7 +85,10 @@ class Persistence {
 
     /**
      * Method to load an array of Borrowables from a given File.
+     * @param type THe type of borrowable to look for (what file)
      * @return an array of the Borrowables in that file.
+     * @exception IOException Error with opening the file
+     * @exception JsonException Error with parsing JSON
      */
     static Borrowable[] loadBorrowables(String type) {
         try {
@@ -93,7 +97,7 @@ class Persistence {
             JsonArray objects = Jsoner.deserializeMany(load);
             Mapper mapper = new DozerBeanMapper();
             JsonArray o = (JsonArray) objects.get(0);
-            List<Borrowable> result = o.stream().map(x -> mapper.map(x, Borrowable.class)).collect(Collectors.toList());
+            List<Borrowable> result = o.stream().map(x -> mapper.map(x, Borrowable.class)).collect(Collectors.toList()); //Maps the JsonArray to a new Borrowable object.
 
 
             return result.toArray(new Borrowable[0]);
@@ -107,6 +111,8 @@ class Persistence {
     /**
      * Method to load an array of Accounts from a given File.
      * @return an array of the Accounts in the accounts file.
+     * @exception IOException Error with opening the file
+     * @exception JsonException Error with parsing JSON
      */
     static Account[] loadAccounts() throws IOException, JsonException {
         try {
@@ -115,7 +121,7 @@ class Persistence {
             JsonArray objects = Jsoner.deserializeMany(load);
             Mapper mapper = new DozerBeanMapper();
             JsonArray o = (JsonArray) objects.get(0);
-            List<Account> result = o.stream().map(x -> mapper.map(x, Account.class)).collect(Collectors.toList());
+            List<Account> result = o.stream().map(x -> mapper.map(x, Account.class)).collect(Collectors.toList()); //Maps the JsonArray to a new Account object.
 
 
             return result.toArray(new Account[0]);

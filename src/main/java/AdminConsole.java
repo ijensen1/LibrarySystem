@@ -67,7 +67,7 @@ public class AdminConsole {
                     String author = input.nextLine();
                     System.out.print("Is this book hardcover? true/false");
                     boolean hardcover = Boolean.parseBoolean(input.nextLine());
-                    userLibrary.add(new Book(userLibrary.getLibraryName(), title, genres.toArray(new String[0]), author, isbn, hardcover));
+                    userLibrary.add(new Book(userLibrary.getLibraryName(), title, genres, author, isbn, hardcover));
                     System.out.println(userLibrary.searchGenre("book", "nonfiction"));
                 }
                 if (itemType.equals("cd")) {
@@ -99,7 +99,7 @@ public class AdminConsole {
                             break;
                         }
                     }
-                    userLibrary.add(new CD(userLibrary.getLibraryName(), title, genres.toArray(new String[0]), producer, artist, rating, songs.toArray(new String[0])));
+                    userLibrary.add(new CD(userLibrary.getLibraryName(), title, genres, producer, artist, rating, songs.toArray(new String[0])));
 
                 }
                 if (itemType.equals("dvd")) {
@@ -129,7 +129,7 @@ public class AdminConsole {
                             break;
                         }
                     }
-                    userLibrary.add(new DVD(userLibrary.getLibraryName(), title, genres.toArray(new String[0]), rating, director, actors.toArray(new String[0])));
+                    userLibrary.add(new DVD(userLibrary.getLibraryName(), title, genres, rating, director, actors.toArray(new String[0])));
                 }
                 if (itemType.equals("picturebook")) {
                     System.out.print("Please enter the title of the " + itemType + ": ");
@@ -154,7 +154,7 @@ public class AdminConsole {
                     String illustrator = input.nextLine();
                     System.out.print("Is this picture book a pop up book? true/false");
                     boolean isPopUpBook = Boolean.parseBoolean(input.nextLine());
-                    userLibrary.add(new PictureBook(userLibrary.getLibraryName(), title, genres.toArray(new String[0]), author, isbn, hardcover, illustrator, isPopUpBook));
+                    userLibrary.add(new PictureBook(userLibrary.getLibraryName(), title, genres, author, isbn, hardcover, illustrator, isPopUpBook));
                 }
             }
             if (choice.equals("quit")) {
