@@ -1,3 +1,8 @@
+import com.github.cliftonlabs.json_simple.JsonObject;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 /**
@@ -15,7 +20,7 @@ class Borrowable {
      * @param title title of the work.
      * @param genres the genres of the work.
      */
-    Borrowable(String home, String title, ArrayList<String> genres) {
+    public Borrowable(String home, String title, ArrayList<String> genres) {
         this.home = home;
         this.title = title;
         this.genres = genres;
@@ -91,6 +96,31 @@ class Borrowable {
     @Deprecated
     public String makeString() {
         return null;
+    }
+
+    @Override
+    public String toJson(){
+
+        final StringWriter writable = new StringWriter();
+        try{
+            this.toJson(writable);
+        } catch (final IOException e) {
+
+        }
+        return writable.toString();
+
+    }
+
+    @Override
+    public void toJson(Writer writer) throws IOException {
+
+        final JsonObject json = new JsonObject();
+        json.put("home", this.getHome());
+        json.put("title", this.getTitle());
+        json.put("inOut", this.getInOut());
+        json.put("generes", this.getGenres());
+        json.toJson(writer);
+
     }
 
 }

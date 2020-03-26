@@ -15,7 +15,7 @@ class Persistence {
     //constants
     static final String splitter = "::"; //used between tags for when reading from or saving to a file
     static final String splitter2 = ";;"; //used between tags on complex files (like Account's borrowables)
-    static final String dataPath = "C:/Users/jganger-spivak/Documents/GitHub/LibrarySystem/target/Data/", //where is data in general being stored
+    static final String dataPath = "C:\\Users\\blue_\\IdeaProjects\\LibrarySystem2\\target\\Data", //where is data in general being stored
             accountsPath = "AccountList.json",
             borrowablesPath = "borrowables.json",
             libariesPath = "Libraries.txt";
