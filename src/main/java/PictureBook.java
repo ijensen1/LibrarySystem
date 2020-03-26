@@ -50,7 +50,7 @@ public class PictureBook extends Book implements Jsonable {
     }
 
     public String[] getPeople(){
-        return new String[]{author, illustrator};
+        return new String[]{this.getAuthor(), illustrator};
     }
 
     @Override

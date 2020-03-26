@@ -78,6 +78,8 @@ public class FrontEnd {
             System.exit(-1);
         }
         //Actions are: check in, search/checkout, quit
+
+
         System.out.println(); //extra line to clean things up
         boolean done = false;
         while (!done) { //This is the main frontend loop. All commands entered here

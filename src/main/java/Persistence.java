@@ -91,12 +91,10 @@ class Persistence {
 
             FileReader load = new FileReader(dataPath + type + ".json"); //To hold the file
             JsonArray objects = Jsoner.deserializeMany(load);
-            ArrayList<Borrowable> result = new ArrayList<>();
-            for (Object obj : objects) {
-                if (obj instanceof Borrowable) {
-                    result.add((Borrowable) obj);
-                }
-            }
+            Mapper mapper = new DozerBeanMapper();
+            JsonArray o = (JsonArray) objects.get(0);
+            List<Borrowable> result = o.stream().map(x -> mapper.map(x, Borrowable.class)).collect(Collectors.toList());
+
 
             return result.toArray(new Borrowable[0]);
         } catch (IOException | JsonException e) {

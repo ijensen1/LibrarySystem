@@ -23,23 +23,26 @@ public class Library {
         Borrowable[] books = Persistence.loadBorrowables("books");
         Borrowable[] cds = Persistence.loadBorrowables("cds");
         Borrowable[] dvds = Persistence.loadBorrowables("dvds");
+        int loadCount = 0;
         for (Borrowable book : books) {
             if (book.getHome().equals(libraryName)) {
                 this.books.add((Book) book);
+                loadCount++;
             }
         }
         for (Borrowable cd : cds) {
             if (cd.getHome().equals(libraryName)) {
                 this.cds.add((CD) cd);
+                loadCount++;
             }
         }
         for (Borrowable dvd : dvds) {
             if (dvd.getHome().equals(libraryName)) {
                 this.dvds.add((DVD) dvd);
+                loadCount++;
             }
         }
-
-//        Deserialize from files here *********************
+        System.out.println("loadCount = " + loadCount);
     }
 
     public String getLibraryName() {

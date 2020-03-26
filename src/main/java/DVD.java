@@ -10,8 +10,8 @@ import java.util.Arrays;
  * Class to hold information about a DVD.
  */
 public class DVD extends Borrowable implements Jsonable {
-    protected String director, rating;
-    protected String[] actors;
+    private String director, rating;
+    private String[] actors;
 
     /**
      * Constructor to make a DVD object.

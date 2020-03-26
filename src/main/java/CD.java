@@ -9,8 +9,8 @@ import java.io.Writer;
  * Class to hold information about a CD.
  */
 public class CD extends Borrowable implements Jsonable {
-    protected String producer, artist, rating;
-    protected String[] songs;
+    private String producer, artist, rating;
+    private String[] songs;
 
     /**
      * Constructor to make a CD object.

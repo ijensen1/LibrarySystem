@@ -4,10 +4,10 @@ import java.util.ArrayList;
  * To create a single book/dvd/cd.
  */
 class Borrowable {
-    protected String home, //To hold the work's home
-            title, //To hold the work's title
-            inOut, //To hold whether or not the work is checked in or out
-            genres[]; //To hold the work's genres
+    private String home; //To hold the work's home
+    private String title; //To hold the work's title
+    private String inOut; //To hold whether or not the work is checked in or out
+    private String[] genres; //To hold the work's genres
 
     /**
      * Constructor to take in and set the tags to appropriate values.

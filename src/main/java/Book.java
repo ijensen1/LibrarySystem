@@ -9,8 +9,8 @@ import java.io.Writer;
  * Class to hold information about a book.
  */
 public class Book extends Borrowable implements Jsonable {
-    protected String author, isbn;
-    protected boolean hardcover;
+    private String author, isbn;
+    private boolean hardcover;
 
     /**
      * Constructor to make a Book object.
