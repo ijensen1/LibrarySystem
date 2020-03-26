@@ -1,3 +1,6 @@
+import com.github.cliftonlabs.json_simple.JsonException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -12,9 +15,14 @@ public class FrontEnd {
             libraries.set(i, new Library(libNames[i]));
         }
         accounts = new ArrayList<>();
-        accounts.addAll(Arrays.asList(Persistence.loadAccounts()));
+        try {
+            accounts.addAll(Arrays.asList(Persistence.loadAccounts()));
+        } catch (IOException | JsonException e) {
+            System.out.println("Error! " + e.toString());
+            System.exit(0);
+        }
     }
-    public void run() {
+    public void run() throws Exception {
         LibraryManager lm = new LibraryManager(); //Instancing it because we have instance variables already.
         Scanner input = new Scanner(System.in);
 

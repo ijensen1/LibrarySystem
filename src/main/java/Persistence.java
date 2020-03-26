@@ -12,7 +12,7 @@ class Persistence {
     //constants
     static final String splitter = "::"; //used between tags for when reading from or saving to a file
     static final String splitter2 = ";;"; //used between tags on complex files (like Account's borrowables)
-    static final String dataPath = "../Data/", //where is data in general being stored
+    static final String dataPath = "./Data/", //where is data in general being stored
             accountsPath = "AccountList.json",
             borrowablesPath = "borrowables.json",
             libariesPath = "Libraries.txt";
@@ -109,10 +109,10 @@ class Persistence {
      * Method to load an array of Accounts from a given File.
      * @return an array of the Accounts in the accounts file.
      */
-    static Account[] loadAccounts(String loadPath) throws IOException, JsonException {
+    static Account[] loadAccounts() throws IOException, JsonException {
         try {
 
-            FileReader load = new FileReader(dataPath + loadPath); //To hold the file
+            FileReader load = new FileReader(dataPath + accountsPath); //To hold the file
             JsonArray objects = Jsoner.deserializeMany(load);
             ArrayList<Account> result = new ArrayList<>();
             for (Object obj : objects) {

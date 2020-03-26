@@ -20,7 +20,7 @@ public class Library {
     public Library(String libraryName) {
         //Set library's name to whatever was entered.
         this.libraryName = libraryName;
-
+        
 //        Deserialize from files here *********************
     }
 

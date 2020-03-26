@@ -33,11 +33,18 @@ public class LibraryManager {
               ac.run();
           } catch (Exception e) {
               System.out.println(e.toString());
+              System.exit(0);
           }
 
       } else {
           FrontEnd fe = new FrontEnd();
-          fe.run();
+
+          try {
+              fe.run();
+          } catch (Exception e) {
+              System.out.println(e.toString());
+              System.exit(0);
+          }
       }
 
   }
