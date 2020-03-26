@@ -30,6 +30,10 @@ public class CD extends Borrowable implements Jsonable {
         this.songs = songs;
     }
 
+    public CD(){
+        super();
+    }
+
     public String getProducer() {
         return producer;
     }

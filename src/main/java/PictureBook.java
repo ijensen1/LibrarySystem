@@ -29,6 +29,10 @@ public class PictureBook extends Book implements Jsonable {
         this.isPopUpBook = isPopUpBook;
     }
 
+    public PictureBook(){
+        super();
+    }
+
     public String getIllustrator() {
         return illustrator;
     }

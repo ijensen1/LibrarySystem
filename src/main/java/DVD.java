@@ -29,6 +29,10 @@ public class DVD extends Borrowable implements Jsonable {
         this.actors = actors;
     }
 
+    public DVD(){
+        super();
+    }
+
     public String getDirector() {
         return director;
     }

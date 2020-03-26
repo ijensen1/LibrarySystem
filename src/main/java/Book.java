@@ -28,6 +28,10 @@ public class Book extends Borrowable implements Jsonable {
         this.hardcover = hardcover;
     }
 
+    public Book(){
+        super();
+    }
+
     public String getAuthor() {
         return author;
     }

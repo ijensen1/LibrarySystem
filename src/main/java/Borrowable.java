@@ -22,6 +22,10 @@ class Borrowable {
         inOut = "in";
     }
 
+    public Borrowable() {
+
+    }
+
     /**
      * Updates the inOut field of the Borrowable to "out" if it is currently "in".
      */
