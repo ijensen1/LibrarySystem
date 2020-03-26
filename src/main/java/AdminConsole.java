@@ -35,7 +35,7 @@ public class AdminConsole {
         System.out.println("Libraries in system: ");
         for (Library lib : libraries)
             System.out.println(lib.getLibraryName());
-        System.out.print("Please enter the name of the library you are in: "); //Library selection, so we know when to ask for transfer
+        System.out.print("Please enter the name of the library you are in: ");
         String libName = input.nextLine();
         Library userLibrary = lm.chooseLibrary(libName, libraries); //And where the user is currently
 

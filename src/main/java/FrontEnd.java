@@ -10,9 +10,9 @@ public class FrontEnd {
     private ArrayList<Library> libraries;
     public FrontEnd() {
         String[] libNames = Persistence.loadLibraryNames();
-        libraries = new ArrayList<>(libNames.length);
-        for (int i = 0; i < libraries.size(); i++) {
-            libraries.set(i, new Library(libNames[i]));
+        libraries = new ArrayList<>();
+        for (String name : libNames) {
+            libraries.add(new Library(name));
         }
         accounts = new ArrayList<>();
         try {
@@ -37,6 +37,7 @@ public class FrontEnd {
             System.out.print("Please enter your password: ");
             String password = input.nextLine();
             userAccount = lm.login(email, password, accounts); //Login function searches accounts for a matching one based off of email and password hash
+
             if (userAccount == null) {
                 System.err.println("User account not found. Quitting...");
                 System.exit(-1);
@@ -69,14 +70,14 @@ public class FrontEnd {
         System.out.println("Libraries in system: ");
         for (Library lib : libraries)
             System.out.println(lib.getLibraryName());
-        System.out.print("Please enter the name of the library you are in: "); //Library selection, so we know when to ask for transfer
+        System.out.print("Please enter the name of the library you are in: ");
         String libName = input.nextLine();
-        userLibrary = lm.chooseLibrary(libName, libraries); //And where the user is currently
+        userLibrary = lm.chooseLibrary(libName, libraries); //Where the user is currently, also which books to load into inventory
         if (userLibrary == null) {
             System.err.println("Library not found. Quitting...");
             System.exit(-1);
         }
-        //Actions are: check in, search/checkout, transfer, quit
+        //Actions are: check in, search/checkout, quit
         System.out.println(); //extra line to clean things up
         boolean done = false;
         while (!done) { //This is the main frontend loop. All commands entered here
