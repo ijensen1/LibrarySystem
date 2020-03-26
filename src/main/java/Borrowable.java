@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * To create a single book/dvd/cd.
@@ -68,8 +69,8 @@ class Borrowable {
         this.title = title;
     }
 
-    public ArrayList<String> getGenres() {
-        return genres;
+    public List<String> getGenres() {
+        return (List) genres;
     }
 
     public void setGenres(ArrayList<String> genres) {
