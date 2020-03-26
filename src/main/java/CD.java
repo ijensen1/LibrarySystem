@@ -67,8 +67,12 @@ public class CD extends Borrowable implements Jsonable {
         this.songs = songs;
     }
 
+    /**
+     * Method to get a list of all people associated with the CD.
+     * @return a String[] containing the producer and rtist.
+     */
     public String[] getPeople() {
-        return new String[]{artist};
+        return new String[]{this.producer, artist};
     }
 
     @Override

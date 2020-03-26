@@ -57,6 +57,10 @@ public class Book extends Borrowable implements Jsonable {
         this.hardcover = hardcover;
     }
 
+    /**
+     * Method to get a list of all people associated with the book.
+     * @return a String[] containing the author.
+     */
     public String[] getPeople(){
         return new String[]{author};
     }

@@ -50,6 +50,10 @@ public class PictureBook extends Book implements Jsonable {
         isPopUpBook = popupBook;
     }
 
+    /**
+     * Method to get a list of all people associated with the picture book.
+     * @return a String[] containing the author and illustrator.
+     */
     public String[] getPeople(){
         return new String[]{this.getAuthor(), illustrator};
     }

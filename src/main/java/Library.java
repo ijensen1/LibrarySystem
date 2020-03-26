@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * Class to handle inventory of a specific library, all method inputs are case in-sensitive. Uses 2d arrays to hold information and has methods for data query.
+ * Class to handle inventory of a specific library.
  */
 public class Library {
     //Variables for library data

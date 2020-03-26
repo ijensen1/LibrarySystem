@@ -58,6 +58,10 @@ public class DVD extends Borrowable implements Jsonable {
         this.actors = actors;
     }
 
+    /**
+     * Method to get a list of all people associated with the DVD.
+     * @return a String[] with the director and actors.
+     */
     public String[] getPeople(){
         String[] people = new String[1 + actors.length];
         people[0] = director;
