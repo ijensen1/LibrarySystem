@@ -18,23 +18,6 @@ class Persistence {
             libariesPath = "Libraries.txt";
 
     /**
-     * Method to save the list of library names.
-     * @param libraries the list of libaries.
-     */
-    static void saveToFile(Library[] libraries) {
-        try {
-            PrintWriter saveFile = new PrintWriter(dataPath + libariesPath); //To write names to file
-            for (Library library : libraries) {
-                saveFile.println(library.getLibraryName()); //Print the name of each library to the file.
-            }
-            saveFile.close(); //Close file
-        } catch (IOException e) {
-            //Some error occurred while trying to save to the file
-            System.out.println("Error trying to save file: " + e.toString());
-        }
-    }
-
-    /**
      * Method to save an array of Borrowables to a given File.
      * @param savePath where the file to save to is located.
      * @param data the Borrowables to save.
