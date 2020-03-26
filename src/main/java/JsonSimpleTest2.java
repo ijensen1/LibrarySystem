@@ -12,7 +12,7 @@ public class JsonSimpleTest2 {
     public static void main(String[] args) throws IOException, JsonException {
 
         // The file `user3.json` is generated from above example 3.1
-        try (FileReader fileReader = new FileReader(("C:\\projects\\user3.json"))) {
+        try (FileReader fileReader = new FileReader(("staffTest.json"))) {
 
             JsonObject deserialize = (JsonObject) Jsoner.deserialize(fileReader);
 

@@ -15,7 +15,7 @@ public class JsonSimpleTest3 {
     public static void main(String[] args) throws IOException, JsonException {
 
         // The file `user4.json` is generated from above example 3.2
-        try (FileReader fileReader = new FileReader(("C:\\projects\\user4.json"))) {
+        try (FileReader fileReader = new FileReader(("staffTest.json"))) {
 
             JsonArray objects = Jsoner.deserializeMany(fileReader);
             for (Object obj : objects) {
