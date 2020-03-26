@@ -36,7 +36,7 @@ public class FrontEnd {
             String email = input.nextLine();
             System.out.print("Please enter your password: ");
             String password = input.nextLine();
-            userAccount = lm.login(email, password, accounts); //Login function searches accounts for a matching one based off of email and password hash
+            userAccount = lm.login(email, LibraryManager.passToHash(password), accounts); //Login function searches accounts for a matching one based off of email and password hash
 
             if (userAccount == null) {
                 System.err.println("User account not found. Quitting...");

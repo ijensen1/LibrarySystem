@@ -62,6 +62,7 @@ public class LibraryManager {
    */
   public Account login(String email, String passhash, ArrayList<Account> accounts) throws Exception {
       System.out.println(accounts);
+
       for (Account acnt : accounts) {
           if (acnt.getEmail().equals(email)) {
               if (acnt.getPasshash().equals(passhash)) {

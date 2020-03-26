@@ -37,6 +37,10 @@ public class Account implements Jsonable {
         this.passhash = passhash;
     }
 
+    public Account() {
+        
+    }
+
     public String getFirstName() {
         return firstName;
     }
