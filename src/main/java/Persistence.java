@@ -1,10 +1,9 @@
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonException;
 import com.github.cliftonlabs.json_simple.Jsoner;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Class to allow saving and loading from files. Also holds data about saving/loading files.
@@ -105,24 +104,18 @@ class Persistence {
      */
     static Borrowable[] loadBorrowables(String loadPath) {
         try {
-            Borrowable[] data = new Borrowable[0]; //To hold data that the file contains
-            File load = new File(dataPath + loadPath); //To hold the file
 
-            //Check if the file exists
-            if (!load.exists())
-                return data; //Return a length 0 array if the file doesn't exist
-
-            Scanner readFile = new Scanner(load); //To read from file
-            String[] current; //To hold the current Borrowable being read
-
-            //Load all lines from the Scanner
-            while (readFile.hasNextLine()) {
-                data = Arrays.copyOf(data, data.length + 1); //Extend data by one
-                current = readFile.nextLine().split(Persistence.splitter); //Read the next Borrowable and split it into its tags
-                data[data.length - 1] = new Borrowable(current[0], Byte.parseByte(current[1]), current[2], current[3], current[4], current[5]); //Put the current Borrowable in data
+            FileReader load = new FileReader(dataPath + loadPath); //To hold the file
+            JsonArray objects = Jsoner.deserializeMany(load);
+            ArrayList<Borrowable> result = new ArrayList<>();
+            for (Object obj : objects) {
+                if (obj instanceof Borrowable) {
+                    result.add((Borrowable) obj);
+                }
             }
-            return data; //Return data
-        } catch (IOException e) {
+
+            return result.toArray(new Borrowable[0]);
+        } catch (IOException | JsonException e) {
             //Some error occurred while trying to load from the file
             System.out.println("Error trying to load file: " + e.toString());
             return null;
