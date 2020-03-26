@@ -4,6 +4,7 @@ import com.github.cliftonlabs.json_simple.Jsonable;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 
 /**
  * Class to hold information about a picture book.
@@ -23,7 +24,7 @@ public class PictureBook extends Book implements Jsonable {
      * @param illustrator the picture book's illustrator.
      * @param isPopUpBook whether or not the picture book is also a pop-up book.
      */
-    PictureBook(String home, String title, String[] genres, String author, String isbn, boolean hardcover, String illustrator, boolean isPopUpBook) {
+    PictureBook(String home, String title, ArrayList<String> genres, String author, String isbn, boolean hardcover, String illustrator, boolean isPopUpBook) {
         super(home, title, genres, author, isbn, hardcover);
         this.illustrator = illustrator;
         this.isPopUpBook = isPopUpBook;

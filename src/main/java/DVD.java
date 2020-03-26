@@ -4,6 +4,7 @@ import com.github.cliftonlabs.json_simple.Jsonable;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -22,7 +23,7 @@ public class DVD extends Borrowable implements Jsonable {
      * @param director the director of the DVD.
      * @param actors the actors in the DVD.w
      */
-    DVD(String home, String title, String[] genres, String rating, String director, String[] actors) {
+    DVD(String home, String title, ArrayList<String> genres, String rating, String director, String[] actors) {
         super(home, title, genres);
         this.rating = rating;
         this.director = director;

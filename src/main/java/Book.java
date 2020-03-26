@@ -4,6 +4,7 @@ import com.github.cliftonlabs.json_simple.Jsonable;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 
 /**
  * Class to hold information about a book.
@@ -21,7 +22,7 @@ public class Book extends Borrowable implements Jsonable {
      * @param isbn the ISBN number of the book.
      * @param hardcover whether or not the book is hardcover.
      */
-    Book(String home, String title, String[] genres, String author, String isbn, boolean hardcover) {
+    Book(String home, String title, ArrayList<String> genres, String author, String isbn, boolean hardcover) {
         super(home, title, genres);
         this.author = author;
         this.isbn = isbn;

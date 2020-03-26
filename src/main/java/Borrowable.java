@@ -7,7 +7,7 @@ class Borrowable {
     private String home; //To hold the work's home
     private String title; //To hold the work's title
     private String inOut; //To hold whether or not the work is checked in or out
-    private String[] genres; //To hold the work's genres
+    private ArrayList<String> genres; //To hold the work's genres
 
     /**
      * Constructor to take in and set the tags to appropriate values.
@@ -15,7 +15,7 @@ class Borrowable {
      * @param title title of the work.
      * @param genres the genres of the work.
      */
-    Borrowable(String home, String title, String[] genres) {
+    Borrowable(String home, String title, ArrayList<String> genres) {
         this.home = home;
         this.title = title;
         this.genres = genres;
@@ -68,11 +68,11 @@ class Borrowable {
         this.title = title;
     }
 
-    public String[] getGenres() {
+    public ArrayList<String> getGenres() {
         return genres;
     }
 
-    public void setGenres(String[] genres) {
+    public void setGenres(ArrayList<String> genres) {
         this.genres = genres;
     }
 

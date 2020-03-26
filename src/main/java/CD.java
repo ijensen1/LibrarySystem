@@ -4,6 +4,7 @@ import com.github.cliftonlabs.json_simple.Jsonable;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 
 /**
  * Class to hold information about a CD.
@@ -22,7 +23,7 @@ public class CD extends Borrowable implements Jsonable {
      * @param rating the rating of the CD.
      * @param songs the songs included on the CD.
      */
-    CD(String home, String title, String[] genres, String producer, String artist, String rating, String[] songs){
+    CD(String home, String title, ArrayList<String> genres, String producer, String artist, String rating, String[] songs){
         super(home, title, genres);
         this.producer = producer;
         this.artist = artist;
