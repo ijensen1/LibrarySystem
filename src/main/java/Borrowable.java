@@ -99,7 +99,6 @@ class Borrowable {
         return null;
     }
 
-    @Override
     public String toJson(){
 
         final StringWriter writable = new StringWriter();
@@ -112,7 +111,6 @@ class Borrowable {
 
     }
 
-    @Override
     public void toJson(Writer writer) throws IOException {
 
         final JsonObject json = new JsonObject();
