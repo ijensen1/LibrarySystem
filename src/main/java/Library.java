@@ -22,14 +22,16 @@ public class Library {
         this.libraryName = libraryName;
         Borrowable[] loaded = Persistence.loadBorrowables();
         for (Borrowable item : loaded) {
-            if (item instanceof Book) {
-                books.add((Book) item);
-            }
-            if (item instanceof CD) {
-                cds.add((CD) item);
-            }
-            if (item instanceof DVD) {
-                dvds.add((DVD) item);
+            if (item.getHome().equals(libraryName)) {
+                if (item instanceof Book) {
+                    books.add((Book) item);
+                }
+                if (item instanceof CD) {
+                    cds.add((CD) item);
+                }
+                if (item instanceof DVD) {
+                    dvds.add((DVD) item);
+                }
             }
         }
 
@@ -170,9 +172,17 @@ public class Library {
      * Save library's collections to their appropriate files.
      */
     public void save() {
-        Persistence.saveToFile(books.toArray(new Borrowable[0]));
-        Persistence.saveToFile(dvds.toArray(new Borrowable[0]));
-        Persistence.saveToFile(cds.toArray(new Borrowable[0]));
+        ArrayList<Borrowable> all = new ArrayList<>();
+        for (Book book : books) {
+            all.add(book);
+        }
+        for (DVD dvd : dvds) {
+            all.add(dvd);
+        }
+        for (CD cd : cds) {
+            all.add(cd);
+        }
+        Persistence.saveToFile(all.toArray(new Borrowable[0]));
     }
 
 }

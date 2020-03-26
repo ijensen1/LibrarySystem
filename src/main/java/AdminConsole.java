@@ -11,10 +11,11 @@ public class AdminConsole {
     public static final String pass = "53fb8c10eded3d76424272f61308e0de71044d730834f9c7278ebe68a3735629631b37497f6b93da5141181aebcfaa9944a5cb2941c528a6c0cef9e002e7d7c5";
     public AdminConsole() {
         String[] libNames = Persistence.loadLibraryNames();
-        libraries = new ArrayList<>(libNames.length);
-        for (int i = 0; i < libraries.size(); i++) {
-            libraries.set(i, new Library(libNames[i]));
+        libraries = new ArrayList<>();
+        for (String name : libNames) {
+            libraries.add(new Library(name));
         }
+
         accounts = new ArrayList<>();
         try {
             accounts.addAll(Arrays.asList(Persistence.loadAccounts()));
@@ -38,10 +39,12 @@ public class AdminConsole {
         String libName = input.nextLine();
         Library userLibrary = lm.chooseLibrary(libName, libraries); //And where the user is currently
 
-        System.out.println("===============Actions are:================");
-        System.out.println("    additem                        quit    ");
-        String choice = input.nextLine();
+
+
         while (true) {
+            System.out.println("===============Actions are:================");
+            System.out.println("    additem                        quit    ");
+            String choice = input.nextLine();
             if (choice.equals("additem")) {
                 System.out.print("Please enter the type of item to add: book, cd, dvd, picturebook");
                 String itemType = input.nextLine();
@@ -65,6 +68,7 @@ public class AdminConsole {
                     System.out.print("Is this book hardcover? true/false");
                     boolean hardcover = Boolean.parseBoolean(input.nextLine());
                     userLibrary.add(new Book(userLibrary.getLibraryName(), title, genres.toArray(new String[0]), author, isbn, hardcover));
+                    System.out.println(userLibrary.searchGenre("book", "nonfiction"));
                 }
                 if (itemType.equals("cd")) {
                     System.out.print("Please enter the title of the " + itemType + ": ");
