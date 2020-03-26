@@ -1,9 +1,12 @@
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonException;
 import com.github.cliftonlabs.json_simple.Jsoner;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Class to allow saving and loading from files. Also holds data about saving/loading files.
@@ -112,12 +115,10 @@ class Persistence {
 
             FileReader load = new FileReader(dataPath + accountsPath); //To hold the file
             JsonArray objects = Jsoner.deserializeMany(load);
-            ArrayList<Account> result = new ArrayList<>();
-            for (Object obj : objects) {
-                if (obj instanceof Account) {
-                    result.add((Account) obj);
-                }
-            }
+            Mapper mapper = new DozerBeanMapper();
+            JsonArray o = (JsonArray) objects.get(0);
+            List<Account> result = o.stream().map(x -> mapper.map(x, Account.class)).collect(Collectors.toList());
+
 
             return result.toArray(new Account[0]);
         } catch (IOException | JsonException e) {
