@@ -1,3 +1,8 @@
+import com.github.cliftonlabs.json_simple.JsonObject;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 /**
@@ -97,6 +102,32 @@ public class Account {
         }
 
         return finalString;
+    }
+
+    @Override
+    public String toJson(){
+
+        final StringWriter writable = new StringWriter();
+        try{
+            this.toJson(writable);
+        } catch (final IOException e) {
+
+        }
+        return writable.toString();
+
+    }
+
+    @Override
+    public void toJson(Writer writer) throws IOException {
+
+        final JsonObject json = new JsonObject();
+        json.put("First Name", this.getFirstName());
+        json.put("Last Name", this.getLastName());
+        json.put("Phone", this.getPhone());
+        json.put("Email", this.getEmail());
+        json.put("Check Out", this.getCheckedOut());
+        json.toJson(writer);
+
     }
 }
 
