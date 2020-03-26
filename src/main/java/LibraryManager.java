@@ -21,7 +21,7 @@ public class LibraryManager {
       if (adminMode) {
           while (true) {
               System.out.print("Please enter your password: ");
-              if (!LibraryManager.passToHash(input.nextLine()).equals(AdminConsole.pass)) {
+              if (!LibraryManager.passToHash(input.nextLine()).equals(AdminConsole.pass)) { //Checks password versus stored hash
                   System.out.println("Password invalid. Please try again.");
               } else {
                   System.out.println("Recognized.");
@@ -37,7 +37,7 @@ public class LibraryManager {
           }
 
       } else {
-          FrontEnd fe = new FrontEnd();
+          FrontEnd fe = new FrontEnd(); //Not admin mode, start the normal interface
 
           try {
               fe.run();
@@ -58,11 +58,10 @@ public class LibraryManager {
   /**
    * Sets active account, given email
    * @param email the email to log in with
+   * @param passhash the hash of the inputted password to check against the stored hash
    * @return the account selected
    */
   public Account login(String email, String passhash, ArrayList<Account> accounts) throws Exception {
-      System.out.println(accounts);
-
       for (Account acnt : accounts) {
           if (acnt.getEmail().equals(email)) {
               if (acnt.getPasshash().equals(passhash)) {
@@ -88,6 +87,8 @@ public class LibraryManager {
   }
   /**
    * Method to save all resources to files. main calls this just before exiting.
+   * @param accounts list of accounts to save
+   * @param libraries list of libraries to save
    */
   public void close(ArrayList<Account> accounts, ArrayList<Library> libraries) {
     Persistence.saveToFile(accounts.toArray(new Account[accounts.size()]));
@@ -97,6 +98,11 @@ public class LibraryManager {
 
   }
 
+    /**
+     * Method to take a String and get the SHA-512 hash of it
+     * @param password The string to hash
+     * @return The hash created
+     */
   public static String passToHash(String password) {
       try {
           MessageDigest digest = MessageDigest.getInstance("SHA-512");

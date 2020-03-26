@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Class to provide an interface for the end user. Calls many methods from LibraryManager to do this.
+ * Also handles account creation
+ */
 public class FrontEnd {
     private ArrayList<Account> accounts;
     private ArrayList<Library> libraries;
@@ -17,7 +21,7 @@ public class FrontEnd {
         accounts = new ArrayList<>();
         try {
             accounts.addAll(Arrays.asList(Persistence.loadAccounts()));
-        } catch (IOException | JsonException e) {
+        } catch (IOException | JsonException e) { //Issue loading accounts
             System.out.println("Error! " + e.toString());
             System.exit(0);
         }
