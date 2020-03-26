@@ -12,17 +12,16 @@ class Persistence {
     //constants
     static final String splitter = "::"; //used between tags for when reading from or saving to a file
     static final String splitter2 = ";;"; //used between tags on complex files (like Account's borrowables)
-    static final String dataPath = "./Data/", //where is data in general being stored
+    static final String dataPath = "C:/Users/jganger-spivak/Documents/GitHub/LibrarySystem/target/Data/", //where is data in general being stored
             accountsPath = "AccountList.json",
             borrowablesPath = "borrowables.json",
             libariesPath = "Libraries.txt";
 
     /**
      * Method to save an array of Borrowables to a given File.
-     * @param savePath where the file to save to is located.
      * @param data the Borrowables to save.
      */
-    static void saveToFile(String savePath, Borrowable[] data) {
+    static void saveToFile(Borrowable[] data) {
         try {
             FileWriter saveFile = new FileWriter(dataPath + borrowablesPath); //To write data to file
             for (Borrowable borrowable : data) {
@@ -82,13 +81,12 @@ class Persistence {
 
     /**
      * Method to load an array of Borrowables from a given File.
-     * @param loadPath where the file to load from is located.
      * @return an array of the Borrowables in that file.
      */
-    static Borrowable[] loadBorrowables(String loadPath) {
+    static Borrowable[] loadBorrowables() {
         try {
 
-            FileReader load = new FileReader(dataPath + loadPath); //To hold the file
+            FileReader load = new FileReader(dataPath + borrowablesPath); //To hold the file
             JsonArray objects = Jsoner.deserializeMany(load);
             ArrayList<Borrowable> result = new ArrayList<>();
             for (Object obj : objects) {

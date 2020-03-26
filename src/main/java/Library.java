@@ -20,7 +20,19 @@ public class Library {
     public Library(String libraryName) {
         //Set library's name to whatever was entered.
         this.libraryName = libraryName;
-        
+        Borrowable[] loaded = Persistence.loadBorrowables();
+        for (Borrowable item : loaded) {
+            if (item instanceof Book) {
+                books.add((Book) item);
+            }
+            if (item instanceof CD) {
+                cds.add((CD) item);
+            }
+            if (item instanceof DVD) {
+                dvds.add((DVD) item);
+            }
+        }
+
 //        Deserialize from files here *********************
     }
 
@@ -158,9 +170,9 @@ public class Library {
      * Save library's collections to their appropriate files.
      */
     public void save() {
-        Persistence.saveToFile(libraryName + "/books.txt", books.toArray(new Borrowable[0]));
-        Persistence.saveToFile(libraryName + "/dvds.txt", dvds.toArray(new Borrowable[0]));
-        Persistence.saveToFile(libraryName + "/cds.txt", cds.toArray(new Borrowable[0]));
+        Persistence.saveToFile(books.toArray(new Borrowable[0]));
+        Persistence.saveToFile(dvds.toArray(new Borrowable[0]));
+        Persistence.saveToFile(cds.toArray(new Borrowable[0]));
     }
 
 }

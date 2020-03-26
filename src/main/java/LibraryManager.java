@@ -32,7 +32,7 @@ public class LibraryManager {
           try {
               ac.run();
           } catch (Exception e) {
-              System.out.println(e.toString());
+              e.printStackTrace();
               System.exit(0);
           }
 
