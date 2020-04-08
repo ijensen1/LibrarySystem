@@ -58,10 +58,10 @@ public class FrontEnd {
                 System.out.print("Please enter your email address. You'll use this for logging in: ");
                 String email = input.nextLine();
                 System.out.println("Please choose a password: ");
-                String passhash = lm.passToHash(input.nextLine());
+                String passhash = LibraryManager.passToHash(input.nextLine());
                 accounts.add(new Account(firstName, lastName, phone, email, passhash)); //Adding the new account to the list
                 Persistence.saveToFile(accounts.toArray(new Account[0]));
-                lm.login(email, passhash, accounts); //Logging in, so userAccount is set correctly
+                userAccount = lm.login(email, passhash, accounts); //Logging in, so userAccount is set correctly
                 System.out.println("Registered! You are now logged in.");
 
             } else {
@@ -77,12 +77,12 @@ public class FrontEnd {
         System.out.print("Please enter the name of the library you are in: ");
         String libName = input.nextLine();
         userLibrary = lm.chooseLibrary(libName, libraries); //Where the user is currently, also which books to load into inventory
+
         if (userLibrary == null) {
             System.err.println("Library not found. Quitting...");
             System.exit(-1);
         }
         //Actions are: check in, search/checkout, quit
-
 
         System.out.println(); //extra line to clean things up
         boolean done = false;

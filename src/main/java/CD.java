@@ -1,5 +1,6 @@
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
+import com.github.cliftonlabs.json_simple.Jsoner;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -24,15 +25,11 @@ public class CD extends Borrowable implements Jsonable {
      * @param songs the songs included on the CD.
      */
     CD(String home, String title, ArrayList<String> genres, String producer, String artist, String rating, String[] songs){
-        super(home, title, genres);
+        super("cds", home, title, genres);
         this.producer = producer;
         this.artist = artist;
         this.rating = rating;
         this.songs = songs;
-    }
-
-    public CD(){
-        super();
     }
 
     public String getProducer() {
@@ -92,6 +89,7 @@ public class CD extends Borrowable implements Jsonable {
     public void toJson(Writer writer) throws IOException {
 
         final JsonObject json = new JsonObject();
+        json.put("type", this.getType());
         json.put("home", this.getHome());
         json.put("title", this.getTitle());
         json.put("genres", this.getGenres());
@@ -101,5 +99,16 @@ public class CD extends Borrowable implements Jsonable {
         json.put("songs", this.getSongs());
         json.toJson(writer);
 
+    }
+
+    public static CD fromJson(Borrowable part, JsonObject obj) {
+        if (part == null) {
+            part = Borrowable.fromJson(null, obj); //Were we passed null? Kick it back up to Borrowable fromJson to have it fill in it's part.
+        }
+        String producer = obj.getString(Jsoner.mintJsonKey("producer", null));
+        String artist = obj.getString(Jsoner.mintJsonKey("artist", null));
+        String rating = obj.getString(Jsoner.mintJsonKey("rating", null));
+        ArrayList<String> songs = obj.getCollection(Jsoner.mintJsonKey("songs", null));
+        return new CD(part.getHome(), part.getTitle(), part.getGenres(), producer, artist, rating, songs.toArray(new String[0]));
     }
 }

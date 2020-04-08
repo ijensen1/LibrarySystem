@@ -1,5 +1,7 @@
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
+import com.github.cliftonlabs.json_simple.Jsoner;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -23,14 +25,10 @@ public class Book extends Borrowable implements Jsonable {
      * @param hardcover whether or not the book is hardcover.
      */
     Book(String home, String title, ArrayList<String> genres, String author, String isbn, boolean hardcover) {
-        super(home, title, genres);
+        super("books", home, title, genres);
         this.author = author;
         this.isbn = isbn;
         this.hardcover = hardcover;
-    }
-
-    public Book(){
-        super();
     }
 
     public String getAuthor() {
@@ -82,6 +80,7 @@ public class Book extends Borrowable implements Jsonable {
     public void toJson(Writer writer) throws IOException {
 
         final JsonObject json = new JsonObject();
+        json.put("type", this.getType());
         json.put("title", this.getTitle());
         json.put("home", this.getHome());
         json.put("author", this.getAuthor());
@@ -90,6 +89,16 @@ public class Book extends Borrowable implements Jsonable {
         json.put("genres", this.getGenres());
         json.toJson(writer);
 
+    }
+
+    public static Book fromJson(Borrowable part, JsonObject obj) {
+        if (part == null) {
+            part = Borrowable.fromJson(null, obj); //Were we passed null? Kick it back up to Borrowable fromJson to have it fill in it's part.
+        }
+        String author = obj.getString(Jsoner.mintJsonKey("author", null));
+        String isbn = obj.getString(Jsoner.mintJsonKey("isbn", null));
+        boolean isHardcover = obj.getBoolean(Jsoner.mintJsonKey("isHardcover", null));
+        return new Book(part.getHome(), part.getTitle(), part.getGenres(), author, isbn, isHardcover);
     }
 
 

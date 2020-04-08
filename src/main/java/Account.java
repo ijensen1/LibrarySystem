@@ -1,5 +1,6 @@
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
+import com.github.cliftonlabs.json_simple.Jsoner;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -135,6 +136,18 @@ public class Account implements Jsonable {
         json.put("passhash", this.getPasshash());
         json.toJson(writer);
 
+    }
+
+    public static Account fromJson(JsonObject obj) {
+        String firstName = obj.getString(Jsoner.mintJsonKey("firstName", null));
+        String lastName = obj.getString(Jsoner.mintJsonKey("lastName", null));
+        String phone = obj.getString(Jsoner.mintJsonKey("phone", null));
+        String email = obj.getString(Jsoner.mintJsonKey("email", null));
+        ArrayList<Borrowable> checkedOut = obj.getCollection(Jsoner.mintJsonKey("genres", null));
+        String passhash = obj.getString(Jsoner.mintJsonKey("passhash", null));
+        Account result = new Account(firstName, lastName, phone, email, passhash);
+        result.setCheckedOut(checkedOut);
+        return result;
     }
 }
 

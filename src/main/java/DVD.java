@@ -1,5 +1,6 @@
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
+import com.github.cliftonlabs.json_simple.Jsoner;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -24,14 +25,10 @@ public class DVD extends Borrowable implements Jsonable {
      * @param actors the actors in the DVD.w
      */
     DVD(String home, String title, ArrayList<String> genres, String rating, String director, String[] actors) {
-        super(home, title, genres);
+        super("dvds", home, title, genres);
         this.rating = rating;
         this.director = director;
         this.actors = actors;
-    }
-
-    public DVD(){
-        super();
     }
 
     public String getDirector() {
@@ -88,6 +85,7 @@ public class DVD extends Borrowable implements Jsonable {
     public void toJson(Writer writer) throws IOException {
 
         final JsonObject json = new JsonObject();
+        json.put("type", this.getType());
         json.put("home", this.getHome());
         json.put("title", this.getTitle());
         json.put("genres", this.getGenres());
@@ -96,5 +94,15 @@ public class DVD extends Borrowable implements Jsonable {
         json.put("actors", this.getActors());
         json.toJson(writer);
 
+    }
+
+    public static DVD fromJson(Borrowable part, JsonObject obj) {
+        if (part == null) {
+            part = Borrowable.fromJson(null, obj); //Were we passed null? Kick it back up to Borrowable fromJson to have it fill in it's part.
+        }
+        String director = obj.getString(Jsoner.mintJsonKey("director", null));
+        String rating = obj.getString(Jsoner.mintJsonKey("rating", null));
+        ArrayList<String> actors = obj.getCollection(Jsoner.mintJsonKey("actors", null));
+        return new DVD(part.getHome(), part.getTitle(), part.getGenres(), rating, director, actors.toArray(new String[0]));
     }
 }

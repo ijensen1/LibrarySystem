@@ -1,5 +1,6 @@
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonException;
+import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsoner;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
@@ -26,11 +27,13 @@ class Persistence {
      * @param data the Borrowables to save.
      */
     static void saveToFile(String type, Borrowable[] data) {
+        if (data.length == 0) {
+            return; //Fix for "delete empty JSON array" issue; if there's nothing to write don't touch it
+        }
         try {
-            FileWriter saveFile = new FileWriter(dataPath + type + ".json"); //To write data to file
-            for (Borrowable borrowable : data) {
-                Jsoner.serialize(List.of(data), saveFile); //Convert each borrowable into a json string and print to file
-            }
+            FileWriter saveFile = new FileWriter(dataPath + type + ".json", false); //To write data to file
+            Jsoner.serialize(List.of(data), saveFile); //Convert each borrowable into a json string and print to file
+
             saveFile.close(); //Close file
         } catch (IOException e) {
             //Some error occurred while trying to save to the file
@@ -43,11 +46,13 @@ class Persistence {
      * @param data the Accounts to save.
      */
     static void saveToFile(Account[] data) {
+        if (data.length == 0) {
+            return; //Fix for "delete empty JSON array" issue; if there's nothing to write don't touch it
+        }
         try {
-            FileWriter saveFile = new FileWriter(dataPath + accountsPath); //To write data to file
-            for (Account account : data) {
-                Jsoner.serialize(List.of(data), saveFile); //Convert each account into a json string and print to file
-            }
+            FileWriter saveFile = new FileWriter(dataPath + ".json", false); //To write data to file
+            Jsoner.serialize(List.of(data), saveFile); //Convert each account into a json string and print to file
+
             saveFile.close(); //Close file
         } catch (IOException e) {
             //Some error occurred while trying to save to the file
@@ -95,10 +100,28 @@ class Persistence {
 
             FileReader load = new FileReader(dataPath + type + ".json"); //To hold the file
             JsonArray objects = Jsoner.deserializeMany(load);
-            Mapper mapper = new DozerBeanMapper();
             JsonArray o = (JsonArray) objects.get(0);
-            List<Borrowable> result = o.stream().map(x -> mapper.map(x, Borrowable.class)).collect(Collectors.toList()); //Maps the JsonArray to a new Borrowable object.
+            ArrayList<Borrowable> result = new ArrayList<>();
+            for (Object obj : o) {
+                if (obj instanceof JsonObject) {
+                    JsonObject jo = (JsonObject) obj;
+                    Borrowable part = Borrowable.fromJson(null, jo);
+                    type = part.getType();
+                    if (type.equals("books")) {
+                        result.add(Book.fromJson(part, jo));
+                    }
+                    if (type.equals("cds")) {
+                        result.add(CD.fromJson(part, jo));
+                    }
+                    if (type.equals("dvds")) {
+                        result.add(DVD.fromJson(part, jo));
+                    }
+                    if (type.equals("picturebooks")) {
+                        result.add(PictureBook.fromJson(part, jo));
+                    }
 
+                }
+            }
 
             return result.toArray(new Borrowable[0]);
         } catch (IOException | JsonException e) {
@@ -119,9 +142,15 @@ class Persistence {
 
             FileReader load = new FileReader(dataPath + accountsPath); //To hold the file
             JsonArray objects = Jsoner.deserializeMany(load);
-            Mapper mapper = new DozerBeanMapper();
+
             JsonArray o = (JsonArray) objects.get(0);
-            List<Account> result = o.stream().map(x -> mapper.map(x, Account.class)).collect(Collectors.toList()); //Maps the JsonArray to a new Account object.
+            ArrayList<Account> result = new ArrayList<>();
+            for (Object obj : o) {
+                if (obj instanceof JsonObject) {
+                    JsonObject jo = (JsonObject) obj;
+                    result.add(Account.fromJson(jo));
+                }
+            }
 
 
             return result.toArray(new Account[0]);

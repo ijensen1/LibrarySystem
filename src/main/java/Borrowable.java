@@ -1,4 +1,5 @@
 import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsoner;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -10,6 +11,8 @@ import java.util.List;
  * To create a single book/dvd/cd.
  */
 class Borrowable {
+    private String type;
+
     private String home; //To hold the work's home
     private String title; //To hold the work's title
     private String inOut; //To hold whether or not the work is checked in or out
@@ -21,15 +24,12 @@ class Borrowable {
      * @param title title of the work.
      * @param genres the genres of the work.
      */
-    public Borrowable(String home, String title, ArrayList<String> genres) {
+    public Borrowable(String type, String home, String title, ArrayList<String> genres) {
+        this.type = type;
         this.home = home;
         this.title = title;
         this.genres = genres;
         inOut = "in";
-    }
-
-    public Borrowable() {
-
     }
 
     /**
@@ -66,6 +66,14 @@ class Borrowable {
         return home;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     String getTitle() {
         return title;
     }
@@ -74,8 +82,8 @@ class Borrowable {
         this.title = title;
     }
 
-    public List<String> getGenres() {
-        return (List) genres;
+    public ArrayList<String> getGenres() {
+        return genres;
     }
 
     public void setGenres(ArrayList<String> genres) {
@@ -117,9 +125,20 @@ class Borrowable {
         json.put("home", this.getHome());
         json.put("title", this.getTitle());
         json.put("inOut", this.getInOut());
-        json.put("generes", this.getGenres());
+        json.put("genres", this.getGenres());
         json.toJson(writer);
 
+    }
+
+    public static Borrowable fromJson(Borrowable part, JsonObject obj) {
+        String type = obj.getString(Jsoner.mintJsonKey("type", null));
+        String home = obj.getString(Jsoner.mintJsonKey("home", null));
+        String title = obj.getString(Jsoner.mintJsonKey("title", null));
+        ArrayList<String> genres = obj.getCollection(Jsoner.mintJsonKey("genres", null));
+        String inOut = obj.getString(Jsoner.mintJsonKey("inOut", null));
+        Borrowable returned = new Borrowable(type, home, title, genres);
+        returned.setInOut(inOut);
+        return returned;
     }
 
 }

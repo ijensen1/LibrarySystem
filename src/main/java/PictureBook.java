@@ -1,5 +1,6 @@
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
+import com.github.cliftonlabs.json_simple.Jsoner;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -26,12 +27,9 @@ public class PictureBook extends Book implements Jsonable {
      */
     PictureBook(String home, String title, ArrayList<String> genres, String author, String isbn, boolean hardcover, String illustrator, boolean isPopUpBook) {
         super(home, title, genres, author, isbn, hardcover);
+        this.setType("picturebooks");
         this.illustrator = illustrator;
         this.isPopUpBook = isPopUpBook;
-    }
-
-    public PictureBook(){
-        super();
     }
 
     public String getIllustrator() {
@@ -75,6 +73,7 @@ public class PictureBook extends Book implements Jsonable {
     public void toJson(Writer writer) throws IOException {
 
         final JsonObject json = new JsonObject();
+        json.put("type", this.getType());
         json.put("home", this.getHome());
         json.put("title", this.getTitle());
         json.put("genres", this.getGenres());
@@ -85,5 +84,15 @@ public class PictureBook extends Book implements Jsonable {
         json.put("isPopUpBook", this.isPopUpBook());
         json.toJson(writer);
 
+    }
+
+    public static PictureBook fromJson(Borrowable part, JsonObject obj) {
+        if (part == null) {
+            part = Book.fromJson(null, obj); //Were we passed null? Kick it back up to Book fromJson to have it fill in it's part.
+        }
+        Book partBook = (Book) part;
+        boolean isPopUpBook = obj.getBoolean(Jsoner.mintJsonKey("isPopUpBook", null));
+        String illustrator = obj.getString(Jsoner.mintJsonKey("illustrator", null));
+        return new PictureBook(part.getHome(), part.getTitle(), part.getGenres(), partBook.getAuthor(), partBook.getIsbn(), partBook.isHardcover(), illustrator, isPopUpBook);
     }
 }
