@@ -62,7 +62,7 @@ public class FrontEnd {
                 accounts.add(new Account(firstName, lastName, phone, email, passhash)); //Adding the new account to the list
                 Persistence.saveToFile(accounts.toArray(new Account[0]));
                 userAccount = lm.login(email, passhash, accounts); //Logging in, so userAccount is set correctly
-                System.out.println("Registered! You are now logged in.");
+                System.out.println("Registered! You are now logged in, " + userAccount.getFirstName());
 
             } else {
                 System.err.println("Choice not recognized. Quitting...");
@@ -105,10 +105,7 @@ public class FrontEnd {
                     System.out.println("Error: No books held. ");
                 } else {
                     System.out.println("Checking in all books...");
-                    for (Borrowable book : userAccount.getCheckedOut()) {//Getting all books checked out, and set all of them to in
-                        book.checkIn();
-                    }
-                    userAccount.setCheckedOut(new ArrayList<Borrowable>()); //Resetting back to empty after books are checked in
+                    userAccount.setCheckedOut(new ArrayList<Borrowable>()); //Remove books from user inventory/hand
                 }
             }
             if (choice.equals("search")) {

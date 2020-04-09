@@ -42,7 +42,7 @@ public class LibraryManager {
           try {
               fe.run();
           } catch (Exception e) {
-              System.out.println(e.toString());
+              e.printStackTrace();
               System.exit(0);
           }
       }
@@ -91,7 +91,7 @@ public class LibraryManager {
    * @param libraries list of libraries to save
    */
   public void close(ArrayList<Account> accounts, ArrayList<Library> libraries) {
-    Persistence.saveToFile(accounts.toArray(new Account[accounts.size()]));
+    Persistence.saveToFile(accounts.toArray(new Account[0]));
     for (Library lib : libraries) {
       lib.save();
     }

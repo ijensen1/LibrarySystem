@@ -143,7 +143,13 @@ public class Account implements Jsonable {
         String lastName = obj.getString(Jsoner.mintJsonKey("lastName", null));
         String phone = obj.getString(Jsoner.mintJsonKey("phone", null));
         String email = obj.getString(Jsoner.mintJsonKey("email", null));
-        ArrayList<Borrowable> checkedOut = obj.getCollection(Jsoner.mintJsonKey("genres", null));
+        ArrayList<Borrowable> checkedOut = new ArrayList<>();
+        for (Object o : obj.getCollection(Jsoner.mintJsonKey("checkedOut", null))) {
+            if (o instanceof JsonObject) {
+                JsonObject jo = (JsonObject) o;
+                checkedOut.add(Borrowable.fromJson(null, jo));
+            }
+        }
         String passhash = obj.getString(Jsoner.mintJsonKey("passhash", null));
         Account result = new Account(firstName, lastName, phone, email, passhash);
         result.setCheckedOut(checkedOut);

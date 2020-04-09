@@ -47,10 +47,11 @@ class Persistence {
      */
     static void saveToFile(Account[] data) {
         if (data.length == 0) {
+            System.out.println("Accounts length passed in is zero. This is probably an error.");
             return; //Fix for "delete empty JSON array" issue; if there's nothing to write don't touch it
         }
         try {
-            FileWriter saveFile = new FileWriter(dataPath + ".json", false); //To write data to file
+            FileWriter saveFile = new FileWriter(dataPath + accountsPath, false); //To write data to file
             Jsoner.serialize(List.of(data), saveFile); //Convert each account into a json string and print to file
 
             saveFile.close(); //Close file
