@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class AdminConsole {
     private ArrayList<Account> accounts;
     private ArrayList<Library> libraries;
-    public static final String pass = "53fb8c10eded3d76424272f61308e0de71044d730834f9c7278ebe68a3735629631b37497f6b93da5141181aebcfaa9944a5cb2941c528a6c0cef9e002e7d7c5";
+    public static final String PASS = "53fb8c10eded3d76424272f61308e0de71044d730834f9c7278ebe68a3735629631b37497f6b93da5141181aebcfaa9944a5cb2941c528a6c0cef9e002e7d7c5";
 
     /**
      * Constructor that gathers library and account data.
