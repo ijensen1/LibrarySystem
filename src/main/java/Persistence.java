@@ -2,24 +2,21 @@ import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonException;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsoner;
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Class to allow saving and loading from files. Also holds data about saving/loading files.
  */
 class Persistence {
     //constants
-    static final String splitter = "::"; //used between tags for when reading from or saving to a file
-    static final String splitter2 = ";;"; //used between tags on complex files (like Account's borrowables)
-    static final String dataPath = "C:/Users/jganger-spivak/Documents/GitHub/LibrarySystem/target/Data/", //where is data in general being stored. Direct path, change if needed
-            accountsPath = "AccountList.json",
-            borrowablesPath = "borrowables.json",
-            libariesPath = "Libraries.txt";
+    static final String SPLITTER = "::"; //used between tags for when reading from or saving to a file
+    static final String SPLITTER_2 = ";;"; //used between tags on complex files (like Account's borrowables)
+    static final String DATA_PATH = "C:/Users/jganger-spivak/Documents/GitHub/LibrarySystem/target/Data/", //where is data in general being stored. Direct path, change if needed
+            ACCOUNTS_PATH = "AccountList.json",
+            BORROWABLES_PATH = "borrowables.json",
+            LIBARIES_PATH = "Libraries.txt";
 
     /**
      * Method to save an array of Borrowables to a given File.
@@ -31,7 +28,7 @@ class Persistence {
             return; //Fix for "delete empty JSON array" issue; if there's nothing to write don't touch it
         }
         try {
-            FileWriter saveFile = new FileWriter(dataPath + type + ".json", false); //To write data to file
+            FileWriter saveFile = new FileWriter(DATA_PATH + type + ".json", false); //To write data to file
             Jsoner.serialize(List.of(data), saveFile); //Convert each borrowable into a json string and print to file
 
             saveFile.close(); //Close file
@@ -51,7 +48,7 @@ class Persistence {
             return; //Fix for "delete empty JSON array" issue; if there's nothing to write don't touch it
         }
         try {
-            FileWriter saveFile = new FileWriter(dataPath + accountsPath, false); //To write data to file
+            FileWriter saveFile = new FileWriter(DATA_PATH + ACCOUNTS_PATH, false); //To write data to file
             Jsoner.serialize(List.of(data), saveFile); //Convert each account into a json string and print to file
 
             saveFile.close(); //Close file
@@ -68,7 +65,7 @@ class Persistence {
     static String[] loadLibraryNames() {
         try {
             String[] names = new String[0]; //To hold the names of the libraries
-            File load = new File(dataPath + libariesPath); //To hold the file
+            File load = new File(DATA_PATH + LIBARIES_PATH); //To hold the file
 
             //Check if the file exists
             if (!load.exists())
@@ -97,7 +94,7 @@ class Persistence {
     static Borrowable[] loadBorrowables(String type) {
         try {
 
-            FileReader load = new FileReader(dataPath + type + ".json"); //To hold the file
+            FileReader load = new FileReader(DATA_PATH + type + ".json"); //To hold the file
             JsonArray objects = Jsoner.deserializeMany(load);
             JsonArray o = (JsonArray) objects.get(0);
             ArrayList<Borrowable> result = new ArrayList<>();
@@ -137,7 +134,7 @@ class Persistence {
     static Account[] loadAccounts() {
         try {
 
-            FileReader load = new FileReader(dataPath + accountsPath); //To hold the file
+            FileReader load = new FileReader(DATA_PATH + ACCOUNTS_PATH); //To hold the file
             JsonArray objects = Jsoner.deserializeMany(load);
 
             JsonArray o = (JsonArray) objects.get(0);
