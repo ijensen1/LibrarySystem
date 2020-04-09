@@ -1,6 +1,3 @@
-import com.github.cliftonlabs.json_simple.JsonException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -18,6 +15,10 @@ public class FrontEnd {
      */
     public FrontEnd() {
         String[] libNames = Persistence.loadLibraryNames();
+        if (libNames == null) {
+            System.out.println("Error loading library names. Exiting...");
+            System.exit(-1);
+        }
         libraries = new ArrayList<>();
         for (String name : libNames) {
             libraries.add(new Library(name));
@@ -28,9 +29,8 @@ public class FrontEnd {
 
     /**
      * Method to give prompts and collect responses from the user, performing requested actions.
-     * @throws Exception Passes up errors from the Library class.
      */
-    public void run() throws Exception {
+    public void run() {
         LibraryManager lm = new LibraryManager(); //Instancing it because we have instance variables already.
         Scanner input = new Scanner(System.in);
 

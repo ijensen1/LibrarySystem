@@ -11,11 +11,8 @@ import java.util.*;
  */
 class Persistence {
     //constants
-    static final String SPLITTER = "::"; //used between tags for when reading from or saving to a file
-    static final String SPLITTER_2 = ";;"; //used between tags on complex files (like Account's borrowables)
     static final String DATA_PATH = "C:/Users/jganger-spivak/Documents/GitHub/LibrarySystem/target/Data/", //where is data in general being stored. Direct path, change if needed
             ACCOUNTS_PATH = "AccountList.json",
-            BORROWABLES_PATH = "borrowables.json",
             LIBARIES_PATH = "Libraries.txt";
 
     /**
@@ -94,15 +91,16 @@ class Persistence {
     static Borrowable[] loadBorrowables(String type) {
         try {
 
-            FileReader load = new FileReader(DATA_PATH + type + ".json"); //To hold the file
+            FileReader load = new FileReader(DATA_PATH + type + ".json"); //To hold the file. Loads from whatever file is specified in type
             JsonArray objects = Jsoner.deserializeMany(load);
             JsonArray o = (JsonArray) objects.get(0);
             ArrayList<Borrowable> result = new ArrayList<>();
-            for (Object obj : o) {
-                if (obj instanceof JsonObject) {
-                    JsonObject jo = (JsonObject) obj;
-                    Borrowable part = Borrowable.fromJson(null, jo);
-                    type = part.getType();
+            for (Object obj : o) { //For each object in collection
+                if (obj instanceof JsonObject) { //Is this object a JsonObject (it is, probably)
+                    JsonObject jo = (JsonObject) obj; //Cast
+                    Borrowable part = Borrowable.fromJson(null, jo); //Get the borrowable from it so we can check the type
+                    type = part.getType(); //Get type
+                    //Now for each type call the requested constructor, pass in the Borrowable already created so we don't need to call Borrowable.fromJson again
                     if (type.equals("books")) {
                         result.add(Book.fromJson(part, jo));
                     }
@@ -119,7 +117,7 @@ class Persistence {
                 }
             }
 
-            return result.toArray(new Borrowable[0]);
+            return result.toArray(new Borrowable[0]); //Return everything loaded
         } catch (IOException | JsonException e) {
             //Some error occurred while trying to load from the file
             System.out.println("Error trying to load file: " + e.toString());
@@ -140,14 +138,14 @@ class Persistence {
             JsonArray o = (JsonArray) objects.get(0);
             ArrayList<Account> result = new ArrayList<>();
             for (Object obj : o) {
-                if (obj instanceof JsonObject) {
-                    JsonObject jo = (JsonObject) obj;
-                    result.add(Account.fromJson(jo));
+                if (obj instanceof JsonObject) { //For every JsonObject in the JsonArray
+                    JsonObject jo = (JsonObject) obj; //Cast
+                    result.add(Account.fromJson(jo)); //And construct a new Account from that JsonObject
                 }
             }
 
 
-            return result.toArray(new Account[0]);
+            return result.toArray(new Account[0]); //Return the results, if any
         } catch (IOException | JsonException e) {
             //Some error occurred while trying to load from the file
             System.out.println("Error trying to load file: " + e.toString());

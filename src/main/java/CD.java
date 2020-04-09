@@ -109,7 +109,12 @@ public class CD extends Borrowable implements Jsonable {
         json.toJson(writer);
 
     }
-
+    /**
+     * Static function to construct a CD from a JsonObject
+     * @param part A borrowable already constructed from the same JsonObject can be passed in here. (Used in Persistence after type is determined from Borrowable)
+     * @param obj The JsonObject to construct from
+     * @return The CD that is constructed.
+     */
     public static CD fromJson(Borrowable part, JsonObject obj) {
         if (part == null) {
             part = Borrowable.fromJson(null, obj); //Were we passed null? Kick it back up to Borrowable fromJson to have it fill in it's part.

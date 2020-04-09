@@ -126,7 +126,13 @@ class Borrowable {
 
     }
 
-
+    /**
+     * Static function to construct a Borrowable from a JSON object
+     * @param part Unused here. Look at Book.fromJson
+     * @see Book
+     * @param obj The JsonObject to construct the Borrowable from
+     * @return the Borrowable returned
+     */
     public static Borrowable fromJson(Borrowable part, JsonObject obj) {
         String type = obj.getString(Jsoner.mintJsonKey("type", null));
         String home = obj.getString(Jsoner.mintJsonKey("home", null));

@@ -1,6 +1,3 @@
-import com.github.cliftonlabs.json_simple.JsonException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -18,6 +15,10 @@ public class AdminConsole {
      */
     public AdminConsole() {
         String[] libNames = Persistence.loadLibraryNames();
+        if (libNames == null) {
+            System.out.println("Error loading library names. Exiting...");
+            System.exit(-1);
+        }
         libraries = new ArrayList<>();
         for (String name : libNames) {
             libraries.add(new Library(name));
@@ -74,7 +75,6 @@ public class AdminConsole {
                     System.out.print("Is this book hardcover? true/false");
                     boolean hardcover = Boolean.parseBoolean(input.nextLine());
                     userLibrary.add(new Book(userLibrary.getLibraryName(), title, genres, author, isbn, hardcover));
-                    System.out.println(userLibrary.searchGenre("book", "nonfiction"));
                 }
                 if (itemType.equals("cd")) {
                     System.out.print("Please enter the title of the " + itemType + ": ");

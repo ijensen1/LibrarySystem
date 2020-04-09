@@ -95,6 +95,12 @@ public class PictureBook extends Book implements Jsonable {
 
     }
 
+    /**
+     * Static function to construct a PictureBook from a JsonObject
+     * @param part A borrowable already constructed from the same JsonObject can be passed in here. (Used in Persistence after type is determined from Borrowable)
+     * @param obj The JsonObject to construct from
+     * @return The PictureBook that is constructed.
+     */
     public static PictureBook fromJson(Borrowable part, JsonObject obj) {
         if (part == null) {
             part = Book.fromJson(null, obj); //Were we passed null? Kick it back up to Book fromJson to have it fill in it's part.

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Class to hold information about a DVD.
@@ -106,6 +105,12 @@ public class DVD extends Borrowable implements Jsonable {
 
     }
 
+    /**
+     * Static function to construct a DVD from a JsonObject
+     * @param part A borrowable already constructed from the same JsonObject can be passed in here. (Used in Persistence after type is determined from Borrowable)
+     * @param obj The JsonObject to construct from
+     * @return The DVD that is constructed.
+     */
     public static DVD fromJson(Borrowable part, JsonObject obj) {
         if (part == null) {
             part = Borrowable.fromJson(null, obj); //Were we passed null? Kick it back up to Borrowable fromJson to have it fill in it's part.

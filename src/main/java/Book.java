@@ -1,7 +1,6 @@
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsonable;
 import com.github.cliftonlabs.json_simple.Jsoner;
-import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -100,7 +99,12 @@ public class Book extends Borrowable implements Jsonable {
 
     }
 
-
+    /**
+     * Static function to construct a Book from a JsonObject
+     * @param part A borrowable already constructed from the same JsonObject can be passed in here. (Used in Persistence after type is determined from Borrowable)
+     * @param obj The JsonObject to construct from
+     * @return The Book that is constructed.
+     */
     public static Book fromJson(Borrowable part, JsonObject obj) {
         if (part == null) {
             part = Borrowable.fromJson(null, obj); //Were we passed null? Kick it back up to Borrowable fromJson to have it fill in it's part.

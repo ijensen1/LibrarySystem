@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 /**
  * Data class to hold account details, as well as a list of items the account holder may have checked out.
- * Also includes makeString() for Persistance compatibility.
  */
 public class Account implements Jsonable {
 
@@ -98,7 +97,7 @@ public class Account implements Jsonable {
         try{
             this.toJson(writable);
         } catch (final IOException e) {
-
+            System.out.println(e.toString());
         }
         return writable.toString();
 
@@ -134,15 +133,15 @@ public class Account implements Jsonable {
         String phone = obj.getString(Jsoner.mintJsonKey("phone", null));
         String email = obj.getString(Jsoner.mintJsonKey("email", null));
         ArrayList<Borrowable> checkedOut = new ArrayList<>();
-        for (Object o : obj.getCollection(Jsoner.mintJsonKey("checkedOut", null))) {
-            if (o instanceof JsonObject) {
-                JsonObject jo = (JsonObject) o;
-                checkedOut.add(Borrowable.fromJson(null, jo));
+        for (Object o : obj.getCollection(Jsoner.mintJsonKey("checkedOut", null))) { //For every object in the checkedOut collection
+            if (o instanceof JsonObject) { //If it's a JsonObject (it is)
+                JsonObject jo = (JsonObject) o; //Cast
+                checkedOut.add(Borrowable.fromJson(null, jo)); //And pass to Borrowable.fromJson, which will happily construct a new object for us from that JsonObject
             }
         }
         String passhash = obj.getString(Jsoner.mintJsonKey("passhash", null));
         Account result = new Account(firstName, lastName, phone, email, passhash);
-        result.setCheckedOut(checkedOut);
+        result.setCheckedOut(checkedOut); //checkedOut isn't included in constructor, so we set it here before returning
         return result;
     }
 }

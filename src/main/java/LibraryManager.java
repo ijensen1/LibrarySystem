@@ -13,7 +13,11 @@ import java.util.Scanner;
  * Calls FrontEnd and exposes some utility methods for it to use.
  */
 public class LibraryManager {
-
+    /**
+     * Main is here. Asks the user which mode they are using (admin or frontend?) and then passes execution to the requested class.
+     * Also checks password before launching Admin mode.
+     * @param args Arguments passed in from command line. Ignored here.
+     */
   public static void main(String[] args) {
       Scanner input = new Scanner(System.in);
       System.out.print("Are you running in admin mode? true/false");
@@ -64,13 +68,13 @@ public class LibraryManager {
    */
   public Account login(String email, String passhash, ArrayList<Account> accounts) {
       for (Account acnt : accounts) {
-          if (acnt.getEmail().equals(email)) {
+          if (acnt.getEmail().equals(email)) { //If email and password match, return the account
               if (acnt.getPasshash().equals(passhash)) {
                   return acnt;
               }
           }
       }
-      return null;
+      return null; //Otherwise return null
   }
   /**
    * Find library from loaded list by name
@@ -80,11 +84,11 @@ public class LibraryManager {
    */
   public Library chooseLibrary(String libName, ArrayList<Library> libraries) {
       for (Library lib : libraries) {
-          if (lib.getLibraryName().equals(libName)) {
+          if (lib.getLibraryName().equalsIgnoreCase(libName)) { //Find the library with the matching name, if it exists
               return lib;
           }
       }
-      return null;
+      return null; //Otherwise return null
   }
   /**
    * Method to save all resources to files. main calls this just before exiting.
@@ -92,9 +96,9 @@ public class LibraryManager {
    * @param libraries list of libraries to save
    */
   public void close(ArrayList<Account> accounts, ArrayList<Library> libraries) {
-    Persistence.saveToFile(accounts.toArray(new Account[0]));
+    Persistence.saveToFile(accounts.toArray(new Account[0])); //Passes Persistence the list of accounts to save
     for (Library lib : libraries) {
-      lib.save();
+      lib.save(); //Calls save on each loaded library
     }
 
   }
@@ -106,20 +110,20 @@ public class LibraryManager {
      */
   public static String passToHash(String password) {
       try {
-          MessageDigest digest = MessageDigest.getInstance("SHA-512");
+          MessageDigest digest = MessageDigest.getInstance("SHA-512"); //Get a instance to perform the hashing with
           byte[] hash = digest.digest(
-                  password.getBytes(StandardCharsets.UTF_8));
+                  password.getBytes(StandardCharsets.UTF_8)); //Hash the string, returns an array of bytes
           StringBuilder hexString = new StringBuilder();
-          for (byte b : hash) {
+          for (byte b : hash) { //Convert the bytes back into a hex string
               String hex = Integer.toHexString(0xff & b);
               if (hex.length() == 1) hexString.append('0');
               hexString.append(hex);
           }
-          return hexString.toString();
-      } catch (NoSuchAlgorithmException e) {
+          return hexString.toString(); //Return that
+      } catch (NoSuchAlgorithmException e) { //Just in case the system doesn't support SHA-512
           System.out.println("Error! " + e.toString());
           System.exit(-1);
       }
-      return null;
+      return null; //Something went wrong, return null
   }
 }

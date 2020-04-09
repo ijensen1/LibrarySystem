@@ -42,7 +42,7 @@ public class Library {
                 loadCount++;
             }
         }
-        System.out.println("loadCount = " + loadCount);
+        System.out.println(loadCount + " items loaded. ");
     }
 
     public String getLibraryName() {
