@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 
-
+/**
+ * A class that was used for testing.
+ */
 public class JsonTestStaff implements Jsonable{
 
     private String name;

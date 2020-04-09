@@ -5,13 +5,12 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * To create a single book/dvd/cd.
+ * Class that acts as a parent for items of the library's inventory.
  */
 class Borrowable {
-    private String type;
+    private String type; //What type of Borrowable the object is, used in Json serialization and deserialization.
 
     private String home; //To hold the work's home
     private String title; //To hold the work's title
@@ -20,6 +19,7 @@ class Borrowable {
 
     /**
      * Constructor to take in and set the tags to appropriate values.
+     * @param type what type of Borrowable it is.
      * @param home The home library of the work.
      * @param title title of the work.
      * @param genres the genres of the work.
@@ -52,14 +52,6 @@ class Borrowable {
         } else {
             System.out.println("Entry already checked in.");
         }
-    }
-
-    /**
-     * Class to determine whether or not two Borrowable objects are equal.
-     */
-    public boolean equals(Borrowable borrowable){
-//        return String equality of their serializations
-        return false;
     }
 
     public String getHome() {
@@ -100,13 +92,12 @@ class Borrowable {
 
     String[] getPeople(){
         return null;
-    };
-
-    @Deprecated
-    public String makeString() {
-        return null;
     }
 
+    /**
+     * Shorthand method that then calls the main toJson after doing a little setup.
+     * @return A Json formatted String of the Borrowable's data.
+     */
     public String toJson(){
 
         final StringWriter writable = new StringWriter();
@@ -119,6 +110,11 @@ class Borrowable {
 
     }
 
+    /**
+     * Main toJson method that saves class data to the given Writer object using Json formatting.
+     * @param writer the Writer object to store the data to.
+     * @throws IOException Passes up writer's IOException.
+     */
     public void toJson(Writer writer) throws IOException {
 
         final JsonObject json = new JsonObject();
@@ -129,6 +125,7 @@ class Borrowable {
         json.toJson(writer);
 
     }
+
 
     public static Borrowable fromJson(Borrowable part, JsonObject obj) {
         String type = obj.getString(Jsoner.mintJsonKey("type", null));

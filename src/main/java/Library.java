@@ -88,7 +88,7 @@ public class Library {
      * @param type whether a book, cd, or dvd is wanted.
      * @param title title of what you're searching for.
      * @return an ArrayList of works with that title.
-     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
+     * @exception Exception will not take a type that's not "book", "DVD", or "CD".
      */
     public ArrayList<Borrowable> searchTitle(String type, String title) throws Exception {
         ArrayList<Borrowable> results = new ArrayList<>(10);
@@ -117,7 +117,7 @@ public class Library {
      * @param type whether a book, dvd, or cd is wanted.
      * @param person the person being searched for, could be author, artist, director, actor, etc.
      * @return an ArrayList of Borrowables of works featuring that person.
-     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
+     * @exception Exception will not take a type that's not "book", "DVD", or "CD".
      */
     public ArrayList<Borrowable> searchPerson(String type, String person) throws Exception {
         ArrayList<Borrowable> results = new ArrayList<>(10);
@@ -148,7 +148,7 @@ public class Library {
      * Search inventory based on type and genre.
      * @param genre genre being searched for.
      * @return an ArrayList of Borrowables of works of that genre.
-     * @exception Exception will not take in a Borrowable that's not a Book, DVD, or CD.
+     * @exception Exception will not take a type that's not "book", "DVD", or "CD".
      */
     public ArrayList<Borrowable> searchGenre(String type, String genre) throws Exception {
         ArrayList<Borrowable> results = new ArrayList<>(10);

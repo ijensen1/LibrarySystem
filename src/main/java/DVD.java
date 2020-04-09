@@ -68,6 +68,11 @@ public class DVD extends Borrowable implements Jsonable {
         return people;
     }
 
+    /**
+     * Shorthand method that then calls the main toJson after doing a little setup.
+     * @return A Json formatted String of the DVD's data.
+     */
+
     @Override
     public String toJson(){
 
@@ -81,6 +86,11 @@ public class DVD extends Borrowable implements Jsonable {
 
     }
 
+    /**
+     * Main toJson method that saves class data to the given Writer object using Json formatting.
+     * @param writer the Writer object to store the data to.
+     * @throws IOException Passes up writer's IOException.
+     */
     @Override
     public void toJson(Writer writer) throws IOException {
 

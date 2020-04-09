@@ -5,10 +5,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Class to allow Administrators of libraries to interact with the system with elevated privileges.
+ */
 public class AdminConsole {
     private ArrayList<Account> accounts;
     private ArrayList<Library> libraries;
     public static final String pass = "53fb8c10eded3d76424272f61308e0de71044d730834f9c7278ebe68a3735629631b37497f6b93da5141181aebcfaa9944a5cb2941c528a6c0cef9e002e7d7c5";
+
+    /**
+     * Constructor that gathers library and account data.
+     */
     public AdminConsole() {
         String[] libNames = Persistence.loadLibraryNames();
         libraries = new ArrayList<>();
@@ -17,15 +24,14 @@ public class AdminConsole {
         }
 
         accounts = new ArrayList<>();
-        try {
-            accounts.addAll(Arrays.asList(Persistence.loadAccounts()));
-        } catch (IOException | JsonException e) {
-            System.out.println("Error! " + e.toString());
-            System.exit(0);
-        }
+        accounts.addAll(Arrays.asList(Persistence.loadAccounts()));
 
     }
 
+    /**
+     * Method to give prompts and collect responses from the user, performing requested actions.
+     * @throws Exception Passes up errors from the Library class.
+     */
     public void run() throws Exception {
         Scanner input = new Scanner(System.in);
         LibraryManager lm = new LibraryManager();

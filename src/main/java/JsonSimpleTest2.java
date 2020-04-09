@@ -7,6 +7,9 @@ import org.dozer.Mapper;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * A class that was used for testing.
+ */
 public class JsonSimpleTest2 {
 
     public static void main(String[] args) throws IOException, JsonException {

@@ -12,6 +12,10 @@ import java.util.Scanner;
 public class FrontEnd {
     private ArrayList<Account> accounts;
     private ArrayList<Library> libraries;
+
+    /**
+     * Constructor that gathers library and account data.
+     */
     public FrontEnd() {
         String[] libNames = Persistence.loadLibraryNames();
         libraries = new ArrayList<>();
@@ -19,13 +23,13 @@ public class FrontEnd {
             libraries.add(new Library(name));
         }
         accounts = new ArrayList<>();
-        try {
-            accounts.addAll(Arrays.asList(Persistence.loadAccounts()));
-        } catch (IOException | JsonException e) { //Issue loading accounts
-            System.out.println("Error! " + e.toString());
-            System.exit(0);
-        }
+        accounts.addAll(Arrays.asList(Persistence.loadAccounts()));
     }
+
+    /**
+     * Method to give prompts and collect responses from the user, performing requested actions.
+     * @throws Exception Passes up errors from the Library class.
+     */
     public void run() throws Exception {
         LibraryManager lm = new LibraryManager(); //Instancing it because we have instance variables already.
         Scanner input = new Scanner(System.in);

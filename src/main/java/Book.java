@@ -63,6 +63,10 @@ public class Book extends Borrowable implements Jsonable {
         return new String[]{author};
     }
 
+    /**
+     * Shorthand method that then calls the main toJson after doing a little setup.
+     * @return A Json formatted String of the Book's data.
+     */
     @Override
     public String toJson(){
 
@@ -76,6 +80,11 @@ public class Book extends Borrowable implements Jsonable {
 
     }
 
+    /**
+     * Main toJson method that saves class data to the given Writer object using Json formatting.
+     * @param writer the Writer object to store the data to.
+     * @throws IOException Passes up writer's IOException.
+     */
     @Override
     public void toJson(Writer writer) throws IOException {
 
@@ -90,6 +99,7 @@ public class Book extends Borrowable implements Jsonable {
         json.toJson(writer);
 
     }
+
 
     public static Book fromJson(Borrowable part, JsonObject obj) {
         if (part == null) {

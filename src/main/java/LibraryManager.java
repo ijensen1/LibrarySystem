@@ -59,9 +59,10 @@ public class LibraryManager {
    * Sets active account, given email
    * @param email the email to log in with
    * @param passhash the hash of the inputted password to check against the stored hash
+   * @param accounts the list of accounts to search through
    * @return the account selected
    */
-  public Account login(String email, String passhash, ArrayList<Account> accounts) throws Exception {
+  public Account login(String email, String passhash, ArrayList<Account> accounts) {
       for (Account acnt : accounts) {
           if (acnt.getEmail().equals(email)) {
               if (acnt.getPasshash().equals(passhash)) {

@@ -93,8 +93,6 @@ class Persistence {
      * Method to load an array of Borrowables from a given File.
      * @param type THe type of borrowable to look for (what file)
      * @return an array of the Borrowables in that file.
-     * @exception IOException Error with opening the file
-     * @exception JsonException Error with parsing JSON
      */
     static Borrowable[] loadBorrowables(String type) {
         try {
@@ -135,10 +133,8 @@ class Persistence {
     /**
      * Method to load an array of Accounts from a given File.
      * @return an array of the Accounts in the accounts file.
-     * @exception IOException Error with opening the file
-     * @exception JsonException Error with parsing JSON
      */
-    static Account[] loadAccounts() throws IOException, JsonException {
+    static Account[] loadAccounts() {
         try {
 
             FileReader load = new FileReader(dataPath + accountsPath); //To hold the file

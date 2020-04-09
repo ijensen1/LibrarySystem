@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A class that was used for testing.
+ */
 public class JsonSimpleTest1 {
 
     public static void main(String[] args) throws IOException {

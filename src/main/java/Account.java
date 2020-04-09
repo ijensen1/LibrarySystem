@@ -28,6 +28,7 @@ public class Account implements Jsonable {
      * @param lastName The account holder's second name
      * @param phone The account holder's phone
      * @param email The account holder's email address. We use this for login.
+     * @param passhash Used for user authentication. SHA-512 hash of the password is used.
      */
     public Account (String firstName, String lastName, String phone, String email, String passhash){
         this.firstName = firstName;
@@ -36,10 +37,6 @@ public class Account implements Jsonable {
         this.email = email;
         this.checkedOut = new ArrayList<>();
         this.passhash = passhash;
-    }
-
-    public Account() {
-        
     }
 
     public String getFirstName() {
@@ -91,26 +88,9 @@ public class Account implements Jsonable {
     }
 
     /**
-     * Method to convert class data to string.
-     * Persistence.splitter and Persistence.splitter2 are used to delineate different values and different sets of values, respectively.
+     * Shorthand method that then calls the main toJson after doing a little setup.
+     * @return A Json formatted String of the Account's data.
      */
-    public String makeString(){
-        String finalString = getFirstName() +Persistence.splitter+ getLastName() +Persistence.splitter+ getPhone() +Persistence.splitter+ getEmail();
-        finalString += "\nCHECKED_OUT:";//Make things a little more readable in the file
-        if (checkedOut.size() > 0) { //Do we even have anything to add here?
-
-            for (int i = 0; i < checkedOut.size(); i++) {
-                if (i == 0) {
-                    finalString += checkedOut.get(i).makeString();//For the first Borrowable, we don't need the splitter beforehand.
-                } else {
-                    finalString += Persistence.splitter2 + checkedOut.get(i).makeString();
-                }
-            }
-        }
-
-        return finalString;
-    }
-
     @Override
     public String toJson(){
 
@@ -124,6 +104,11 @@ public class Account implements Jsonable {
 
     }
 
+    /**
+     * Main toJson method that saves class data to the given Writer object using Json formatting.
+     * @param writer the Writer object to store the data to.
+     * @throws IOException Passes up writer's IOException.
+     */
     @Override
     public void toJson(Writer writer) throws IOException {
 
@@ -138,6 +123,11 @@ public class Account implements Jsonable {
 
     }
 
+    /**
+     * Method to take data from a JsonObject and make a new Account object from it.
+     * @param obj the JsonObject that holds the data to make an Account from.
+     * @return A new Account object holding the given data.
+     */
     public static Account fromJson(JsonObject obj) {
         String firstName = obj.getString(Jsoner.mintJsonKey("firstName", null));
         String lastName = obj.getString(Jsoner.mintJsonKey("lastName", null));

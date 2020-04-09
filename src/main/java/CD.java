@@ -66,12 +66,16 @@ public class CD extends Borrowable implements Jsonable {
 
     /**
      * Method to get a list of all people associated with the CD.
-     * @return a String[] containing the producer and rtist.
+     * @return a String[] containing the producer and artist.
      */
     public String[] getPeople() {
         return new String[]{this.producer, artist};
     }
 
+    /**
+     * Shorthand method that then calls the main toJson after doing a little setup.
+     * @return A Json formatted String of the CD's data.
+     */
     @Override
     public String toJson(){
 
@@ -85,6 +89,11 @@ public class CD extends Borrowable implements Jsonable {
 
     }
 
+    /**
+     * Main toJson method that saves class data to the given Writer object using Json formatting.
+     * @param writer the Writer object to store the data to.
+     * @throws IOException Passes up writer's IOException.
+     */
     @Override
     public void toJson(Writer writer) throws IOException {
 

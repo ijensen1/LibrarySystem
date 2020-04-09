@@ -10,6 +10,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A class that was used for testing.
+ */
 public class JsonSimpleTest3 {
 
     public static void main(String[] args) throws IOException, JsonException {
