@@ -21,7 +21,7 @@ public class LibraryManager {
       if (adminMode) {
           while (true) {
               System.out.print("Please enter your password: ");
-              if (!LibraryManager.passToHash(input.nextLine()).equals(AdminConsole.pass)) { //Checks password versus stored hash
+              if (!LibraryManager.passToHash(input.nextLine()).equals(AdminConsole.PASS)) { //Checks password versus stored hash
                   System.out.println("Password invalid. Please try again.");
               } else {
                   System.out.println("Recognized.");
